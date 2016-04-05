@@ -1,0 +1,56 @@
+{
+  "name": "mission.api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mission-io/mission.api.git"
+  },
+  "keywords": [
+    "Typescript",
+    "express",
+    "mission.api",
+    "javascript"
+  ],
+  "author": "Natarajan Ganapathi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mission-io/mission.api/issues"
+  },
+  "homepage": "https://github.com/mission-io/mission.api#readme",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "es6-shim": "^0.35.0",
+    "express": "^4.13.4",
+    "http": "0.0.0",
+    "routes": "^2.1.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.11.2",
+    "express-history-api-fallback": "^2.0.0",
+    "gulp": "^3.9.1",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sourcemap": "^1.0.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-template": "^3.1.0",
+    "gulp-tslint": "^4.3.4",
+    "gulp-typescript": "^2.12.2",
+    "gulp-util": "^3.0.7",
+    "is-ci": "^1.0.8",
+    "morgan": "^1.7.0",
+    "open": "0.0.5",
+    "rimraf": "^2.5.2",
+    "routes": "^2.1.0",
+    "run-sequence": "^1.1.5",
+    "serve-static": "^1.10.2",
+    "ts-node": "^0.7.1",
+    "tslint": "^3.7.0",
+    "tslint-stylish": "^2.1.0-beta",
+    "typescript": "^1.8.9"
+  }
+}
