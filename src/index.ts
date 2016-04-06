@@ -1,4 +1,5 @@
 import * as express from 'express';
+//import {Express} from 'express-serve-static-core';
 import * as http from  'http';
 import * as https from 'https';
 import * as bodyParser from 'body-parser';
@@ -63,7 +64,7 @@ export class WebServer {
         var self = this;
         let port = self.Express.get('port');
         console.log('Express server listening on port ' + port);
-        console.log(__dirname);
+        console.log('Application Path '+__dirname);
     }
 }
 new WebServer(Settings.PORT).init().start();

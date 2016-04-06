@@ -27,7 +27,6 @@
     "es6-shim": "^0.35.0",
     "express": "^4.13.4",
     "fs": "0.0.2",
-    "http": "0.0.0",
     "routes": "^2.1.0"
   },
   "devDependencies": {
