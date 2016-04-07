@@ -55,6 +55,7 @@
     "tslint": "^3.7.0",
     "tslint-stylish": "^2.1.0-beta",
     "typedoc": "^0.3.12",
-    "typescript": "^1.8.9"
+    "typescript": "^1.8.9",
+    "typings": "^0.7.12"
   }
 }
