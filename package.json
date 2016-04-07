@@ -4,7 +4,9 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "test"
+    "postinstall": "typings install && gulp check.versions && npm prune",
+    "reinstall": "npm cache clean && npm install",
+    "start": "gulp serve.dev --color"
   },
   "repository": {
     "type": "git",
