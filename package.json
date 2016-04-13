@@ -29,6 +29,7 @@
     "es6-shim": "^0.35.0",
     "express": "^4.13.4",
     "fs": "0.0.2",
+    "mssql": "^3.2.0",
     "routes": "^2.1.0"
   },
   "devDependencies": {
@@ -57,6 +58,7 @@
     "tslint-stylish": "^2.1.0-beta",
     "typedoc": "^0.3.12",
     "typescript": "^1.8.9",
-    "typings": "^0.7.12"
+    "typings": "^0.7.12",
+    "yargs": "^4.4.0"
   }
 }
