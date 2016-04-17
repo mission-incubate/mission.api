@@ -5,7 +5,7 @@ export class Dal {
     private connection: Connection;
     private transaction: Transaction;
     private isTransactionEnabled: boolean;
-    constructor(config: Config, isTrans: boolean = false) {
+    constructor(config: Config, isTrans: boolean ) {
         this.connection = new Connection(config);
         this.isTransactionEnabled = isTrans;
     }

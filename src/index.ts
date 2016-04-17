@@ -9,7 +9,7 @@ import {
     WWW, DOCS, PORT,
     HTTPS_SERVER_CERT,
     HTTPS_SERVER_KEY_PATH
-    } from './appsettings';
+} from './appsettings';
 import * as route from './routes/routes';
 import * as fs from 'fs';
 import {Server} from 'net';
@@ -29,43 +29,46 @@ export class WebServer {
         self.App.use(bodyParser.json());
         self.App.use(bodyParser.urlencoded({ extended: false }));
         self.App.use(express.static(__dirname + WWW));
-        self.App.use(DOCS,express.static(__dirname + DOCS));
+        self.App.use(DOCS, express.static(__dirname + DOCS));
         self.registerModules();
         return self;
     }
-    public start() : void {
+    public start(): void {
         let self = this;
-        let Server : Server;
-        if(HTTPS_ENABLED) {
-            let privateKey  = fs.readFileSync(HTTPS_SERVER_KEY_PATH, 'utf8');
+        let Server: Server;
+        if (HTTPS_ENABLED) {
+            let privateKey = fs.readFileSync(HTTPS_SERVER_KEY_PATH, 'utf8');
             let certificate = fs.readFileSync(HTTPS_SERVER_CERT, 'utf8');
-            let credentials = {key: privateKey, cert: certificate};
+            let credentials = { key: privateKey, cert: certificate };
             Server = https.createServer(credentials, self.App);
+        } else {
+            Server = http.createServer(self.App);
         }
-        Server = http.createServer(self.App);
         Server.listen(self.Port, null, (self.listenerCallback).bind(self));
     }
-    private registerModules() :void {
+    private registerModules(): void {
         var self = this;
         self.App.use('/', route);
         self.App.use(self.handlerFor404);
         self.App.use((self.errorHandler).bind(self));
     }
-    private handlerFor404(req:Request, res:Response, next:Function):void {
+    private handlerFor404(req: Request, res: Response, next: Function): void {
         let err = new Error('Resource Not Found.');
         next(err);
     }
-    private errorHandler(err: Error, req:Request, res:Response, next:Function): void {
-        res.json({ 'error': {
-            message: err.message,
-            error: process.env.NODE_ENV === 'development' ? {} : err }
+    private errorHandler(err: Error, req: Request, res: Response, next: Function): void {
+        res.json({
+            'error': {
+                message: err.message,
+                error: process.env.NODE_ENV === 'development' ? {} : err
+            }
         });
     }
     private listenerCallback(): void {
         var self = this;
         let port = self.App.get('port');
         console.log('Express server listening on port :' + port);
-        console.log('Application Path :'+__dirname);
+        console.log('Application Path :' + __dirname);
         console.log('Evironment :' + process.env.NODE_ENV);
     }
 }
