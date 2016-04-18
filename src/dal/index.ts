@@ -5,16 +5,26 @@ export class Dal {
     private connection: Connection;
     private transaction: Transaction;
     private isTransactionEnabled: boolean;
-    constructor(config: Config, isTrans: boolean ) {
+    constructor(config: Config, isTrans?: boolean) {
         this.connection = new Connection(config);
         this.isTransactionEnabled = isTrans;
     }
+    // public Connect(): Promise<void> {
+    //     return this.connection.connect()
+    //         .then(() => {
+    //             this.transaction = this.isTransactionEnabled ? new Transaction(this.connection) : null;
+    //         });
+    // }
+
     public Connect(): Promise<void> {
-        return this.connection.connect()
-            .then(() => {
-                this.transaction = this.isTransactionEnabled ? new Transaction(this.connection) : null;
-            });
+        let con: Promise<void> = this.connection.connected
+            ? new Promise<void>((resolve) => { resolve(); })
+            : this.connection.connect();
+        return con.then(() => {
+            this.transaction = this.isTransactionEnabled ? new Transaction(this.connection) : null;
+        });
     }
+
     //@Validate(connection)
     public Execute(procedure: string): Promise<recordSet> {
         if (!this.connection.connected) {

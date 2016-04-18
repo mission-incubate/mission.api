@@ -8,32 +8,50 @@ export interface IBaseBO {
 }
 
 export class BaseBO implements IBaseBO {
-
+    public dal: Dal;
+    constructor(dal: Dal) {
+        this.dal = dal || this.GetDal();
+    }
+    private GetDal(): Dal {
+        return new Dal(DB);
+    }
 }
 
 export class UserBO extends BaseBO {
+    constructor(dal: Dal) {
+        super(dal);
+    }
+
     public GetUserById(id: number): Promise<User[]> {
-        let dal = this.GetDal();
         let outVal: Promise<User[]>;
-        dal.Connect()
+        this.dal.Connect()
             .then(() => {
-                outVal = dal.ExecuteQuery<User>('select top 5 Id , Name, City  from [users] ');
+                //TODO: need to add paramter in the request.
+                outVal = this.dal.ExecuteQuery<User>('select top 5 Id , Name, City  from [users] where id = @id');
             });
         return outVal;
     }
 
     public GetAllUsers(): Promise<User[]> {
-        var dal = this.GetDal();
         let outVal: Promise<User[]>;
-        dal.Connect()
+        this.dal.Connect()
             .then(() => {
-                outVal = dal.ExecuteQuery<User>('select Id, Name, City from [users]');
+                outVal = this.dal.ExecuteQuery<User>('select Id, Name, City from [users]');
             });
         return outVal;
     }
-
-    private GetDal(): Dal {
-        return new Dal(DB, false);
+    public async GetAllUsersAsync(): Promise<User[]> {
+        await this.dal.Connect();
+        let users = await this.dal.ExecuteQuery<User>('select Id, Name, City from [users]');
+        return users;
     }
 }
+
+
+export class BOFactory {
+    public static CreateBO<T extends IBaseBO>(type: { new (dal: Dal): T }, dal?: Dal): T {
+        return new type(dal);
+    }
+}
+
 //}

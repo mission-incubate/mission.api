@@ -3,14 +3,14 @@ import {Config} from 'mssql';
 class AppSettings {
     HTTPS_ENABLED = this.HTTPS_SERVER_CERT && this.HTTPS_SERVER_KEY_PATH;
     PORT = this.HTTPS_ENABLED ? 443 : 80;
-    HTTPS_SERVER_KEY_PATH = '';
-    HTTPS_SERVER_CERT = '';
-    APP_BASE = '/';
-    DOCS = '/docs';
-    WWW = '/www';
-    OAUTH2: '127.0.0.1:8081';
-    AUDIT: '127.0.0.1:8082';
-    CACHE: '127.0.0.1:8083';
+    HTTPS_SERVER_KEY_PATH: string = '';
+    HTTPS_SERVER_CERT: string = '';
+    APP_BASE: string = '/';
+    DOCS: string = '/docs';
+    WWW: string = '/www';
+    OAUTH2: string = '127.0.0.1:8081';
+    AUDIT: string = '127.0.0.1:8082';
+    CACHE: string = '127.0.0.1:8083';
     DB: Config = {
         //driver: '',
         user: 'sa',
