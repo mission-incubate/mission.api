@@ -1,5 +1,5 @@
 import * as express from 'express';
-import {Express, Request, Response } from 'express-serve-static-core';
+import {Express, Request, Response, NextFunction } from 'express-serve-static-core';
 import * as http from  'http';
 import * as https from 'https';
 import * as bodyParser from 'body-parser';
@@ -53,11 +53,11 @@ export class WebServer {
         self.App.use(self.handlerFor404);
         self.App.use((self.errorHandler).bind(self));
     }
-    private handlerFor404(req: Request, res: Response, next: Function): void {
+    private handlerFor404(req: Request, res: Response, next: NextFunction): void {
         let err = new Error('Resource Not Found.');
         next(err);
     }
-    private errorHandler(err: Error, req: Request, res: Response, next: Function): void {
+    private errorHandler(err: Error, req: Request, res: Response, next: NextFunction): void {
         var out: core.Response<core.IBaseDto> = {
             Data: null,
             PageContext: null,

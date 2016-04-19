@@ -24,31 +24,31 @@ export class Dal {
         if (!this.connection.connected) {
             throw new ConnectionError('Connection Not Connected');
         }
-        return this.GetRequest().execute(procedure).catch(this.ErrorHandler);
+        return this.GetRequest().execute(procedure);
     }
 
     public ExecuteNonQuery(command: string): Promise<void> {
-        return this.GetRequest().query(command).catch(this.ErrorHandler);
+        return this.GetRequest().query(command);
     }
 
     public ExecuteQuery<Entity>(command: string): Promise<Entity[]> {
-        return this.GetRequest().query<Entity>(command).catch(this.ErrorHandler);
+        return this.GetRequest().query<Entity>(command);
     }
 
     //for special Query
     public Batch(batch: string): Promise<recordSet> {
-        return this.GetRequest().batch(batch).catch(this.ErrorHandler);
+        return this.GetRequest().batch(batch);
     }
     //for special Query
     public BatchArray<Entity>(batch: string): Promise<Entity[]> {
-        return this.GetRequest().batch<Entity>(batch).catch(this.ErrorHandler);
+        return this.GetRequest().batch<Entity>(batch);
     }
 
     public Begin(): Promise<void> {
-        return this.transaction.begin().catch(this.ErrorHandler);
+        return this.transaction.begin();
     }
     public Commit(): Promise<void> {
-        return this.transaction.commit().catch(this.ErrorHandler);
+        return this.transaction.commit();
     }
     public Rollback(): Promise<void> {
         return this.transaction.rollback();
@@ -56,12 +56,5 @@ export class Dal {
 
     private GetRequest(): Request {
         return this.isTransactionEnabled ? new Request(this.transaction) : new Request(this.connection);
-    }
-
-    private ErrorHandler(err: Error): void {
-        // if (this.isTransactionEnabled) {
-        //     this.Rollback();
-        // }
-        console.log(err.name + err.message + err.stack);
     }
 }
