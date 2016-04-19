@@ -36,8 +36,15 @@ export class Request<Tk, Tv> extends BaseRequest {
     }
 }
 
+export interface IBaseDto { }
 
-export class Response<T>{
+export class Error {
+    public Code: string;
+    public Message: string;
+}
+export class Response<T extends IBaseDto>{
     public PageContext: PageContext;
+    public Error: Error;
+    public Data: T;
 }
 

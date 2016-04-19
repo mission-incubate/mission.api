@@ -13,6 +13,7 @@ import {
 import * as route from './routes/routes';
 import * as fs from 'fs';
 import {Server} from 'net';
+import * as core from './model/requestobj';
 
 export class WebServer {
     private App: Express;
@@ -57,12 +58,18 @@ export class WebServer {
         next(err);
     }
     private errorHandler(err: Error, req: Request, res: Response, next: Function): void {
-        res.json({
-            'error': {
-                message: err.message,
-                error: process.env.NODE_ENV === 'development' ? {} : err
-            }
-        });
+        var out: core.Response<core.IBaseDto> = {
+            Data: null,
+            PageContext: null,
+            Error: { Code: null, Message: process.env.NODE_ENV === 'development' ? err.message : null }
+        };
+        res.json(out);
+        // res.json({
+        //     'error': {
+        //         message: err.message,
+        //         error: process.env.NODE_ENV === 'development' ? {} : err
+        //     }
+        // });
     }
     private listenerCallback(): void {
         var self = this;

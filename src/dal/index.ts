@@ -9,12 +9,6 @@ export class Dal {
         this.connection = new Connection(config);
         this.isTransactionEnabled = isTrans;
     }
-    // public Connect(): Promise<void> {
-    //     return this.connection.connect()
-    //         .then(() => {
-    //             this.transaction = this.isTransactionEnabled ? new Transaction(this.connection) : null;
-    //         });
-    // }
 
     public Connect(): Promise<void> {
         let con: Promise<void> = this.connection.connected
@@ -65,15 +59,9 @@ export class Dal {
     }
 
     private ErrorHandler(err: Error): void {
-        if (this.isTransactionEnabled) {
-            this.Rollback();
-        }
+        // if (this.isTransactionEnabled) {
+        //     this.Rollback();
+        // }
         console.log(err.name + err.message + err.stack);
     }
 }
-
-// function Validate(con: Connection) {
-//     if (con.connected) {
-//         throw new ConnectionError('Connection is not connected with db.');
-//     }
-// }
