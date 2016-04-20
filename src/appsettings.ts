@@ -1,4 +1,4 @@
-import {Config} from 'mssql';
+import {config} from './dal';
 
 class AppSettings {
     HTTPS_ENABLED = this.HTTPS_SERVER_CERT && this.HTTPS_SERVER_KEY_PATH;
@@ -11,7 +11,7 @@ class AppSettings {
     OAUTH2: string = '127.0.0.1:8081';
     AUDIT: string = '127.0.0.1:8082';
     CACHE: string = '127.0.0.1:8083';
-    DB: Config = {
+    DB: config = {
         //driver: '',
         user: 'sa',
         password: 'irtt',
