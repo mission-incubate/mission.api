@@ -17,7 +17,7 @@ export = () => {
     .pipe(plugins.typedoc({
       // TypeScript options (see typescript docs)
       module: 'commonjs',
-      target: 'es5',
+      target: 'es6',
       excludeExternals: true,
       includeDeclarations: true,
       // Output options (see typedoc docs)

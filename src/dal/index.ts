@@ -1,11 +1,11 @@
-import { Config, Connection, Transaction, Request, ConnectionError, recordSet  } from 'mssql';
-export { Config } from 'mssql';
+import { config, Connection, Transaction, Request, ConnectionError, recordSet  } from 'mssql';
+export { config } from 'mssql';
 
 export class Dal {
     private connection: Connection;
     private transaction: Transaction;
     private isTransactionEnabled: boolean;
-    constructor(config: Config, isTrans?: boolean) {
+    constructor(config: config, isTrans?: boolean) {
         this.connection = new Connection(config);
         this.isTransactionEnabled = isTrans;
     }
@@ -19,7 +19,6 @@ export class Dal {
         });
     }
 
-    //@Validate(connection)
     public Execute(procedure: string): Promise<recordSet> {
         if (!this.connection.connected) {
             throw new ConnectionError('Connection Not Connected');

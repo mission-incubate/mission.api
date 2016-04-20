@@ -3,7 +3,8 @@ import {Express, Request, Response } from 'express-serve-static-core';
 import { Dal } from '../../dal/index';
 import { DB} from '../../appsettings';
 import { User} from '../../model/user';
-import { BOFactory, UserBO} from '../../bo/UserBO';
+import { UserBO} from '../../bo/UserBO';
+import {BOFactory} from '../../bo';
 
 let admin: Express = express();
 admin.get('/', (req: Request, res: Response, next: Function): any => {

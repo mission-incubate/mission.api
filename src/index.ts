@@ -13,7 +13,7 @@ import {
 import * as route from './routes/routes';
 import * as fs from 'fs';
 import {Server} from 'net';
-import * as core from './model/requestobj';
+import * as core from './model';
 
 export class WebServer {
     private App: Express;

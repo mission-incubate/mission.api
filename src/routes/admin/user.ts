@@ -1,10 +1,9 @@
 import * as express from 'express';
 import {Router, Request, Response, NextFunction } from 'express-serve-static-core';
-//import {BOFactory, UserBO} from '../../bo/UserBO';
-import {ServiceFactory, UserService} from '../../service/UserService';
+import {ServiceFactory} from '../../service';
+import {UserService} from '../../service/UserService';
 
 let router: Router = express.Router();
-
 
 router.post('/', (req: Request, res: Response, next: NextFunction): any => {
     let service = ServiceFactory.CreateService(UserService);
