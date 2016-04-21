@@ -2,23 +2,30 @@ import {argv} from 'yargs';
 import * as fs from 'fs';
 import * as Handlebars from 'handlebars';
 import * as util from 'gulp-util';
-import {} from '';
-import {Dal} from '../../../src/dal';
+import {TableBO} from '../../utils/project/tableBO';
+import {BOFactory} from '../../../src/bo';
+//import {Dal} from '../../../src/dal';
+//import {List} from 'linqts';
 
 
 export = () => {
-    util.log('starts...');
-    util.log(JSON.stringify(argv));
-    util.log(JSON.stringify(argv));
-    let source = fs.readFileSync('./tools/generator/templates/service.hbr', 'utf-8');
-    let template = Handlebars.compile(source);
-    let data = {
-        name: 'test.ts',
-        msg: 'success.'
-    };
-    var result = template(data);
-    fs.mkdirSync('./tools/generator/code/service/');
-    fs.writeFileSync('./tools/generator/code/service/' + data.name, result);
-    util.log('end');
+    var table = BOFactory.CreateBO(TableBO);
+    table.GetAllTableDetails().then((tables) => {
+        util.log(JSON.stringify(argv.TableName));
+        let source = fs.readFileSync('./tools/generator/templates/service.hbr', 'utf-8');
+        let template = Handlebars.compile(source);
+        let data = {
+            name: 'test.ts',
+            msg: 'success.'
+        };
+        var result = template(data);
+        let serviceDestPath = './tools/generator/code/service/';
+        if (!fs.existsSync(serviceDestPath)) {
+            fs.mkdirSync(serviceDestPath);
+        }
+        fs.writeFileSync(serviceDestPath + 'json.json', JSON.stringify(tables));
+        fs.writeFileSync(serviceDestPath + data.name, result);
+        util.log('end');
+    });
 };
 

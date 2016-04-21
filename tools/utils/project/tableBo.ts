@@ -1,16 +1,23 @@
 import {BaseBO} from '../../../src/bo';
 import {Dal} from '../../../src/dal';
-import {asEnumerable, Range} from "linq-ts";
+import {List} from 'linqts';
 
 export class TableBO extends BaseBO {
     constructor(dal: Dal) {
         super(dal);
     }
 
-    public async GetAllTableDetails(): Promise<Table[]> {
-        await this.dal.Connect();
-        let data = await this.dal.ExecuteQuery<Column>(`select 
-            t.schema_id as TableId,
+    public AllColumns: List<Column>;
+
+    public async GetTableDetails(tableName: string): Promise<List<Column>> {
+        await this.GetAllTableDetails();
+        return this.AllColumns.Where(x => x.Name.toLowerCase() === tableName.toLowerCase());
+    }
+
+    public async GetAllTableDetails(): Promise<List<Column>> {
+        if (!this.AllColumns) {
+            await this.dal.Connect();
+            let data = await this.dal.ExecuteQuery<Column>(`select 
             t.Name,
             c.column_id as ColumnId,
             c.name as ColumnName,
@@ -24,21 +31,20 @@ export class TableBO extends BaseBO {
             left join sys.columns c on t.object_id = c.object_id
             left join sys.types tp on c.system_type_id = tp.system_type_id
             where t.type = 'U'`);
-        let table: Table[] = asEnumerable(data)
-            .GroupBy(x => x.TableId)
-            .Select(x => <Table>{ Name: x.ColumnName })
-            .ToArray();
-        return <Table[]>data;
+            this.AllColumns = new List<Column>(data);
+        }
+        return this.AllColumns;
     }
-}
-
-export class Table {
-    public Name: string;
-    public Id: number;
-    public Columns: Array<Column>;
 }
 
 export class Column {
     public Name: string;
-    public Id: number;
+    public ColumnId: number;
+    public ColumnName: string;
+    public MaxLength: number;
+    public Precision: number;
+    public Scale: number;
+    public IsNullable: boolean;
+    public IsIdentity: boolean;
+    public Type: string;
 }
