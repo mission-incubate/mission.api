@@ -10,7 +10,7 @@ import {BOFactory} from '../../../src/bo';
 
 export = () => {
     var table = BOFactory.CreateBO(TableBO);
-    table.GetAllTableDetails().then((tables) => {
+    table.GetAllColumnDetails().then((tables) => {
         util.log(JSON.stringify(argv.TableName));
         let source = fs.readFileSync('./tools/generator/templates/service.hbr', 'utf-8');
         let template = Handlebars.compile(source);

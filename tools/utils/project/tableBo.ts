@@ -10,11 +10,11 @@ export class TableBO extends BaseBO {
     public AllColumns: List<Column>;
 
     public async GetTableDetails(tableName: string): Promise<List<Column>> {
-        await this.GetAllTableDetails();
+        await this.GetAllColumnDetails();
         return this.AllColumns.Where(x => x.Name.toLowerCase() === tableName.toLowerCase());
     }
 
-    public async GetAllTableDetails(): Promise<List<Column>> {
+    public async GetAllColumnDetails(): Promise<List<Column>> {
         if (!this.AllColumns) {
             await this.dal.Connect();
             let data = await this.dal.ExecuteQuery<Column>(`select 
