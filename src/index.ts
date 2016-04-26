@@ -23,7 +23,7 @@ export class WebServer {
         self.Port = port;
         self.App = express();
     }
-    public init(): WebServer {
+    public Init(): WebServer {
         var self = this;
         self.App.set('port', self.Port);
         self.App.use(logger('dev'));
@@ -34,7 +34,7 @@ export class WebServer {
         self.registerModules();
         return self;
     }
-    public start(): void {
+    public Start(): void {
         let self = this;
         let Server: Server;
         if (HTTPS_ENABLED) {
@@ -64,12 +64,6 @@ export class WebServer {
             Error: { Code: null, Message: process.env.NODE_ENV === 'development' ? err.message : null }
         };
         res.json(out);
-        // res.json({
-        //     'error': {
-        //         message: err.message,
-        //         error: process.env.NODE_ENV === 'development' ? {} : err
-        //     }
-        // });
     }
     private listenerCallback(): void {
         var self = this;
@@ -79,4 +73,4 @@ export class WebServer {
         console.log('Evironment :' + process.env.NODE_ENV);
     }
 }
-new WebServer(PORT).init().start();
+new WebServer(PORT).Init().Start();

@@ -30,6 +30,7 @@
     "fs": "0.0.2",
     "linqts": "1.2.1",
     "mssql": "^3.2.0",
+    "redis": "^2.6.0-1",
     "routes": "^2.1.0"
   },
   "devDependencies": {
