@@ -1,4 +1,5 @@
 import {config} from './dal';
+import {Response } from 'express-serve-static-core';
 
 class AppSettings {
     HTTPS_ENABLED = this.HTTPS_SERVER_CERT && this.HTTPS_SERVER_KEY_PATH;
@@ -28,6 +29,17 @@ class AppSettings {
         //     max: 0,
         //     idleTimeoutMillis: 0
         // }
+    };
+    STATIC_FILE_OPTIONS: any = {
+        dotfiles: 'ignore',
+        etag: false,
+        extensions: ['htm', 'html'],
+        index: false,
+        maxAge: '1d',
+        redirect: false,
+        setHeaders: function (res: Response, path: string, stat: string) {
+            res.set('x-timestamp', Date.now().toString());
+        }
     };
 }
 
