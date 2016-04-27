@@ -86,7 +86,7 @@ Array.prototype.Average = function (func: (item: any) => number): number {
 Array.prototype.Max = function (func?: (item: any) => number): number {
     let a: Array<any> = this;
     if (a.length === 0) {
-        throw "Array contains no elements.";
+        throw 'Array contains no elements.';
     }
     func = func || ((o) => o);
     let max = func(a[0]);
@@ -102,7 +102,7 @@ Array.prototype.Max = function (func?: (item: any) => number): number {
 Array.prototype.Min = function (func?: (item: any) => number): number {
     var a: Array<any> = this;
     if (a.length === 0) {
-        throw "Array contains no elements.";
+        throw 'Array contains no elements.';
     }
     func = func || ((o) => o);
     var min = func(a[0]);
@@ -191,11 +191,12 @@ Array.prototype.TakeWhile = function (func: (item: any) => boolean): Array<any> 
 };
 
 Array.prototype.Remove = function (item: any): Array<any> {
-    const i = this.indexOf(item);
+    let a: Array<any> = this;
+    const i = a.indexOf(item);
     if (i > 0) {
-        this.splice(i, 1);
+        a.splice(i, 1);
     }
-    return this;
+    return a;
 };
 
 Array.prototype.First = function (func?: (item: any) => boolean): any {
