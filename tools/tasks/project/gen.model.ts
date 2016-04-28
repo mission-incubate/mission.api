@@ -4,34 +4,38 @@ import {TableBO} from '../../utils/project/tableBO';
 import {Generator} from '../../utils/project/generator';
 import {BOFactory} from '../../../src/bo';
 import {MODEL_TEMPLDATE_FILE, GEN_CODE_MODEL_DIR} from '../../config';
-import {List} from 'linqts';
 
 export = (): void => {
-    if (!argv.tablename && !argv.all && !argv.list) {
-        util.log(DisplayHelp());
-        return;
-    }
-    var tableDetailsBo = BOFactory.CreateBO(TableBO);
-    tableDetailsBo
-        .GetAllColumnDetails()
-        .then((columns) => {
-            if (argv.all) {
-                if (argv.log) {
-                    util.log(columns);
+    util.log('started...');
+    try {
+        if (!argv.tablename && !argv.all && !argv.list) {
+            util.log(DisplayHelp());
+            return;
+        }
+        var tableDetailsBo = BOFactory.CreateBO(TableBO);
+        tableDetailsBo
+            .GetAllColumnDetails()
+            .then((columns) => {
+                util.log('Total Columns : ' + columns.length);
+                if (argv.all) {
+                    if (argv.log) {
+                        util.log(columns);
+                    }
+                    Generator.GenerateMulitple(MODEL_TEMPLDATE_FILE, GEN_CODE_MODEL_DIR, columns, 'Name', 'Dto.ts');
+                } else if (argv.tablename) {
+                    let tableName = <string>argv.tablename;
+                    let data = columns.Where(x => x.Name.toLowerCase() === tableName.toLowerCase());
+                    Generator.Generate(MODEL_TEMPLDATE_FILE, GEN_CODE_MODEL_DIR, data, data.First().Name, 'Dto.ts');
+                } else if (argv.list) {
+                    let tables = columns
+                        .Select(x => x.Name);
+                    //let list = new List<string>(tables).GroupBy(x => x, x => null);
+                    util.log(tables);
                 }
-                Generator.GenerateMulitple(MODEL_TEMPLDATE_FILE, GEN_CODE_MODEL_DIR, columns.ToArray(), 'Name', 'Dto.ts');
-            } else if (argv.tablename) {
-                let tableName = <string>argv.tablename;
-                let data = columns.Where(x => x.Name.toLowerCase() === tableName.toLowerCase());
-                Generator.Generate(MODEL_TEMPLDATE_FILE, GEN_CODE_MODEL_DIR, data.ToArray(), data.First().Name, 'Dto.ts');
-            } else if (argv.list) {
-                let tables = columns
-                    .Select(x => x.Name)
-                    .ToArray();
-                let list = new List<string>(tables).GroupBy(x => x, x => null);
-                util.log(list);
-            }
-        });
+            });
+    } catch (ex) {
+        util.log(ex);
+    }
 };
 
 function DisplayHelp(): string {

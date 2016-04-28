@@ -2,7 +2,6 @@ import * as fs from 'fs';
 import * as Handlebars from 'handlebars';
 import {join} from 'path';
 import * as util from 'gulp-util';
-import {List} from 'linqts';
 
 export class Generator {
     public static Generate(templatePath: string, destPath: string, data: any, fileName: string, suffix?: string): void {
@@ -26,15 +25,16 @@ export class Generator {
 
     public static GenerateMulitple(templatePath: string, destPath: string, data: any[], fileNameProperty: string, suffix?: string): void {
         try {
-            var list = new List<any>(data);
+            var list: Array<any> = data;
             // TODO: Group by TableName then loop.
-            list.ForEach(x => {
-                let fileName = x[fileNameProperty];
-                if (!fileName) {
-                    throw new Error(`'fileNameProperty' is not available in data`);
-                }
-                this.Generate(templatePath, destPath, x, fileName, suffix);
-            });
+            // list.ForEach(x => {
+            //     let fileName = x[fileNameProperty];
+            //     if (!fileName) {
+            //         throw new Error(`'fileNameProperty' is not available in data`);
+            //     }
+            //     this.Generate(templatePath, destPath, x, fileName, suffix);
+            // });
+            console.log(list);
         } catch (ex) {
             util.log(ex);
         }

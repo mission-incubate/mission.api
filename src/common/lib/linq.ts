@@ -9,6 +9,10 @@ interface KeyArrayPair<K, T> {
 
 declare global {
     interface Array<T> {
+        All: {
+            (): boolean;
+            (Func: Predicate<T>): boolean;
+        };
         First: {
             (): T;
             (Func: Predicate<T>): T;
@@ -56,12 +60,25 @@ declare global {
     }
 }
 
-Array.prototype.Add = function (item: any): Array<any> {
-    this.push(item);
-    return this;
+Array.prototype.All = function (func?: (item: any) => boolean): boolean {
+    let a: Array<any> = this;
+    if (func) {
+        for (let i of a) {
+            if (!func(i)) {
+                return false;
+            }
+        }
+    }
+    return true;
 };
 
-Array.prototype.Any = function (func?: (a: any) => boolean): boolean {
+Array.prototype.Add = function (item: any): Array<any> {
+    let a: Array<any> = this;
+    a.push(item);
+    return a;
+};
+
+Array.prototype.Any = function (func?: (item: any) => boolean): boolean {
     let a: Array<any> = this;
     if (!func && a.length > 0) {
         return true;
@@ -78,8 +95,11 @@ Array.prototype.Any = function (func?: (a: any) => boolean): boolean {
 
 Array.prototype.Average = function (func: (item: any) => number): number {
     let a: Array<any> = this;
-    let total = this.Sum(func);
+    if (a.length === 0) {
+        throw 'Array contains no elements.';
+    }
     let len = a.length;
+    let total = a.Sum(func);
     return total / len;
 };
 
@@ -100,14 +120,14 @@ Array.prototype.Max = function (func?: (item: any) => number): number {
 };
 
 Array.prototype.Min = function (func?: (item: any) => number): number {
-    var a: Array<any> = this;
+    let a: Array<any> = this;
     if (a.length === 0) {
         throw 'Array contains no elements.';
     }
     func = func || ((o) => o);
-    var min = func(a[0]);
-    for (var i of a) {
-        var next = func(i);
+    let min = func(a[0]);
+    for (let i of a) {
+        let next = func(i);
         if (next < min) {
             min = next;
         }
@@ -145,14 +165,16 @@ Array.prototype.Select = function (func: (item: any) => any): Array<any> {
 };
 
 Array.prototype.Skip = function (count: number) {
-    return this.slice(count);
+    let a: Array<any> = this;
+    return a.slice(count);
 };
 
 Array.prototype.SkipWhile = function (func: (item: any) => boolean): Array<any> {
     let a: Array<any> = this, i: number = 0;
-    for (let n = a.length; i < n; ++i) {
-        if (!func(a[i]))
+    for (let i of a) {
+        if (!func(i)) {
             break;
+        }
     }
     return a.slice(i);
 };
@@ -179,10 +201,9 @@ Array.prototype.Take = function (count: number) {
 Array.prototype.TakeWhile = function (func: (item: any) => boolean): Array<any> {
     let a: Array<any> = this;
     let result: Array<any> = [];
-    for (let i = 0, n = a.length, e: any; i < n; ++i) {
-        e = a[i];
-        if (func(e)) {
-            result.push(e);
+    for (let i of a) {
+        if (func(i)) {
+            result.push(i);
         } else {
             break;
         }
@@ -201,47 +222,53 @@ Array.prototype.Remove = function (item: any): Array<any> {
 
 Array.prototype.First = function (func?: (item: any) => boolean): any {
     let a: Array<any> = this;
-    if (a.length === 0) {
+    let res = a.FirstOrDefault(func);
+    if (!res) {
         throw 'Array does not contain elements';
     }
-    if (!func) {
-        return a[0];
-    }
-    let result: Array<any> = <[]>a.Where(func);
-    if (result.length === 0) {
-        throw 'Array does not contain elements';
-    }
-    return result[0];
+    return res;
 };
 
 Array.prototype.FirstOrDefault = function (func?: (item: any) => boolean): any {
-    let a: Array<any> = this;
-    let b: Array<any> = func ? <[]>a.Where(func) : a;
-    return b.length > 0 ? a[0] : null;
-};
-
-Array.prototype.Last = function (func?: (item: any) => any): any {
-    let a: Array<any> = this;
-    if (a.length === 0) {
-        throw 'Array does not contain elements';
-    }
-    if (!func) {
-        return a[a.length - 1];
-    }
-    var result: Array<any> = <[]>a.Where(func);
-    return result.Last();
-};
-
-Array.prototype.LastOrDefault = function (func?: (item: any) => any): any {
     let a: Array<any> = this;
     if (a.length === 0) {
         return null;
     }
     if (!func) {
-        return a[a.length - 1];
+        return a[0];
     }
-    var result = a.Where(func);
-    return result.LastOrDefault();
+    for (let i of a) {
+        if (func(i)) {
+            return i;
+        }
+    }
+    return null;
+};
+
+Array.prototype.Last = function (func?: (item: any) => any): any {
+    let a: Array<any> = this;
+    return a.reverse().First(func);
+    // if (a.length === 0) {
+    //     throw 'Array does not contain elements';
+    // }
+    // if (!func) {
+    //     return a[a.length - 1];
+    // }
+    // var result: Array<any> = <[]>a.Where(func);
+    // return result.Last();
+};
+
+Array.prototype.LastOrDefault = function (func?: (item: any) => any): any {
+    let a: Array<any> = this;
+    return a.reverse().FirstOrDefault(func);
+    // if (a.length === 0) {
+    //     return null;
+    // }
+    // if (!func) {
+    //     return a[a.length - 1];
+    // }
+    // var result: Array<any> = <[]>a.Where(func);
+    // return result.LastOrDefault();
 };
 
 

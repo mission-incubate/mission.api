@@ -1,20 +1,19 @@
 import {BaseBO} from '../../../src/bo';
 import {Dal} from '../../../src/dal';
-import {List} from 'linqts';
 
 export class TableBO extends BaseBO {
     constructor(dal: Dal) {
         super(dal);
     }
 
-    public AllColumns: List<Column>;
+    public AllColumns: Array<Column>;
 
-    public async GetTableDetails(tableName: string): Promise<List<Column>> {
+    public async GetTableDetails(tableName: string): Promise<Array<Column>> {
         await this.GetAllColumnDetails();
-        return this.AllColumns.Where(x => x.Name.toLowerCase() === tableName.toLowerCase());
+        return <Column[]>this.AllColumns.Where(x => x.Name.toLowerCase() === tableName.toLowerCase());
     }
 
-    public async GetAllColumnDetails(): Promise<List<Column>> {
+    public async GetAllColumnDetails(): Promise<Array<Column>> {
         if (!this.AllColumns) {
             await this.dal.Connect();
             let data = await this.dal.ExecuteQuery<Column>(`select 
@@ -31,7 +30,7 @@ export class TableBO extends BaseBO {
             left join sys.columns c on t.object_id = c.object_id
             left join sys.types tp on c.system_type_id = tp.system_type_id
             where t.type = 'U'`);
-            this.AllColumns = new List<Column>(data);
+            this.AllColumns = data;
         }
         return this.AllColumns;
     }
