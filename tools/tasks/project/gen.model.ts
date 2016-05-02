@@ -4,6 +4,7 @@ import {TableBO} from '../../utils/project/tableBO';
 import {Generator} from '../../utils/project/generator';
 import {BOFactory} from '../../../src/bo';
 import {MODEL_TEMPLDATE_FILE, GEN_CODE_MODEL_DIR} from '../../config';
+import 'mission.linq';
 
 export = (): void => {
     util.log('started...');
@@ -28,7 +29,7 @@ export = (): void => {
                     Generator.Generate(MODEL_TEMPLDATE_FILE, GEN_CODE_MODEL_DIR, data, data.First().Name, 'Dto.ts');
                 } else if (argv.list) {
                     let tables = columns
-                        .Select(x => x.Name);
+                        .Select(x => [x.Name, x.ColumnName]);
                     //let list = new List<string>(tables).GroupBy(x => x, x => null);
                     util.log(tables);
                 }

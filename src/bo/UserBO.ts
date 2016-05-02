@@ -27,7 +27,10 @@ export class UserBO extends BaseBO {
     }
     public async GetAllUsersAsync(): Promise<User[]> {
         await this.dal.Connect();
-        let users = await this.dal.ExecuteQuery<User>('select Id, fullname as Name from [users] where fullname is not null');
-        return <User[]>users;
+        let users = await this.dal.ExecuteQuery<User>(`select Id, 
+                                                        fullname as Name 
+                                                        from [users]
+                                                        where fullname is not null`);
+        return users;
     }
 }
