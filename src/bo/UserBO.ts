@@ -1,6 +1,7 @@
 import {BaseBO} from './';
 import { Dal } from '../dal';
 import { User} from '../model/user';
+import * as UserDal from '../schema/User';
 
 export class UserBO extends BaseBO {
     constructor(dal: Dal) {
@@ -32,5 +33,9 @@ export class UserBO extends BaseBO {
                                                         from [users]
                                                         where fullname is not null`);
         return users;
+    }
+
+    public async CreateTable(): Promise<void> {
+        return null;
     }
 }

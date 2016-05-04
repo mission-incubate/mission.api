@@ -112,6 +112,9 @@
     "mission.linq": "^1.0.7",
     "mssql": "^3.2.0",
     "redis": "^2.6.0-1",
-    "routes": "^2.1.0"
+    "routes": "^2.1.0",
+    "rxjs": "^5.0.0-beta.7",
+    "sequelize": "^3.22.0",
+    "tedious": "^1.14.0"
   }
 }

@@ -1,4 +1,5 @@
 import {config} from './dal';
+import {DbConfig} from './dal/Sequelize';
 import {Response } from 'express-serve-static-core';
 
 class AppSettings {
@@ -29,6 +30,15 @@ class AppSettings {
         //     max: 0,
         //     idleTimeoutMillis: 0
         // }
+    };
+    SequelizeDb: DbConfig = {
+        DataBase: this.DB.database,
+        UserName: this.DB.user,
+        Password: this.DB.password,
+        Options: {
+            host: this.DB.server,
+            dialect: 'mssql'
+        }
     };
     STATIC_FILE_OPTIONS: any = {
         dotfiles: 'ignore',
