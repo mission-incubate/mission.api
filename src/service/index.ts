@@ -3,7 +3,8 @@ import { Response, PageContext } from '../common';
 export interface IBaseService { }
 
 export class BaseService implements IBaseService {
-    public GetResponse<T>(data: T, pageContext: PageContext): Response<T> {
+
+    public GetResponse<T>(data: T, pageContext?: PageContext): Response<T> {
         return {
             Data: data,
             PageContext: pageContext,

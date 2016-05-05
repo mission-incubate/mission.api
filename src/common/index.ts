@@ -1,8 +1,17 @@
+import { AppConfig } from '../config/config';
 
 export class PageContext {
     public PageSize: number;
     public PageNumber: number;
     public TotalRecords: number;
+
+    public get Limit(): number {
+        return this.PageSize === 0 ? AppConfig.DefaultPageSize : this.PageSize;
+    };
+
+    public get Offset(): number {
+        return (this.PageNumber - 1) * this.PageSize;
+    };
 }
 
 export class UserContext {

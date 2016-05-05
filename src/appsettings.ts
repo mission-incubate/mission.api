@@ -4,7 +4,7 @@ import {Response } from 'express-serve-static-core';
 
 class AppSettings {
     HTTPS_ENABLED = this.HTTPS_SERVER_CERT && this.HTTPS_SERVER_KEY_PATH;
-    PORT = this.HTTPS_ENABLED ? 443 : 80;
+    PORT = this.HTTPS_ENABLED ? 443 : 3000;
     HTTPS_SERVER_KEY_PATH: string = '';
     HTTPS_SERVER_CERT: string = '';
     APP_BASE: string = '/';
