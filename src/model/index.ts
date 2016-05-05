@@ -1,3 +1,4 @@
+
 export class PageContext {
     public PageSize: number;
     public PageNumber: number;
@@ -9,12 +10,12 @@ export class UserContext {
 }
 
 export class Param<Tk, Tv>{
-    constructor(tk: string, tv: string) {
+    public Tk: string;
+    public Tv: string;
+    public constructor(tk: string, tv: string) {
         this.Tk = tk;
         this.Tv = tv;
     }
-    public Tk: string;
-    public Tv: string;
 }
 
 export class BaseRequest {
@@ -47,4 +48,3 @@ export class Response<T extends IBaseDto>{
     public Error: Error;
     public Data: T;
 }
-

@@ -2,11 +2,10 @@ import {BaseBO} from '../../../src/bo';
 import {Dal} from '../../../src/dal';
 
 export class TableBO extends BaseBO {
-    constructor(dal: Dal) {
+    public AllColumns: Array<Column>;
+    public constructor(dal: Dal) {
         super(dal);
     }
-
-    public AllColumns: Array<Column>;
 
     public async GetTableDetails(tableName: string): Promise<Array<Column>> {
         await this.GetAllColumnDetails();

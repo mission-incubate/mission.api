@@ -1,9 +1,7 @@
 import {ProjectConfig} from './project.config';
 
 export class GenConfig extends ProjectConfig {
-    constructor() {
-        super();
-    }
+
     TEMPLATE_DIR = `${this.TOOLS_DIR}/generator/templates`;
     GEN_CODE_DIR = `${this.TOOLS_DIR}/generator/code`;
 
@@ -14,4 +12,8 @@ export class GenConfig extends ProjectConfig {
     GEN_CODE_MODEL_DIR = `${this.GEN_CODE_DIR}/model`;
     GEN_CODE_BO_DIR = `${this.GEN_CODE_DIR}/bo`;
     GEN_CODE_SERVICE_DIR = `${this.GEN_CODE_DIR}/service`;
+
+    constructor() {
+        super();
+    }
 }
