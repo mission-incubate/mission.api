@@ -1,4 +1,4 @@
-import { Response, PageContext } from '../model';
+import { Response, PageContext } from '../common';
 
 export interface IBaseService { }
 

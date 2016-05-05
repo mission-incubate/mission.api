@@ -1,5 +1,5 @@
-import {config} from './dal';
-import {DbConfig} from './dal/Sequelize';
+// import {config} from './dal';
+// import {DbConfig} from './dal/Sequelize';
 import {Response } from 'express-serve-static-core';
 
 class AppSettings {
@@ -13,7 +13,7 @@ class AppSettings {
     OAUTH2: string = '127.0.0.1:8081';
     AUDIT: string = '127.0.0.1:8082';
     CACHE: string = '127.0.0.1:8083';
-    DB: config = {
+    DB: any = {
         //driver: '',
         user: 'sa',
         password: 'irtt',
@@ -31,7 +31,7 @@ class AppSettings {
         //     idleTimeoutMillis: 0
         // }
     };
-    SequelizeDb: DbConfig = {
+    SequelizeDb: any = {
         DataBase: this.DB.database,
         UserName: this.DB.user,
         Password: this.DB.password,
