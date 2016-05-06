@@ -4,12 +4,18 @@ export class PageContext {
     public PageSize: number;
     public PageNumber: number;
     public TotalRecords: number;
+    // public get Limit(): number {
+    //     return this.PageSize === 0 ? AppConfig.DefaultPageSize : this.PageSize;
+    // };
 
-    public get Limit(): number {
+    // public get Offset(): number {
+    //     return (this.PageNumber - 1) * this.PageSize;
+    // };
+    public GetLimit(): number {
         return this.PageSize === 0 ? AppConfig.DefaultPageSize : this.PageSize;
     };
 
-    public get Offset(): number {
+    public GetOffset(): number {
         return (this.PageNumber - 1) * this.PageSize;
     };
 }
@@ -30,11 +36,13 @@ export class Param<Tk, Tv>{
 export class BaseRequest {
     public Id: number;
     public UserContext: UserContext;
+    public Data: any;
 }
 
-export class Request<Tk, Tv> extends BaseRequest {
+export class UserRequest<Tk, Tv> extends BaseRequest {
     public PageContext: PageContext;
     public Params: Param<Tk, Tv>[];
+
     public Add(param: Param<Tk, Tv>): void;
     public Add(tk: string, tv: string): void;
     public Add(arg1: any, arg2?: string): void {
@@ -52,7 +60,7 @@ export class Error {
     public Code: string;
     public Message: string;
 }
-export class Response<T extends IBaseDto>{
+export class UserResponse<T extends IBaseDto>{
     public PageContext: PageContext;
     public Error: Error;
     public Data: T;

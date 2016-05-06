@@ -1,10 +1,10 @@
-import { Response, PageContext } from '../common';
+import { UserResponse, PageContext } from '../common';
 
 export interface IBaseService { }
 
 export class BaseService implements IBaseService {
 
-    public GetResponse<T>(data: T, pageContext?: PageContext): Response<T> {
+    public GetResponse<T>(data: T, pageContext?: PageContext): UserResponse<T> {
         return {
             Data: data,
             PageContext: pageContext,

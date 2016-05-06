@@ -23,7 +23,7 @@ class Database {
         // }
 
         //(SequelizeStatic as any).cls = cls.createNamespace("sequelize-transaction");
-        this._sequelize = new SequelizeStatic(db.database, db.username, db.password, db.Options);
+        this._sequelize = new SequelizeStatic(db.DataBase, db.UserName, db.Password, db.Options);
         this._models = ({} as any);
 
         readdirSync(__dirname)

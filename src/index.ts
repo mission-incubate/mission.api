@@ -13,7 +13,7 @@ import {
 import * as route from './routes/routes';
 import * as fs from 'fs';
 import {Server} from 'net';
-import * as core from './common';
+import {UserResponse, IBaseDto} from './common';
 
 export class WebServer {
     private App: Express;
@@ -58,10 +58,10 @@ export class WebServer {
         next(err);
     }
     private errorHandler(err: Error, req: Request, res: Response, next: NextFunction): void {
-        var out: core.Response<core.IBaseDto> = {
+        var out: UserResponse<IBaseDto> = {
             Data: null,
             PageContext: null,
-            Error: { Code: null, Message: process.env.NODE_ENV === 'development' ? err.message : null }
+            Error: { Code: null, Message: process.env.NODE_ENV === 'development' ? err.message + ' Stack :' + err.stack : null }
         };
         res.json(out);
     }

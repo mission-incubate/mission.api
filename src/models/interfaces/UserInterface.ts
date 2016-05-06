@@ -1,21 +1,21 @@
 import {Instance} from 'sequelize';
 
 export interface UserAttributes {
-    Id: string;
+    Id: number;
     Rev: number;
     Title: string;
     FirstName: string;
     MiddleName: string;
     LastName: string;
-    Age: string;
-    DOB: string;
+    Age: number;
+    DOB: Date;
     PreferredLanguage: string;
     Qualification: string;
     Nationality: string;
     Category: string;
     DoctorShareClass: string;
-    ActionFrom: string;
-    ActionTo: string;
+    ActionFrom: Date;
+    ActionTo: Date;
     AddressLine1: string;
     AddressLine2: string;
     Pincode: string;
@@ -27,18 +27,18 @@ export interface UserAttributes {
     Mobile: string;
     Email: string;
     LicenseNo: string;
-    LicenseIssueDate: string;
-    LicenseExpiryDate: string;
-    IsAdmittingConsultant: string;
-    IsVisistingConsultant: string;
-    IsSurgeon: string;
-    Image: string;
-    Signature: string;
+    LicenseIssueDate: Date;
+    LicenseExpiryDate: Date;
+    IsAdmittingConsultant: boolean;
+    IsVisistingConsultant: boolean;
+    IsSurgeon: boolean;
+    Image: Blob;
+    Signature: Blob;
     UserName: string;
     Password: string;
-    TabletAccess: string;
-    MobileAccess: string;
-    LoginPermission: string;
+    TabletAccess: boolean;
+    MobileAccess: boolean;
+    LoginPermission: boolean;
 }
 
 export interface UserInstance extends Instance<UserAttributes> {
