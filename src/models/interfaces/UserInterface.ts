@@ -45,6 +45,5 @@ export interface UserInstance extends Instance<UserAttributes> {
     // I'm exposing every DB column as an instance field to so that tsc won't complain.
     // CreatedAt: Date;
     // UpdatedAt: Date;
-    Data: UserAttributes;
-
+    dataValues: UserAttributes;
 }

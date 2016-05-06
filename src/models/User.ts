@@ -6,7 +6,12 @@ import { UserAttributes, UserInstance} from './interfaces/UserInterface';
 export default function (sequelize: Sequelize, DataTypes: DataTypes):
     SequelizeStatic.Model<UserInstance, UserAttributes> {
     let User = sequelize.define<UserInstance, UserAttributes>('User', {
-        Id: { type: DataTypes.BIGINT, field: 'Id' },
+        Id: {
+            type: DataTypes.BIGINT,
+            field: 'Id',
+            primaryKey: true,
+            autoIncrement: true
+        },
         Rev: { type: DataTypes.BIGINT, field: 'Rev' },
         Title: { type: DataTypes.STRING, field: 'Title' },
         FirstName: { type: DataTypes.STRING, field: 'FirstName' },
@@ -51,7 +56,8 @@ export default function (sequelize: Sequelize, DataTypes: DataTypes):
             timestamps: true,
             tableName: 'User',
             createdAt: 'CreatedAt',
-            updatedAt: 'UpdatedAt'
+            updatedAt: 'UpdatedAt',
+            freezeTableName: true
         });
 
     return User;

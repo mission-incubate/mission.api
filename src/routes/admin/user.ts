@@ -5,9 +5,25 @@ import {UserService} from '../../service/UserService';
 
 let router: Router = express.Router();
 
-router.post('/', (req: Request, res: Response, next: NextFunction): any => {
+router.post('/FindById', (req: Request, res: Response, next: NextFunction): any => {
+    let service = ServiceFactory.CreateService(UserService);
+    service.FindById(req.body)
+        .then((response) => {
+            res.send(response);
+        }).catch(next);
+});
+
+router.post('/GetAllUsers', (req: Request, res: Response, next: NextFunction): any => {
     let service = ServiceFactory.CreateService(UserService);
     service.GetAllUsers(req.body)
+        .then((response) => {
+            res.send(response);
+        }).catch(next);
+});
+
+router.post('/AddUser', (req: Request, res: Response, next: NextFunction): any => {
+    let service = ServiceFactory.CreateService(UserService);
+    service.AddUser(req.body)
         .then((response) => {
             res.send(response);
         }).catch(next);
