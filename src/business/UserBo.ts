@@ -10,7 +10,7 @@ export class UserBo extends BaseBo {
     }
 
     public async GetAllUsers(req: UserRequest<string, string>): Promise<Array<UserInstance>> {
-        let pg = req.PageContext;
+        let pg: PageContext = req.PageContext;
         let users = await this.GetModel().findAll({ limit: pg.PageSize, offset: (pg.PageNumber - 1) * pg.PageSize });
         return users;
     }
