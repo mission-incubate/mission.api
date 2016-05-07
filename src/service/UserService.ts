@@ -1,4 +1,4 @@
-import {BaseService} from './';
+import {BaseService} from './BaseService';
 import {BoFactory, UserBo} from '../business';
 import {UserRequest, UserResponse, BaseRequest, ISearchEnums} from '../common';
 //import {Transaction, Sequelize} from 'sequelize';
