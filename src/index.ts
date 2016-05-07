@@ -10,7 +10,7 @@ import {
     HTTPS_SERVER_CERT,
     HTTPS_SERVER_KEY_PATH
 } from './appsettings';
-import * as route from './routes/routes';
+import * as route from './routes';
 import * as fs from 'fs';
 import {Server} from 'net';
 import {UserResponse, IBaseDto} from './common';

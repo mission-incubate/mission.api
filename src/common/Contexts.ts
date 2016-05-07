@@ -1,4 +1,4 @@
-import { AppConfig } from '../config/config';
+import { AppConfig } from '../config';
 
 export class PageContext {
     public PageSize: number;
