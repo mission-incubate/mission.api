@@ -3,3 +3,4 @@ typings
 dist
 docs
 tools/generator/code
+coverage

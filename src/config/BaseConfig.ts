@@ -35,15 +35,14 @@ export interface SqlLoggingConfig {
 
 export interface ApplicationConfig {
     DefaultPageSize: number;
-    WebStaticFile: WebStaticFile;
+    WebStaticFile: {
+        dotfiles: string;
+        etag: boolean;
+        extensions: Array<string>;
+        index: boolean;
+        maxAge: string;
+        redirect: boolean;
+        setHeaders: Function;
+    };
 }
 
-export interface WebStaticFile {
-    dotfiles: string;
-    etag: boolean;
-    extensions: Array<string>;
-    index: boolean;
-    maxAge: string;
-    redirect: boolean;
-    setHeaders: Function;
-}
