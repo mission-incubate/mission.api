@@ -1,11 +1,4 @@
-class Config {
-    AppConfig = {
-        DefaultPageSize: 50
-    };
-    WebConfig: {
-
-    };
-}
-
-const config: Config = new Config();
-export = config;
+export * from './BaseConfig';
+export * from './AppConfig';
+export * from './SqlLogConfig';
+export * from './DbConfig';

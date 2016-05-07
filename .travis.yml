@@ -16,7 +16,7 @@ before_script:
   - nohup bash -c webdriver-manager start 2>&1 &  # Protractor CI
   - sleep 1  # give server time to start
 notifications:
-  email: true
+  email: false
 after_failure: cat /home/travis/build/mission-io/mission.api/npm-debug.log
 branches:
   only:

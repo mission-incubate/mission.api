@@ -34,6 +34,7 @@ export class WebServer {
         self.registerModules();
         return self;
     }
+
     public Start(): void {
         let self = this;
         let Server: Server;
@@ -53,6 +54,18 @@ export class WebServer {
         self.App.use(self.handlerFor404);
         self.App.use((self.errorHandler).bind(self));
     }
+    // private configure(): void {
+    //     var self = this;
+    //     self.App.configure('development', () => {
+    //         //TODO:
+    //     });
+    //     self.App.configure('testing', () => {
+    //         //TODO:
+    //     });
+    //     self.App.configure('production', () => {
+    //         //TODO:
+    //     });
+    // }
     private handlerFor404(req: Request, res: Response, next: NextFunction): void {
         let err = new Error('Resource Not Found.');
         next(err);

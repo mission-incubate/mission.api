@@ -2,7 +2,7 @@ import {readdirSync} from 'fs';
 import {basename, join} from 'path';
 import * as SequelizeStatic  from 'sequelize';
 import {Sequelize}  from 'sequelize';
-import {SequelizeDb as db} from '../appsettings';
+import {DbConfig} from '../config';
 
 import {UserInstance, UserAttributes} from './interfaces';
 
@@ -16,6 +16,7 @@ class Database {
     private _sequelize: Sequelize;
     constructor() {
         this._basename = basename(module.filename).toLowerCase();
+        let db = DbConfig;
         // let dbConfig = configs.getDatabaseConfig();
 
         // if (dbConfig.logging) {
@@ -23,7 +24,7 @@ class Database {
         // }
 
         //(SequelizeStatic as any).cls = cls.createNamespace("sequelize-transaction");
-        this._sequelize = new SequelizeStatic(db.DataBase, db.UserName, db.Password, db.Options);
+        this._sequelize = new SequelizeStatic(db.Database, db.UserName, db.Password, db.Options);
         this._models = ({} as any);
 
         readdirSync(__dirname)
