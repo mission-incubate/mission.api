@@ -1,7 +1,7 @@
-import {BaseBo} from './';
-import {PageContext, BaseRequest, UserRequest} from '../common';
-import { UserInstance, UserAttributes} from '../models/interfaces/UserInterface';
 import * as SStatic  from 'sequelize';
+import {BaseBo} from './';
+import {PageContext, BaseRequest, UserRequest, ISearchEnums} from '../common';
+import { UserInstance, UserAttributes} from '../models/interfaces';
 
 export class UserBo extends BaseBo {
     public async FindById(id: number): Promise<UserInstance> {
@@ -9,7 +9,7 @@ export class UserBo extends BaseBo {
         return user;
     }
 
-    public async GetAllUsers(req: UserRequest<string, string>): Promise<Array<UserInstance>> {
+    public async GetAllUsers(req: UserRequest<ISearchEnums, string>): Promise<Array<UserInstance>> {
         let pg: PageContext = req.PageContext;
         let users = await this.GetModel().findAll({ limit: pg.PageSize, offset: (pg.PageNumber - 1) * pg.PageSize });
         return users;

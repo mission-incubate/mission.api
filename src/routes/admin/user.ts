@@ -1,7 +1,6 @@
 import * as express from 'express';
 import {Router, Request, Response, NextFunction } from 'express-serve-static-core';
-import {ServiceFactory} from '../../service';
-import {UserService} from '../../service/UserService';
+import {ServiceFactory, UserService} from '../../service';
 
 let router: Router = express.Router();
 

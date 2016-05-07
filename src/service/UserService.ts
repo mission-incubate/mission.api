@@ -1,7 +1,6 @@
 import {BaseService} from './';
-import {BoFactory} from '../business';
-import {UserRequest, UserResponse, BaseRequest} from '../common';
-import {UserBo} from '../business/UserBo';
+import {BoFactory, UserBo} from '../business';
+import {UserRequest, UserResponse, BaseRequest, ISearchEnums} from '../common';
 //import {Transaction, Sequelize} from 'sequelize';
 
 export class UserService extends BaseService {
@@ -11,7 +10,7 @@ export class UserService extends BaseService {
         this.userBo = BoFactory.GetBo(UserBo);
     }
 
-    public async FindById(req: UserRequest<string, string>): Promise<UserResponse<any>> {
+    public async FindById(req: UserRequest<ISearchEnums, string>): Promise<UserResponse<any>> {
         if (req.Id < 0) {
             throw 'Invaid Id';
         }
@@ -19,7 +18,7 @@ export class UserService extends BaseService {
         return this.GetResponse(user);
     }
 
-    public async GetAllUsers(req: UserRequest<string, string>): Promise<UserResponse<Array<any>>> {
+    public async GetAllUsers(req: UserRequest<ISearchEnums, string>): Promise<UserResponse<Array<any>>> {
         let users = await this.userBo.GetAllUsers(req);
         return this.GetResponse(users, req.PageContext);
     }

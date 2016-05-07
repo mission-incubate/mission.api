@@ -1,6 +1,6 @@
 import * as SequelizeStatic from 'sequelize';
 import {DataTypes, Sequelize} from 'sequelize';
-import { UserAttributes, UserInstance} from './interfaces/UserInterface';
+import { UserAttributes, UserInstance} from './interfaces';
 
 
 export default function (sequelize: Sequelize, DataTypes: DataTypes):

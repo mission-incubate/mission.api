@@ -11,3 +11,5 @@ export class BoFactory {
         return new type();
     }
 }
+
+export * from './UserBo';

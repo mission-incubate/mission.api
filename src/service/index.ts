@@ -18,3 +18,5 @@ export class ServiceFactory {
         return new type();
     }
 }
+
+export * from './UserService';
