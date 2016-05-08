@@ -38,7 +38,8 @@
     "Typescript",
     "express",
     "mission.api",
-    "javascript"
+    "javascript",
+    "sequelize"
   ],
   "author": "Natarajan Ganapathi",
   "license": "MIT",
@@ -68,10 +69,10 @@
     "jasmine-core": "~2.4.1",
     "jasmine-spec-reporter": "^2.4.0",
     "karma": "~0.13.22",
-    "karma-chrome-launcher": "~0.2.2",
-    "karma-coverage": "^0.5.5",
-    "karma-ie-launcher": "^0.2.0",
-    "karma-jasmine": "~0.3.8",
+    "karma-chrome-launcher": "1.0.1",
+    "karma-coverage": "^1.0.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-jasmine": "1.0.2",
     "karma-mocha-reporter": "^2.0.0",
     "karma-phantomjs-launcher": "^1.0.0",
     "merge-stream": "^1.0.0",
@@ -90,11 +91,11 @@
     "slash": "~1.0.0",
     "stream-series": "^0.1.1",
     "stylelint": "^6.0.1",
-    "stylelint-config-standard": "^6.0.0",
+    "stylelint-config-standard": "^7.0.0",
     "systemjs-builder": "^0.15.14",
     "tildify": "^1.2.0",
     "tiny-lr": "^0.2.1",
-    "traceur": "^0.0.91",
+    "traceur": "^0.0.108",
     "ts-node": "^0.7.1",
     "tslint": "3.9.0",
     "tslint-stylish": "2.1.0-beta",
@@ -104,19 +105,15 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "walk": "^2.3.9",
-    "yargs": "^4.4.0"
+    "yargs": "^4.7.0"
   },
   "dependencies": {
-    "body-parser": "^1.15.0",
-    "express": "^4.13.4",
-    "fs": "0.0.2",
-    "mission.linq": "^1.0.7",
-    "mssql": "^3.2.1",
-    "node": "0.0.0",
+    "body-parser": "^1.15.1",
+    "express": "5.0.0-alpha.2",
     "redis": "^2.6.0-2",
     "routes": "^2.1.0",
     "rxjs": "^5.0.0-beta.7",
-    "sequelize": "^3.22.0",
+    "sequelize": "^3.23.0",
     "tedious": "^1.14.0"
   }
 }
