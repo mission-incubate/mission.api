@@ -1,22 +1,40 @@
 import * as redis from 'redis';
 import {RedisClient} from 'redis';
-import {ICaching} from './';
+import {ICaching} from './CacheBase';
 
 export class RedisCache implements ICaching {
     private client: RedisClient = redis.createClient();
 
-    public Set(key: string, value: any): boolean {
-        return this.client.set(key, value);
+    public async AddItem<TValue>(key: string, value: TValue, policyKey?: string, regionName?: string): Promise<boolean> {
+        let fKey = regionName ? regionName + ':' + key : key;
+        return new Promise<boolean>((resolver, reject) => {
+            return this.client.set(fKey, value, (err: any, res: boolean) => {
+                if (err) {
+                    reject(false);
+                }
+                resolver(res);
+            });
+        });
+
     }
-    public async Get(key: string): Promise<any> {
-        return new Promise<any>((resolver, reject) => {
-            this.client.get(key, (err, res) => {
+    public async GetItem<TValue>(key: string, policyKey?: string): Promise<TValue> {
+        return new Promise<TValue>((resolver, reject) => {
+            this.client.get(key, (err: any, res: TValue) => {
                 if (err) {
                     reject(err);
                 }
                 return resolver(res);
             });
         });
+    }
+    public async RemoveItem(key: string, regionName?: string): Promise<boolean> {
+        return null;
+    }
+    public async RemoveRegion(regionName: string): Promise<boolean> {
+        return null;
+    }
+    public async GetAllKeys(regionName?: string): Promise<Array<string>> {
+        return null;
     }
 }
 
