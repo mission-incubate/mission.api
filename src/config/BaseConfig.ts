@@ -1,3 +1,6 @@
+/****************************************************************************************
+************Sequelize Database (MSSQL/MYSQL/ORACAL) Config Option Interface *************
+****************************************************************************************/
 export interface Options {
     host: string;
     port: number;
@@ -6,14 +9,12 @@ export interface Options {
     force: boolean;
     timezone: string;
 }
-
 export interface DatabaseConfig {
     UserName: string;
     Password: string;
     Database: string;
     Options: Options;
 }
-
 export interface SqlLoggingConfig {
     file: {
         level: string,
@@ -32,7 +33,9 @@ export interface SqlLoggingConfig {
     };
     directory: string;
 }
-
+/****************************************************************************************
+************************ Entier Application Config **************************************
+****************************************************************************************/
 export interface ApplicationConfig {
     DefaultPageSize: number;
     WebStaticFile: {
@@ -45,4 +48,17 @@ export interface ApplicationConfig {
         setHeaders: Function;
     };
 }
-
+/****************************************************************************************
+************************ Redis Servce Config - (for Cache & Pub/Sub) ********************
+****************************************************************************************/
+export interface RedisConfig {
+    auth: string;
+    host: string;
+    keys_pattern: string;
+    name: string;
+    namespace_separator: string;
+    port: number;
+    ssh_port: number;
+    timeout_connect: number;
+    timeout_execute: number;
+}
