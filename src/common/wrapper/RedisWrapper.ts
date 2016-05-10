@@ -116,7 +116,7 @@ export class Redis {
                 if (err) { reject(err); }
                 return resolver(res);
             };
-            this.client.hkeys(regionName, callback)
+            this.client.hkeys(regionName, callback);
         });
     }
 }
