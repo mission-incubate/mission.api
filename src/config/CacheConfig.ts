@@ -1,4 +1,4 @@
-import {RedisConfig} from './BaseConfig';
+import {RedisConfig, CachingPolicyDict, CachingPolicy} from './BaseConfig';
 
 export const CacheConfig: RedisConfig = {
     auth: '',
@@ -10,4 +10,19 @@ export const CacheConfig: RedisConfig = {
     ssh_port: 22,
     timeout_connect: 60000,
     timeout_execute: 60000
+};
+
+export const CachePolicy: CachingPolicyDict = {
+    Default: <CachingPolicy>{
+        Expire: 0
+    },
+    ShortTime: {
+        Expire: 60
+    },
+    Average: {
+        Expire: 60 * 60
+    },
+    LongTime: {
+        Expire: 60 * 60 * 24
+    }
 };

@@ -1,15 +1,12 @@
-import {RedisWrapper} from './RedisWrapper';
-
+//import {Redis} from './RedisWrapper';
 describe('Redis Client', () => {
+    //let redis: Redis = new Redis();
     describe('All', () => {
-        let list: Array<number>;
-        beforeEach(() => {
-            list = [1, 2, 3, 4, 5];
-        });
+        // beforeEach(() => {  });
         it('All value should be less than 6', () => {
-            RedisWrapper.HSet('true', 'Success', 'Success').then((val) => {
-                console.log(val);
-            });
+            // redis.HSet('test', 'value', 'UnitTest').then((val) => {
+            //     return expect(1).toEqual(val);
+            // });
             return true;
         });
         it('All value should not be greater than 5', () => {

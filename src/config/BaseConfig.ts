@@ -62,3 +62,21 @@ export interface RedisConfig {
     timeout_connect: number;
     timeout_execute: number;
 }
+
+/****************************************************************************************
+************************************* Cache Policies ************************************
+****************************************************************************************/
+
+export interface CachingPolicy {
+    Expire: number;
+    //TODO: Need to Add more fields.
+}
+
+export interface CachingPolicyDict {
+    Default: CachingPolicy;
+    ShortTime: CachingPolicy;
+    Average: CachingPolicy;
+    LongTime: CachingPolicy;
+    [key: string]: CachingPolicy;
+}
+

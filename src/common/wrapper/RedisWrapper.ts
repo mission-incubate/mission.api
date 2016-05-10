@@ -1,20 +1,19 @@
 import * as redis from 'redis';
 import {RedisClient, ResCallbackT} from 'redis';
-import {CacheConfig} from '../../Config';
-const client: RedisClient = redis.createClient(CacheConfig);
+import {RedisConfig} from '../../Config';
 
-export class RedisOption {
-
-}
-
-export class RedisWrapper {
-    public static Auth(password: string): void {
-        client.auth();
+export class Redis {
+    private client: RedisClient;
+    public constructor(config: RedisConfig) {
+        this.client = redis.createClient(config);
+    }
+    public Auth(password: string): void {
+        this.client.auth();
     }
 
-    public static async Select(dbIndex: number): Promise<boolean> {
+    public async Select(dbIndex: number): Promise<boolean> {
         return new Promise<boolean>((resolver, reject) => {
-            return client.select(dbIndex, (err: Error, res: boolean) => {
+            return this.client.select(dbIndex, (err: Error, res: boolean) => {
                 if (err) {
                     reject(err);
                 }
@@ -23,9 +22,9 @@ export class RedisWrapper {
         });
     }
 
-    public static async HSet<TValue>(key: string, value: TValue, regionName?: string): Promise<number> {
+    public async HSet<TValue>(key: string, value: TValue, regionName?: string): Promise<number> {
         return new Promise<number>((resolver, reject) => {
-            return client.hset(regionName, key, value, (err: Error, res: number) => {
+            return this.client.hset(regionName, key, JSON.stringify(value), (err: Error, res: number) => {
                 if (err) {
                     reject(err);
                 }
@@ -33,19 +32,19 @@ export class RedisWrapper {
             });
         });
     }
-    public static async HGet<TValue>(key: string, policyKey?: string): Promise<TValue> {
+    public async HGet<TValue>(key: string, regionName?: string): Promise<TValue> {
         return new Promise<TValue>((resolver, reject) => {
-            client.get(key, (err: Error, res: TValue) => {
+            this.client.hget(regionName, key, (err: Error, res: string) => {
                 if (err) {
                     reject(err);
                 }
-                return resolver(res);
+                return resolver(JSON.parse(res));
             });
         });
     }
-    public static async Expire(key: string, expire: number): Promise<number> {
+    public async Expire(key: string, expire: number): Promise<number> {
         return new Promise<number>((resolver, reject) => {
-            client.expire(key, expire, (err: Error, res: number) => {
+            this.client.expire(key, expire, (err: Error, res: number) => {
                 if (err) {
                     reject(err);
                 }
@@ -53,9 +52,9 @@ export class RedisWrapper {
             });
         });
     }
-    public static async HDel(key: string, regionName?: string): Promise<boolean> {
+    public async HDel(key: string, regionName?: string): Promise<boolean> {
         return new Promise<boolean>((resolver, reject) => {
-            client.hdel(regionName, key, (err: Error, res: boolean) => {
+            this.client.hdel(regionName, key, (err: Error, res: boolean) => {
                 if (err) {
                     reject(err);
                 }
@@ -63,13 +62,13 @@ export class RedisWrapper {
             });
         });
     }
-    public static async HKeys(regionName?: string): Promise<Array<string>> {
+    public async HKeys(regionName?: string): Promise<Array<string>> {
         return new Promise<Array<string>>((resolver, reject) => {
             let callback: ResCallbackT<Array<string>> = (err: Error, res: Array<string>) => {
                 if (err) { reject(err); }
                 return resolver(res);
             };
-            regionName ? client.hkeys(regionName, callback) : client.keys(callback);
+            regionName ? this.client.hkeys(regionName, callback) : this.client.keys(callback);
         });
     }
 }
