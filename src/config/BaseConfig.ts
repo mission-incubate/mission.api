@@ -51,7 +51,7 @@ export interface ApplicationConfig {
 /****************************************************************************************
 ************************ Redis Servce Config - (for Cache & Pub/Sub) ********************
 ****************************************************************************************/
-export interface RedisConfig {
+export interface IRedisConfig {
     auth: string;
     host: string;
     keys_pattern: string;
@@ -68,16 +68,16 @@ export interface RedisConfig {
 ************************************* Cache Policies ************************************
 ****************************************************************************************/
 
-export interface CachingPolicy {
+export interface ICachingPolicy {
     Expire: number;
     //TODO: Need to Add more fields.
 }
 
-export interface CachingPolicyDict {
-    Default: CachingPolicy;
-    ShortTime: CachingPolicy;
-    Average: CachingPolicy;
-    LongTime: CachingPolicy;
-    [key: string]: CachingPolicy;
+export interface ICachingPolicyDict {
+    Default: ICachingPolicy;
+    ShortTime: ICachingPolicy;
+    Average: ICachingPolicy;
+    LongTime: ICachingPolicy;
+    [key: string]: ICachingPolicy;
 }
 

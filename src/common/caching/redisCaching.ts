@@ -1,20 +1,20 @@
 import {ICachingProvider} from './CacheBase';
 import {Redis} from '../wrapper';
-import {CacheConfig, CachingPolicy} from '../../config';
+import {CacheConfig, ICachingPolicy} from '../../config';
 
 export class RedisCacheProvider implements ICachingProvider {
     private Redis: Redis;
     constructor() {
         this.Redis = new Redis(CacheConfig);
     }
-    public async AddItem<TValue>(key: string, value: TValue, regionName?: string, cachePolicy?: CachingPolicy): Promise<boolean> {
+    public async AddItem<TValue>(key: string, value: TValue, regionName?: string, cachePolicy?: ICachingPolicy): Promise<boolean> {
         let ckey = this.getCacheKey(key, regionName);
         let val = await this.Redis.Set(ckey, value);
         //await this.ApplyPolicy(ckey, cachePolicy);
-        return val > 0;
+        return val;
     }
 
-    public async GetItem<TValue>(key: string, regionName?: string, cachePolicy?: CachingPolicy): Promise<TValue> {
+    public async GetItem<TValue>(key: string, regionName?: string, cachePolicy?: ICachingPolicy): Promise<TValue> {
         let ckey = this.getCacheKey(key, regionName);
         let val = await this.Redis.Get<TValue>(ckey);
         //await this.ApplyPolicy(ckey, cachePolicy);
@@ -37,7 +37,7 @@ export class RedisCacheProvider implements ICachingProvider {
         return val > 0;
     }
 
-    public async ApplyPolicy(key: string, cachePolicy: CachingPolicy): Promise<void> {
+    public async ApplyPolicy(key: string, cachePolicy: ICachingPolicy): Promise<void> {
         throw 'Not Implemented';
     }
 

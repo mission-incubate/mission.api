@@ -1,6 +1,6 @@
-import {RedisConfig, CachingPolicyDict, CachingPolicy} from './BaseConfig';
+import {IRedisConfig, ICachingPolicyDict, ICachingPolicy} from './BaseConfig';
 
-export const CacheConfig: RedisConfig = {
+export const CacheConfig: IRedisConfig = {
     auth: '',
     host: 'localhost',
     keys_pattern: '*',
@@ -13,8 +13,8 @@ export const CacheConfig: RedisConfig = {
     db: 1
 };
 
-export const CachePolicy: CachingPolicyDict = {
-    Default: <CachingPolicy>{
+export const CachePolicy: ICachingPolicyDict = {
+    Default: <ICachingPolicy>{
         Expire: 0
     },
     ShortTime: {

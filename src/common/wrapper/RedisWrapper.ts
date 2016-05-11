@@ -1,10 +1,10 @@
 import * as redis from 'redis';
 import {RedisClient, ResCallbackT} from 'redis';
-import {RedisConfig} from '../../Config';
+import {IRedisConfig} from '../../Config';
 
 export class Redis {
     private client: RedisClient;
-    public constructor(config: RedisConfig) {
+    public constructor(config: IRedisConfig) {
         this.client = redis.createClient(config);
     }
 
@@ -24,13 +24,13 @@ export class Redis {
         });
     }
 
-    public async Set<TValue>(key: string, value: TValue): Promise<number> {
-        return new Promise<number>((resolver, reject) => {
-            return this.client.set(key, JSON.stringify(value), (err: Error, res: number) => {
+    public async Set<TValue>(key: string, value: TValue): Promise<boolean> {
+        return new Promise<boolean>((resolver, reject) => {
+            return this.client.set(key, JSON.stringify(value), (err: Error, res: string) => {
                 if (err) {
                     reject(err);
                 }
-                resolver(res);
+                resolver(res === "OK");
             });
         });
     }

@@ -1,5 +1,5 @@
 import {ICachingProvider} from './CacheBase';
-import {CachingPolicy} from '../../config';
+import {ICachingPolicy} from '../../config';
 
 export class CacheManager {
     private db: ICachingProvider;
@@ -7,11 +7,11 @@ export class CacheManager {
         this.db = cache;
     }
 
-    public async AddItem<TValue>(key: string, value: TValue, regionName?: string, cachePolicy?: CachingPolicy): Promise<boolean> {
+    public async AddItem<TValue>(key: string, value: TValue, regionName?: string, cachePolicy?: ICachingPolicy): Promise<boolean> {
         return await this.db.AddItem(key, value, regionName);
     }
 
-    public async GetItem<TValue>(key: string, regionName?: string, policyKey?: CachingPolicy): Promise<TValue> {
+    public async GetItem<TValue>(key: string, regionName?: string, policyKey?: ICachingPolicy): Promise<TValue> {
         return await this.db.GetItem<TValue>(key, regionName);
     }
 
@@ -21,12 +21,13 @@ export class CacheManager {
 
     public async RemoveRegion(regionName: string): Promise<boolean> {
         let keys = await this.GetAllKeys(regionName);
-        let promise: Array<Promise<boolean>> = new Array<Promise<boolean>>();
-        keys.forEach((x) => {
-            promise.push(this.RemoveItem(x, regionName));
+        let results: Array<boolean> = new Array<boolean>();
+        keys.forEach(async (x) => {
+            let res = await this.RemoveItem(x, regionName);
+            results.push(res);
         });
-        let result = await Promise.all(promise);
-        return result.length === result.filter(x => x).length;
+        let filterd = results.filter((x) => x);
+        return results.length === filterd.length;
     }
 
     public async GetAllKeys(regionName?: string): Promise<Array<string>> {
