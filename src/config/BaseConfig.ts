@@ -61,6 +61,7 @@ export interface RedisConfig {
     ssh_port: number;
     timeout_connect: number;
     timeout_execute: number;
+    db: number;
 }
 
 /****************************************************************************************

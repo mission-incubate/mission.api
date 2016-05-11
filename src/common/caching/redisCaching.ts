@@ -8,16 +8,19 @@ export class RedisCacheProvider implements ICachingProvider {
         this.Redis = new Redis(CacheConfig);
     }
     public async AddItem<TValue>(key: string, value: TValue, regionName?: string, cachePolicy?: CachingPolicy): Promise<boolean> {
-        let val = await this.Redis.HSet(key, value, regionName);
+        let ckey = this.getCacheKey(key, regionName);
+        let val = await this.Redis.Set(ckey, value);
         return val > 0;
     }
+
     public async GetItem<TValue>(key: string, regionName?: string, cachePolicy?: CachingPolicy): Promise<TValue> {
-        let val = await this.Redis.HGet<TValue>(key, regionName);
+        let ckey = this.getCacheKey(key, regionName);
+        let val = await this.Redis.Get<TValue>(ckey);
         return val;
     }
 
     public async GetAllKeys(regionName?: string): Promise<Array<string>> {
-        let val = await this.Redis.HKeys(regionName);
+        let val = await this.Redis.Keys(regionName);
         return val;
     }
 
@@ -28,6 +31,11 @@ export class RedisCacheProvider implements ICachingProvider {
         throw 'Not implementd';
     }
 
+    private getCacheKey(key: string, regionName?: string): string {
+        regionName = regionName ? regionName : 'default';
+        let fkey = regionName + CacheConfig.namespace_separator + key;
+        return fkey;
+    }
     // public async AddItem<TValue>(key: string, value: TValue, policyKey?: string, regionName?: string | Array<string>): Promise<boolean> {
     //     return new Promise<boolean>((resolver, reject) => {
     //         return client.hset(this.getRegion(regionName), key, value, (err: any, res: boolean) => {

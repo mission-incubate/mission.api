@@ -100,13 +100,13 @@ export class Redis {
         });
     }
 
-    public async Keys(): Promise<Array<string>> {
+    public async Keys(regionName?: string): Promise<Array<string>> {
         return new Promise<Array<string>>((resolver, reject) => {
             let callback: ResCallbackT<Array<string>> = (err: Error, res: Array<string>) => {
                 if (err) { reject(err); }
                 return resolver(res);
             };
-            this.client.keys(callback);
+            this.client.keys(regionName, callback);
         });
     }
 
@@ -117,6 +117,16 @@ export class Redis {
                 return resolver(res);
             };
             this.client.hkeys(regionName, callback);
+        });
+    }
+
+    public async FlushDb(): Promise<boolean> {
+        return new Promise<boolean>((resolver, reject) => {
+            let callback: ResCallbackT<boolean> = (err: Error, res: boolean) => {
+                if (err) { reject(err); }
+                return resolver(res);
+            };
+            this.client.flushdb(callback);
         });
     }
 }

@@ -9,7 +9,8 @@ export const CacheConfig: RedisConfig = {
     port: 6379,
     ssh_port: 22,
     timeout_connect: 60000,
-    timeout_execute: 60000
+    timeout_execute: 60000,
+    db: 1
 };
 
 export const CachePolicy: CachingPolicyDict = {
