@@ -68,6 +68,7 @@
     "is-ci": "^1.0.8",
     "isstream": "^0.1.2",
     "jasmine-core": "~2.4.1",
+    "jasmine-node": "^1.14.5",
     "jasmine-spec-reporter": "^2.4.0",
     "karma": "~0.13.22",
     "karma-chrome-launcher": "1.0.1",

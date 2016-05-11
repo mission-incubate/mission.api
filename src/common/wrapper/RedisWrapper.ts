@@ -30,7 +30,7 @@ export class Redis {
                 if (err) {
                     reject(err);
                 }
-                resolver(res === "OK");
+                resolver(res === 'OK');
             });
         });
     }
