@@ -10,12 +10,14 @@ export class RedisCacheProvider implements ICachingProvider {
     public async AddItem<TValue>(key: string, value: TValue, regionName?: string, cachePolicy?: CachingPolicy): Promise<boolean> {
         let ckey = this.getCacheKey(key, regionName);
         let val = await this.Redis.Set(ckey, value);
+        //await this.ApplyPolicy(ckey, cachePolicy);
         return val > 0;
     }
 
     public async GetItem<TValue>(key: string, regionName?: string, cachePolicy?: CachingPolicy): Promise<TValue> {
         let ckey = this.getCacheKey(key, regionName);
         let val = await this.Redis.Get<TValue>(ckey);
+        //await this.ApplyPolicy(ckey, cachePolicy);
         return val;
     }
 
@@ -25,10 +27,18 @@ export class RedisCacheProvider implements ICachingProvider {
     }
 
     public async RemoveItem(key: string, regionName?: string): Promise<boolean> {
-        throw 'Not implementd';
+        let ckey = this.getCacheKey(key, regionName);
+        let val = await this.Redis.Del(ckey);
+        return val > 0;
     }
+
     public async RemoveRegion(regionName: string): Promise<boolean> {
-        throw 'Not implementd';
+        let val = await this.Redis.HDel(regionName);
+        return val > 0;
+    }
+
+    public async ApplyPolicy(key: string, cachePolicy: CachingPolicy): Promise<void> {
+        throw 'Not Implemented';
     }
 
     private getCacheKey(key: string, regionName?: string): string {

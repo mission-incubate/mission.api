@@ -7,6 +7,7 @@ export class Redis {
     public constructor(config: RedisConfig) {
         this.client = redis.createClient(config);
     }
+
     public Auth(password: string): void {
         this.client.auth();
         throw 'Not implemented fully.';
@@ -78,9 +79,9 @@ export class Redis {
         });
     }
 
-    public async Del(key: string): Promise<boolean> {
-        return new Promise<boolean>((resolver, reject) => {
-            this.client.hdel(key, (err: Error, res: boolean) => {
+    public async Del(key: string): Promise<number> {
+        return new Promise<number>((resolver, reject) => {
+            this.client.hdel(key, (err: Error, res: number) => {
                 if (err) {
                     reject(err);
                 }
@@ -89,9 +90,9 @@ export class Redis {
         });
     }
 
-    public async HDel(key: string, regionName?: string): Promise<boolean> {
-        return new Promise<boolean>((resolver, reject) => {
-            this.client.hdel(regionName, key, (err: Error, res: boolean) => {
+    public async HDel(key: string, regionName?: string): Promise<number> {
+        return new Promise<number>((resolver, reject) => {
+            this.client.hdel(regionName, key, (err: Error, res: number) => {
                 if (err) {
                     reject(err);
                 }
@@ -130,3 +131,4 @@ export class Redis {
         });
     }
 }
+

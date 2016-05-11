@@ -16,13 +16,21 @@ export class CacheManager {
     }
 
     public async RemoveItem(key: string, regionName?: string): Promise<boolean> {
-        throw 'Not Implemented';
+        return await this.db.RemoveItem(key, regionName);
     }
+
     public async RemoveRegion(regionName: string): Promise<boolean> {
-        throw 'Not Implemented';
+        let keys = await this.GetAllKeys(regionName);
+        let promise: Array<Promise<boolean>> = new Array<Promise<boolean>>();
+        keys.forEach((x) => {
+            promise.push(this.RemoveItem(x, regionName));
+        });
+        let result = await Promise.all(promise);
+        return result.length === result.filter(x => x).length;
     }
+
     public async GetAllKeys(regionName?: string): Promise<Array<string>> {
-        throw 'Not Implemented';
+        return await this.db.GetAllKeys(regionName);
     }
 
     public async RetriveData<T>(func: Function, ckey: string, ...args: any[]): Promise<T> {

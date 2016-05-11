@@ -6,15 +6,6 @@ export interface ICachingProvider {
     RemoveItem(key: string, regionName?: string): Promise<boolean>;
     RemoveRegion(regionName: string): Promise<boolean>;
     GetAllKeys(regionName?: string): Promise<Array<string>>;
+    ApplyPolicy(key: string, cachePolicy: CachingPolicy): Promise<void>;
 }
-
-export enum CacheRegion {
-    CRDefault = 0,
-    Session = 1,
-}
-
-export enum BulkCacheRegion {
-    BCRDefault = 0,
-}
-
 
