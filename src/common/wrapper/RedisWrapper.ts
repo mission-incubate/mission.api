@@ -81,7 +81,7 @@ export class Redis {
 
     public async Del(key: string): Promise<number> {
         return new Promise<number>((resolver, reject) => {
-            this.client.hdel(key, (err: Error, res: number) => {
+            this.client.del(key, (err: Error, res: number) => {
                 if (err) {
                     reject(err);
                 }
@@ -90,7 +90,7 @@ export class Redis {
         });
     }
 
-    public async HDel(key: string, regionName?: string): Promise<number> {
+    public async HDel(key: string, regionName: string): Promise<number> {
         return new Promise<number>((resolver, reject) => {
             this.client.hdel(regionName, key, (err: Error, res: number) => {
                 if (err) {

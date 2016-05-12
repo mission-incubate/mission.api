@@ -8,7 +8,7 @@
 			// "program": "${workspaceRoot}/src/index.ts",
 			// "stopOnEntry": false,
 			// "args": [],
-			"program": "${workspaceRoot}/node_modules/jasmine-node/lib/jasmine-node/cli.js", //src/index.ts", //node_modules/jasmine-node/lib/jasmine-node/cli.js
+			"program": "${workspaceRoot}/node_modules/jasmine-node/lib/jasmine-node/cli.js", 
 			"stopOnEntry": true,
 			"args": ["./dist"],
 			

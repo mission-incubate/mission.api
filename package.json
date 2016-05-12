@@ -30,7 +30,7 @@
     "serve.prod": "gulp serve.prod --color",
     "start": "gulp serve.dev --color",
     "tasks.list": "gulp --tasks-simple --color",
-    "test": "gulp test --color",
+    "test": "gulp build.test --color && jasmine-node --color ./dist",
     "webdriver-start": "webdriver-manager start",
     "webdriver-update": "webdriver-manager update"
   },

@@ -33,7 +33,7 @@ export class RedisCacheProvider implements ICachingProvider {
     }
 
     public async RemoveRegion(regionName: string): Promise<boolean> {
-        let val = await this.Redis.HDel(regionName);
+        let val = await this.Redis.Del(regionName);
         return val > 0;
     }
 
