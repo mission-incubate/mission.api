@@ -4,16 +4,11 @@ import * as http from  'http';
 import * as https from 'https';
 import * as bodyParser from 'body-parser';
 import * as logger from  'morgan';
-import {
-    HTTPS_ENABLED,
-    WWW, DOCS, PORT,
-    HTTPS_SERVER_CERT,
-    HTTPS_SERVER_KEY_PATH
-} from './appsettings';
 import * as route from './routes';
 import * as fs from 'fs';
 import {Server} from 'net';
 import {UserResponse, IBaseDto} from './common';
+import {AppConfig} from './config';
 
 export class WebServer {
     private App: Express;
@@ -29,8 +24,8 @@ export class WebServer {
         self.App.use(logger('dev'));
         self.App.use(bodyParser.json());
         self.App.use(bodyParser.urlencoded({ extended: false }));
-        self.App.use(express.static(__dirname + WWW));
-        self.App.use(DOCS, express.static(__dirname + DOCS));
+        self.App.use(express.static(__dirname + AppConfig.WebBasePath, AppConfig.WebStaticFile));
+        self.App.use(AppConfig.DocsBasepath, express.static(__dirname + AppConfig.DocsBasepath));
         self.registerModules();
         return self;
     }
@@ -38,9 +33,9 @@ export class WebServer {
     public Start(): void {
         let self = this;
         let Server: Server;
-        if (HTTPS_ENABLED) {
-            let privateKey = fs.readFileSync(HTTPS_SERVER_KEY_PATH, 'utf8');
-            let certificate = fs.readFileSync(HTTPS_SERVER_CERT, 'utf8');
+        if (AppConfig.IsHttpsEnabled) {
+            let privateKey = fs.readFileSync(AppConfig.HttpsKeypath, 'utf8');
+            let certificate = fs.readFileSync(AppConfig.HttpsCertificatepath, 'utf8');
             let credentials = { key: privateKey, cert: certificate };
             Server = https.createServer(credentials, self.App);
         } else {
@@ -86,4 +81,4 @@ export class WebServer {
         console.log('Evironment :' + process.env.NODE_ENV);
     }
 }
-new WebServer(PORT).Init().Start();
+new WebServer(AppConfig.ApiPort).Init().Start();

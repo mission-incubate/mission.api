@@ -36,8 +36,16 @@ export interface SqlLoggingConfig {
 /****************************************************************************************
 ************************ Entier Application Config **************************************
 ****************************************************************************************/
-export interface ApplicationConfig {
+import {Response } from 'express-serve-static-core';
+export interface IApplicationConfig {
+    AppBase: string;
+    ApiPort: number;
+    IsHttpsEnabled: boolean;
+    HttpsCertificatepath: string;
+    HttpsKeypath: string;
     DefaultPageSize: number;
+    WebBasePath: string;
+    DocsBasepath: string;
     WebStaticFile: {
         dotfiles: string;
         etag: boolean;
@@ -45,7 +53,7 @@ export interface ApplicationConfig {
         index: boolean;
         maxAge: string;
         redirect: boolean;
-        setHeaders: Function;
+        setHeaders: (res: Response, path: string, stat: any) => any;
     };
 }
 /****************************************************************************************

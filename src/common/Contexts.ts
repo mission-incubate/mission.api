@@ -4,6 +4,13 @@ export class PageContext {
     public PageSize: number;
     public PageNumber: number;
     public TotalRecords: number;
+    constructor(context?: PageContext) {
+        if (context) {
+            this.PageSize = context.PageSize;
+            this.PageNumber = context.PageNumber;
+            this.TotalRecords = context.TotalRecords;
+        }
+    }
     // public get Limit(): number {
     //     return this.PageSize === 0 ? AppConfig.DefaultPageSize : this.PageSize;
     // };

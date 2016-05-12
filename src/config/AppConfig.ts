@@ -1,7 +1,14 @@
-import {ApplicationConfig} from './BaseConfig';
+import {IApplicationConfig} from './BaseConfig';
 
-export const AppConfig: ApplicationConfig = {
+export const AppConfig: IApplicationConfig = {
+    AppBase: '/',
+    HttpsCertificatepath: '',
+    HttpsKeypath: '',
+    IsHttpsEnabled: false,
     DefaultPageSize: 50,
+    ApiPort: this.IsHttpsEnabled ? 443 : 3000,
+    WebBasePath: '/www',
+    DocsBasepath: '/docs',
     WebStaticFile: {
         dotfiles: 'ignore',
         etag: false,
