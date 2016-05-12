@@ -25,6 +25,8 @@
     "run-sequence": "registry:dt/run-sequence#0.0.0+20160316155526",
     "sequelize": "registry:dt/sequelize#3.4.1+20160423143634",
     "serve-static": "registry:dt/serve-static#0.0.0+20160317120654",
+    "superagent": "registry:dt/superagent#1.4.0+20160317120654",
+    "supertest": "registry:dt/supertest#1.1.0+20160317120654",
     "through2": "registry:dt/through2#2.0.0+20160317120654",
     "typescript": "registry:dt/typescript#0.4.0+20160317120654",
     "validator": "registry:dt/validator#4.5.1+20160316155526",

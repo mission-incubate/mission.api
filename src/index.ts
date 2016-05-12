@@ -11,7 +11,7 @@ import {UserResponse, IBaseDto} from './common';
 import {AppConfig} from './config';
 
 export class WebServer {
-    private App: Express;
+    public App: Express;
     private Port: number;
     constructor(port: number) {
         var self = this;
@@ -71,7 +71,7 @@ export class WebServer {
             PageContext: null,
             Error: { Code: null, Message: process.env.NODE_ENV === 'development' ? err.message + ' Stack :' + err.stack : null }
         };
-        res.json(out);
+        res.status(404).json(out);
     }
     private listenerCallback(): void {
         var self = this;
@@ -81,4 +81,6 @@ export class WebServer {
         console.log('Evironment :' + process.env.NODE_ENV);
     }
 }
-new WebServer(AppConfig.ApiPort).Init().Start();
+let server = new WebServer(AppConfig.ApiPort);
+server.Init().Start();
+export const App = server.App;
