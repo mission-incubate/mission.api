@@ -54,7 +54,7 @@ gulp.task('build.test', (done: any) =>
               'tslint',
               'build.assets.dev',
               'build.js.test',
-              'build.index.dev',
+             // 'build.index.dev',
               done));
 
 // --------------

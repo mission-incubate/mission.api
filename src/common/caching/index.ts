@@ -1,8 +1,3 @@
-export interface ICaching { }
-
-export class CacheManager {
-    private db: ICaching;
-    constructor(cache: ICaching) {
-        this.db = cache;
-    }
-}
+export * from './CacheBase';
+export * from './CacheManager';
+export * from './redisCaching';

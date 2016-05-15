@@ -1,32 +1,29 @@
 import * as express from 'express';
 import {Router, Request, Response, NextFunction } from 'express-serve-static-core';
-import {ServiceFactory} from '../../service';
-import {UserService} from '../../service/UserService';
+import {ServiceFactory, UserService} from '../../service';
 
 let router: Router = express.Router();
+const service = ServiceFactory.CreateService(UserService);
 
-router.post('/', (req: Request, res: Response, next: NextFunction): any => {
-    let service = ServiceFactory.CreateService(UserService);
-    service.GetAllUsersAsync(req.body).then((response) => {
-        res.send(response);
-    }).catch(next);
-    // .catch((err) => {
-    //     console.log(err);
-    //     res.send({
-    //         Data: null,
-    //         PageContext: null,
-    //         Error: { Code: err.code, Message: process.env.NODE_ENV === 'development' ? err.message : '' }
-    //     });
-    // });
-    // let bo = BOFactory.CreateBO(UserBO);
-    // bo.GetAllUsersAsync()
-    //     .then((users) => {
-    //         bo.GetAllUsersAsync()
-    //             .then((users2) => {
-    //                 return res.send({ success: true, message: 'Admin Get Async Method', val: [users, users2] });
-    //             });
-    //         //return res.send({ success: true, message: 'Admin Get Async Method', val: users });
-    //     });
+router.post('/FindById', (req: Request, res: Response, next: NextFunction): any => {
+    service.FindById(req.body)
+        .then((response) => {
+            res.send(response);
+        }).catch(next);
+});
+
+router.post('/GetAllUsers', (req: Request, res: Response, next: NextFunction): any => {
+    service.GetAllUsers(req.body)
+        .then((response) => {
+            res.send(response);
+        }).catch(next);
+});
+
+router.post('/AddUser', (req: Request, res: Response, next: NextFunction): any => {
+    service.AddUser(req.body)
+        .then((response) => {
+            res.send(response);
+        }).catch(next);
 });
 
 export = router;
