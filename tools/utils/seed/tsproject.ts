@@ -11,4 +11,4 @@ export function makeTsProject(options?: Object) {
     _tsProject = plugins.typescript.createProject('tsconfig.json', config);
   }
   return _tsProject;
-}
+};
