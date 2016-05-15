@@ -11,4 +11,4 @@ export function watch(taskname: string) {
       runSequence(taskname, () => notifyLiveReload(e))
     );
   };
-}
+};

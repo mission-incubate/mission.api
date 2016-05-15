@@ -21,13 +21,13 @@ function inject(name?: string) {
     name,
     transform: transformPath()
   });
-}
+};
 
 function getInjectablesDependenciesRef(name?: string) {
   return DEPENDENCIES
     .filter(dep => dep['inject'] && dep['inject'] === (name || true))
     .map(mapPath);
-}
+};
 
 function mapPath(dep: any) {
   let envPath = dep.src;
@@ -35,11 +35,11 @@ function mapPath(dep: any) {
     envPath = join(APP_DEST, dep.src.replace(APP_SRC, ''));
   }
   return envPath;
-}
+};
 
 function transformPath() {
   return function (filepath: string) {
     arguments[0] = join(APP_BASE, filepath) + `?${Date.now()}`;
     return slash(plugins.inject.transform.apply(plugins.inject.transform, arguments));
   };
-}
+};

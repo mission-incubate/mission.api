@@ -102,7 +102,7 @@
     "tiny-lr": "^0.2.1",
     "traceur": "^0.0.108",
     "ts-node": "^0.7.1",
-    "tslint": "3.9.0",
+    "tslint": "3.10.2",
     "tslint-stylish": "2.1.0-beta",
     "typedoc": "^0.3.12",
     "typescript": "1.8.10",
