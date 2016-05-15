@@ -46,7 +46,7 @@ class Database {
                     (this._models as any)[modelName].associate(this._models);
                 }
             });
-        this._sequelize.sync(); //TODO: Creating Table -  RND required.
+        //this._sequelize.sync(); //TODO: Creating Table -  RND required.
     }
 
     public getModels(): Models {

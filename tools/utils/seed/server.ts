@@ -9,12 +9,12 @@ import {APP_BASE, PROD_DEST, PORT, DOCS_DEST, DOCS_PORT, COVERAGE_PORT} from '..
 
 export function serveSPA() {
   codeChangeTool.listen();
-}
+};
 
 export function notifyLiveReload(e:any) {
   let fileName = e.path;
   codeChangeTool.changed(fileName);
-}
+};
 
 export function serveDocs() {
   let server = express();
@@ -27,7 +27,7 @@ export function serveDocs() {
   server.listen(DOCS_PORT, () =>
     openResource('http://localhost:' + DOCS_PORT + APP_BASE)
   );
-}
+};
 
 export function serveCoverage() {
   let server = express();
@@ -40,7 +40,7 @@ export function serveCoverage() {
   server.listen(COVERAGE_PORT, () =>
     openResource('http://localhost:' + COVERAGE_PORT + APP_BASE)
   );
-}
+};
 
 export function serveProd() {
   let root = resolve(process.cwd(), PROD_DEST);

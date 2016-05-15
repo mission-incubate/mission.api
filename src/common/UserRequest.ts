@@ -16,11 +16,20 @@ export class Param<Tk, Tv>{
     public Tv: string;
     public SearchType: SearchType;
     public OrderBy: OrderBy;
-    public constructor(tk: string, tv: string, st?: SearchType, ob?: OrderBy) {
-        this.Tk = tk;
-        this.Tv = tv;
-        this.SearchType = st;
-        this.OrderBy = ob;
+    public constructor(param: Param<Tk, Tv>);
+    public constructor(tk: string, tv?: string, st?: SearchType, ob?: OrderBy);
+    public constructor(paramORtk: any, tv?: string, st?: SearchType, ob?: OrderBy) {
+        if (typeof paramORtk === 'Param<Tk, Tv>') {
+            this.Tk = paramORtk.Tk;
+            this.Tv = paramORtk.Tv;
+            this.SearchType = paramORtk.SearchType;
+            this.OrderBy = paramORtk.OrderBy;
+        } else {
+            this.Tk = paramORtk;
+            this.Tv = tv;
+            this.SearchType = st;
+            this.OrderBy = ob;
+        }
     }
 }
 

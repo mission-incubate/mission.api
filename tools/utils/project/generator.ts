@@ -21,7 +21,7 @@ export class Generator {
         } catch (ex) {
             util.log(ex);
         }
-    }
+    };
 
     public static GenerateMulitple(templatePath: string, destPath: string, data: any[], fileNameProperty: string, suffix?: string): void {
         try {
@@ -39,4 +39,4 @@ export class Generator {
             util.log(ex);
         }
     }
-}
+};

@@ -27,17 +27,17 @@ function lintComponentCss() {
     ])
     .pipe(isProd ? plugins.cached('css-lint') : plugins.util.noop())
     .pipe(plugins.postcss(processors));
-}
+};
 
 function lintExternalCss() {
   return gulp.src(getExternalCss().map(r => r.src))
     .pipe(isProd ? plugins.cached('css-lint') : plugins.util.noop())
     .pipe(plugins.postcss(processors));
-}
+};
 
 function getExternalCss() {
   return APP_ASSETS.filter(d => /\.css$/.test(d.src) && !d.vendor);
-}
+};
 
 
 export = () => merge(lintComponentCss(), lintExternalCss());

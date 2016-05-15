@@ -4,7 +4,7 @@
 
 var argv = require('yargs').argv;
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -18,38 +18,38 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'node_modules/zone.js/dist/zone.js',
-      'node_modules/zone.js/dist/long-stack-trace-zone.js',
-      'node_modules/zone.js/dist/jasmine-patch.js',
-      'node_modules/zone.js/dist/async-test.js',
-      'node_modules/zone.js/dist/fake-async-test.js',
+      // 'node_modules/zone.js/dist/zone.js',
+      // 'node_modules/zone.js/dist/long-stack-trace-zone.js',
+      // 'node_modules/zone.js/dist/jasmine-patch.js',
+      // 'node_modules/zone.js/dist/async-test.js',
+      // 'node_modules/zone.js/dist/fake-async-test.js',
       'node_modules/es6-module-loader/dist/es6-module-loader.js',
       'node_modules/traceur/bin/traceur-runtime.js', // Required by PhantomJS2, otherwise it shouts ReferenceError: Can't find variable: require
       'node_modules/traceur/bin/traceur.js',
       'node_modules/systemjs/dist/system.src.js',
       'node_modules/reflect-metadata/Reflect.js',
       // beta.7 IE 11 polyfills from https://github.com/angular/angular/issues/7144
-      'node_modules/angular2/es6/dev/src/testing/shims_for_IE.js',
+      //'node_modules/angular2/es6/dev/src/testing/shims_for_IE.js',
 
-      { pattern: 'node_modules/angular2/**/*.js', included: false, watched: false },
-      { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
+      // { pattern: 'node_modules/angular2/**/*.js', included: false, watched: false },
+      // { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
       { pattern: 'dist/dev/**/*.js', included: false, watched: true },
       { pattern: 'node_modules/systemjs/dist/system-polyfills.js', included: false, watched: false }, // PhantomJS2 (and possibly others) might require it
 
       // suppress annoying 404 warnings for resources, images, etc.
-      { pattern: 'dist/dev/assets/**/*', watched: false, included: false, served: true },
-
-      'test-main.js'
+      //{ pattern: 'dist/dev/assets/**/*', watched: false, included: false, served: true },
+      'dist/dev/**/*.js'
+      //'test-main.js'
     ],
 
     // must go along with above, suppress annoying 404 warnings.
     proxies: {
-      '/assets/': '/base/dist/dev/assets/'
+      //'/assets/': '/base/dist/dev/assets/'
     },
 
     // list of files to exclude
     exclude: [
-      'node_modules/angular2/**/*spec.js'
+      //'node_modules/angular2/**/*spec.js'
     ],
 
 

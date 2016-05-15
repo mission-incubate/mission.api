@@ -10,7 +10,7 @@ import {join} from 'path';
 export function loadTasks(path: string): void {
   util.log('Loading tasks folder', chalk.yellow(path));
   readDir(path, taskname => registerTask(taskname, path));
-}
+};
 
 function registerTask(taskname: string, path: string): void {
   const TASK = join(path, taskname);
@@ -31,7 +31,7 @@ function registerTask(taskname: string, path: string): void {
 
     done();
   });
-}
+};
 
 function readDir(root: string, cb: (taskname: string) => void) {
   if (!existsSync(root)) return;
@@ -49,4 +49,4 @@ function readDir(root: string, cb: (taskname: string) => void) {
       }
     }
   }
-}
+};
