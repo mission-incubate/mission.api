@@ -50,7 +50,7 @@ export interface IApplicationConfig {
         dotfiles: string;
         etag: boolean;
         extensions: Array<string>;
-        index: boolean;
+        index: boolean | Array<string>;
         maxAge: string;
         redirect: boolean;
         setHeaders: (res: Response, path: string, stat: any) => any;

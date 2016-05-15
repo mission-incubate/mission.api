@@ -24,8 +24,8 @@ export class WebServer {
         self.App.use(logger('dev'));
         self.App.use(bodyParser.json());
         self.App.use(bodyParser.urlencoded({ extended: false }));
-        self.App.use(express.static(__dirname + AppConfig.WebBasePath, AppConfig.WebStaticFile));
-        self.App.use(AppConfig.DocsBasepath, express.static(__dirname + AppConfig.DocsBasepath));
+        self.App.use(AppConfig.WebBasePath, express.static(__dirname + AppConfig.WebBasePath, AppConfig.WebStaticFile));
+        self.App.use(AppConfig.DocsBasepath, express.static(__dirname + AppConfig.DocsBasepath, AppConfig.WebStaticFile));
         self.registerModules();
         return self;
     }
