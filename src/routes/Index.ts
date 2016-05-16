@@ -1,9 +1,8 @@
-import * as express from 'express';
-import {Express } from 'express-serve-static-core';
+import {GetRouter, Router } from '../Core';
 // import * as admin from './admin';
- import * as user from './admin/user';
+import * as user from './admin/user';
 
-var route: Express = express();
+var route: Router = GetRouter();
 // route.use('/admin', admin);
- route.use('/user', user);
+route.use('/user', user);
 export = route;

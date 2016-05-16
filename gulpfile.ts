@@ -107,5 +107,12 @@ gulp.task('serve.prod', (done: any) =>
 // Test.
 gulp.task('test', (done: any) =>
   runSequence('build.test',
-              'karma.start',
+              'coverage',
+              done));
+
+// --------------
+// Test and Cover
+gulp.task('coverage', (done: any) =>
+  runSequence('coverage.all',
+              'coverage.run',
               done));
