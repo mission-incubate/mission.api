@@ -114,5 +114,5 @@ gulp.task('test', (done: any) =>
 // Test and Cover
 gulp.task('coverage', (done: any) =>
   runSequence('coverage.all',
-              'coverage.run',
+              'coverage.gen',
               done));
