@@ -5,7 +5,7 @@ const plugins = <any>gulpLoadPlugins();
 
 export = () => {
     return gulp.src(['dist/**/!(*spec).js'])
-        .pipe(plugins.debug())
+        //.pipe(plugins.debug())
         .pipe(plugins.istanbul({ includeUntested: true }))
         .pipe(plugins.istanbul.hookRequire());
 };
