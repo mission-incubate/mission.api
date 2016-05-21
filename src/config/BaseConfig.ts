@@ -33,10 +33,12 @@ export interface SqlLoggingConfig {
     };
     directory: string;
 }
+
+
 /****************************************************************************************
 ************************ Entier Application Config **************************************
 ****************************************************************************************/
-import {Response } from 'express-serve-static-core';
+import {IStaticFileConfig} from '../Core';
 export interface IApplicationConfig {
     AppBase: string;
     ApiPort: number;
@@ -46,15 +48,7 @@ export interface IApplicationConfig {
     DefaultPageSize: number;
     WebBasePath: string;
     DocsBasepath: string;
-    WebStaticFile: {
-        dotfiles: string;
-        etag: boolean;
-        extensions: Array<string>;
-        index: boolean | Array<string>;
-        maxAge: string;
-        redirect: boolean;
-        setHeaders: (res: Response, path: string, stat: any) => any;
-    };
+    WebStaticFile: IStaticFileConfig;
 }
 /****************************************************************************************
 ************************ Redis Servce Config - (for Cache & Pub/Sub) ********************
