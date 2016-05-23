@@ -11,23 +11,22 @@ export class PageContext {
             this.TotalRecords = context.TotalRecords;
         }
     }
-    // public get Limit(): number {
-    //     return this.PageSize === 0 ? AppConfig.DefaultPageSize : this.PageSize;
-    // };
+}
 
-    // public get Offset(): number {
-    //     return (this.PageNumber - 1) * this.PageSize;
-    // };
-    public GetLimit(): number {
-        return this.PageSize === 0 ? AppConfig.DefaultPageSize : this.PageSize;
+export class Paginator {
+    private pc: PageContext;
+    constructor(pc: PageContext) {
+        this.pc = pc;
+    }
+    public get Limit(): number {
+        return this.pc.PageSize === 0 ? AppConfig.DefaultPageSize : this.pc.PageSize;
     };
 
-    public GetOffset(): number {
-        return (this.PageNumber - 1) * this.PageSize;
+    public get Offset(): number {
+        return (this.pc.PageNumber - 1) * this.pc.PageSize;
     };
-
     public NextPage(): void {
-        this.PageNumber += 1;
+        this.pc.PageNumber += 1;
     }
 }
 

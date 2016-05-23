@@ -1,7 +1,7 @@
 import * as request from 'supertest';
 import {WebServer } from '../../Core'; //, Request, Response, NextFunction
 import {AppConfig} from '../../config';
-import * as route from '../../routes';
+import * as route from '../';
 
 const baseUrl = 'http://127.0.0.1:' + AppConfig.ApiPort;
 const server = new WebServer(AppConfig);

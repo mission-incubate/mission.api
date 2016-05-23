@@ -3,6 +3,7 @@ import {UserRequest, PageContext} from '../common';
 
 describe('User Service', () => {
     let userService: UserService = new UserService();
+
     // beforeEach(() => {  });
     it('FindById', async (done) => {
         let req = new UserRequest();
