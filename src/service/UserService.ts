@@ -2,17 +2,18 @@ import {BaseService} from './BaseService';
 import {BoFactory, UserBo} from '../business';
 import {UserRequest, UserResponse, BaseRequest, ISearchEnums} from '../common';
 import {CacheManager, RedisCacheProvider} from '../common';
+import { UserInstance} from '../models/interfaces';
 
 export class UserService extends BaseService {
     private userBo: UserBo;
     private cache: CacheManager;
-    constructor() {
-        super();
-        this.userBo = BoFactory.GetBo(UserBo);
+    constructor(req?: UserRequest<number, string>) {
+        super(req);
+        this.userBo = BoFactory.GetBo(UserBo, this.Request);
         this.cache = new CacheManager(new RedisCacheProvider());
     }
 
-    public async FindById(req: UserRequest<ISearchEnums, string>): Promise<UserResponse<any>> {
+    public async FindById(req: UserRequest<ISearchEnums, string>): Promise<UserResponse<UserInstance>> {
         if (req.Id < 0) {
             throw 'Invaid Id';
         }
@@ -28,7 +29,7 @@ export class UserService extends BaseService {
         return this.GetResponse(user);
     }
 
-    public async GetAllUsers(req: UserRequest<ISearchEnums, string>): Promise<UserResponse<Array<any>>> {
+    public async GetAllUsers(req: UserRequest<ISearchEnums, string>): Promise<UserResponse<Array<UserInstance>>> {
         let users = await this.userBo.GetAllUsers(req);
         return this.GetResponse(users, req.PageContext);
     }

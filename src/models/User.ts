@@ -1,11 +1,11 @@
 import * as SequelizeStatic from 'sequelize';
 import {DataTypes, Sequelize} from 'sequelize';
-import { UserAttributes, UserInstance} from './interfaces';
+import * as i from './interfaces';
 
 
 export default function (sequelize: Sequelize, DataTypes: DataTypes):
-    SequelizeStatic.Model<UserInstance, UserAttributes> {
-    let User = sequelize.define<UserInstance, UserAttributes>('User', {
+    SequelizeStatic.Model<i.UserInstance, i.UserAttributes> {
+    let User = sequelize.define<i.UserInstance, i.UserAttributes>('User', {
         Id: {
             type: DataTypes.BIGINT,
             field: 'Id',

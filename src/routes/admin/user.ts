@@ -3,9 +3,9 @@ import {Router, Request, Response, NextFunction } from 'express-serve-static-cor
 import {ServiceFactory, UserService} from '../../service';
 
 let router: Router = express.Router();
-const service = ServiceFactory.CreateService(UserService);
 
 router.post('/FindById', (req: Request, res: Response, next: NextFunction): any => {
+    const service = ServiceFactory.CreateService(UserService, req.body);
     service.FindById(req.body)
         .then((response) => {
             res.send(response);
@@ -13,6 +13,7 @@ router.post('/FindById', (req: Request, res: Response, next: NextFunction): any 
 });
 
 router.post('/GetAllUsers', (req: Request, res: Response, next: NextFunction): any => {
+    const service = ServiceFactory.CreateService(UserService, req.body);
     service.GetAllUsers(req.body)
         .then((response) => {
             res.send(response);
@@ -20,6 +21,7 @@ router.post('/GetAllUsers', (req: Request, res: Response, next: NextFunction): a
 });
 
 router.post('/AddUser', (req: Request, res: Response, next: NextFunction): any => {
+    const service = ServiceFactory.CreateService(UserService, req.body);
     service.AddUser(req.body)
         .then((response) => {
             res.send(response);
