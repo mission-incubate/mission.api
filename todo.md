@@ -10,11 +10,11 @@ src
         CacheConfig
         DbConfig
         SqlLogConfig
-    Common
-        Request
-        Response
-        Context
     Server
+        Common
+            Request
+            Response
+            Context
         Core
             Webserver (Coponent)
             Wrapper
@@ -48,5 +48,7 @@ src
     Index.ts
         
         
-Server side Reporting -  http://www.feedhenry.com/server-side-pdf-generation-node-js/
+Server side Reporting- PDF -  http://www.feedhenry.com/server-side-pdf-generation-node-js/
 ACL Development 
+EMail - 
+Excel Import and Export
