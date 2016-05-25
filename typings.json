@@ -6,6 +6,7 @@
     "chokidar": "registry:dt/chokidar#1.4.3+20160316155526",
     "express": "registry:dt/express#4.0.0+20160317120654",
     "express-serve-static-core": "registry:dt/express-serve-static-core#0.0.0+20160322035842",
+    "glob": "registry:dt/glob#5.0.10+20160317120654",
     "gulp": "registry:dt/gulp#3.8.0+20160316155526",
     "gulp-load-plugins": "registry:dt/gulp-load-plugins#0.0.0+20160316155526",
     "gulp-util": "registry:dt/gulp-util#0.0.0+20160316155526",
