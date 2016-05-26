@@ -1,0 +1,27 @@
+import * as SStatic  from 'sequelize';
+import {BaseBo} from '../../Base';
+import {Paginator, BaseRequest, UserRequest, ISearchEnums} from '../../../common';
+import { {{data.Name}}Instance, {{data.Name}}Attributes} from '../Model/Interface';
+
+export class {{data.Name}}Bo extends BaseBo {
+    public async FindById(id: number): Promise<{{data.Name}}Instance> {
+        let res = await this.GetModel().findOne({ where: { Id: id } });
+        return res;
+    }
+
+    public async GetAllUsers(req: UserRequest<ISearchEnums, string>): Promise<Array<{{data.Name}}Instance>> {
+        let pg: Paginator = new Paginator(req.PageContext);
+        let res = await this.GetModel().findAll({ limit: pg.Limit, offset: pg.Offset });
+        return res;
+    }
+
+    public async Add{{data.Name}}(req: BaseRequest): Promise<number> {
+        let {{data.Name}}Attribute: {{data.Name}}Attributes = req.Data;
+        let {{data.Name}}: {{data.Name}}Instance = await this.GetModel().create({{data.Name}}Attribute, { isNewRecord: true });
+        return {{data.Name}}.dataValues.Id;
+    }
+
+    private GetModel(): SStatic.Model<{{data.Name}}Instance, {{data.Name}}Attributes> {
+        return this.Model.{{data.Name}};
+    }
+}

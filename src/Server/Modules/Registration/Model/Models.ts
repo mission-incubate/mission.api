@@ -1,4 +1,4 @@
-import * as i from './UserInterface';
+import * as i from './Interface';
 import * as SequelizeStatic  from 'sequelize';
 declare global {
     interface Models {

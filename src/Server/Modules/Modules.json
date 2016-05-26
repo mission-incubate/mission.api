@@ -1,0 +1,38 @@
+{
+    "Modules": [
+        {
+            "ModuleName": "Module1",
+            "Tables": [
+                {
+                    "Name": "Table1",
+                    "Details": []
+                },
+                {
+                    "Name": "Table4",
+                    "Details": []
+                }
+            ]
+        },
+        {
+            "ModuleName": "Module2",
+            "Tables": [
+                {
+                    "Name": "Table2",
+                    "Details": []
+                },
+                {
+                    "Name": "Table3",
+                    "Details": []
+                },
+                {
+                    "Name": "Table5",
+                    "Details": []
+                },
+                {
+                    "Name": "Table6",
+                    "Details": []
+                }
+            ]
+        }
+    ]
+}
