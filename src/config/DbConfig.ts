@@ -8,7 +8,7 @@ export const DbConfig: DatabaseConfig = {
         host: '127.0.0.1',
         port: 1433,
         dialect: 'mssql',
-        logging: true,
+        logging: false,
         force: true,
         timezone: '+12:00'
     }

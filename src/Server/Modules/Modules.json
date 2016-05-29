@@ -1,0 +1,81 @@
+{
+    "Version": "1.0",
+    "Modules": [
+        {
+            "ModuleName": "AppManager",
+            "Tables": [
+                {
+                    "Name": "Users",
+                    "Details": [],
+                    "Mappers": [
+                        {
+                            "Table": "UserRoles",
+                            "MapName": "UserRoleMap"
+                        },
+                        {
+                            "Table": "UserGroups",
+                            "MapName": "UserGroupMap"
+                        }
+                    ]
+                },
+                {
+                    "Name": "Groups",
+                    "Details": []
+                },
+                {
+                    "Name": "Roles",
+                    "Details": []
+                },
+                {
+                    "Name": "Organizations",
+                    "Details": []
+                },
+                {
+                    "Name": "Facilities",
+                    "Details": []
+                },
+                {
+                    "Name": "Departments",
+                    "Details": []
+                },
+                {
+                    "Name": "DepartmentLocations",
+                    "Details": []
+                },
+                {
+                    "Name": "Specialities",
+                    "Details": []
+                },
+                {
+                    "Name": "Referrals",
+                    "Details": []
+                }
+            ]
+        },
+        {
+            "ModuleName": "AppBase",
+            "Tables": [
+                {
+                    "Name": "Modules",
+                    "Details": []
+                },
+                {
+                    "Name": "Screens",
+                    "Details": []
+                },
+                {
+                    "Name": "ReferenceValueGroups",
+                    "Details": []
+                },
+                {
+                    "Name": "ReferenceValues",
+                    "Details": []
+                },
+                {
+                    "Name": "UserDefinedFields",
+                    "Details": []
+                }
+            ]
+        }
+    ]
+}

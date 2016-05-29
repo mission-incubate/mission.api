@@ -1,0 +1,32 @@
+import * as express from 'express';
+import {ServiceFactory} from '../../Base';
+import {Router, Request, Response, NextFunction } from '../../../Core';
+import { {{data.Name}}Service} from '../Service';
+
+let router: Router = express.Router();
+
+router.post('/FindById', (req: Request, res: Response, next: NextFunction): any => {
+    const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
+    service.FindById(req.body)
+        .then((response) => {
+            res.send(response);
+        }).catch(next);
+});
+
+router.post('/GetAll{{data.Name}}', (req: Request, res: Response, next: NextFunction): any => {
+    const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
+    service.GetAll{{data.Name}}(req.body)
+        .then((response) => {
+            res.send(response);
+        }).catch(next);
+});
+
+router.post('/Add{{data.Name}}', (req: Request, res: Response, next: NextFunction): any => {
+    const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
+    service.Add{{data.Name}}(req.body)
+        .then((response) => {
+            res.send(response);
+        }).catch(next);
+});
+
+export default router;

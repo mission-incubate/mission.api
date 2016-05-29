@@ -1,0 +1,4 @@
+{{#data}}
+import {{Name}} from './{{Name}}Route';
+export const {{Name}}Route = {{Name}};
+{{/data}}

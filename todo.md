@@ -20,12 +20,12 @@ src
             Wrapper
             Caching 
             Logger
-            Middlewares
+            Middleware
                 Authorization
                 Authentication
                 Intrumentation
-            Database.ts
-            Router.ts
+            Database.ts - > Repository.ts
+            Router.ts - >I hope this is Wrong place. 
         Modules
             Base
                 Routes
@@ -36,14 +36,17 @@ src
                         AclAttribute.ts
                     Acl.ts
                 SearchEnums
+                Index.ts
             Admin
                 Routes
                 Service
                 Business
                 Models
                 SearchEnums
+                Index.ts
             Appointment
             Reporting
+        Router.ts
     Bootstrap.ts
     Index.ts
         
