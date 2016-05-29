@@ -1,0 +1,14 @@
+import {Instance} from 'sequelize';
+
+export interface {{data.Name}}Attributes {
+{{#each data.Details}}
+    {{ColumnName}}: {{TypescriptType}};
+{{/each}}
+}
+
+export interface {{data.Name}}Instance extends Instance<{{data.Name}}Attributes> {
+    // I'm exposing every DB column as an instance field to so that tsc won't complain.
+    // CreatedAt: Date;
+    // UpdatedAt: Date;
+    dataValues: {{data.Name}}Attributes;
+}

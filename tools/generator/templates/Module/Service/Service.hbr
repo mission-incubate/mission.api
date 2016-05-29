@@ -1,0 +1,41 @@
+import {BaseService, BoFactory} from '../../Base';
+import { {{data.Name}}Bo} from '../Business';
+import {UserRequest, UserResponse, BaseRequest, ISearchEnums} from '../../../Common';
+import {CacheManager, RedisCacheProvider} from '../../../Core';
+import { {{data.Name}}Instance} from '../Model/Interface';
+
+export class {{data.Name}}Service extends BaseService {
+    private {{data.Name}}Bo: {{data.Name}}Bo;
+    private cache: CacheManager;
+    constructor(req?: UserRequest<number, string>) {
+        super(req);
+        this.{{data.Name}}Bo = BoFactory.GetBo({{data.Name}}Bo, this.Request);
+        this.cache = new CacheManager(new RedisCacheProvider());
+    }
+
+    public async FindById(req: UserRequest<ISearchEnums, string>): Promise<UserResponse<{{data.Name}}Instance>> {
+        if (req.Id < 0) {
+            throw 'Invaid Id';
+        }
+        let val = await this.cache.GetItem(req.Id.toString(), '{{data.Name}}Service');
+        if (!val) {
+            console.log('Cache Not available for ' + req.Id);
+        }
+
+        let {{data.Name}} = await this.{{data.Name}}Bo.FindById(req.Id);
+        if (!val && {{data.Name}} && {{data.Name}}.dataValues) {
+            await this.cache.AddItem(req.Id.toString(), JSON.stringify({{data.Name}}.dataValues), '{{data.Name}}Service');
+        }
+        return this.GetResponse({{data.Name}});
+    }
+
+    public async GetAll{{data.Name}}(req: UserRequest<ISearchEnums, string>): Promise<UserResponse<Array<{{data.Name}}Instance>>> {
+        let {{data.Name}}s = await this.{{data.Name}}Bo.GetAll{{data.Name}}(req);
+        return this.GetResponse({{data.Name}}s, req.PageContext);
+    }
+
+    public async Add{{data.Name}}(req: BaseRequest): Promise<UserResponse<number>> {
+        let id: number = await this.{{data.Name}}Bo.Add{{data.Name}}(req);
+        return this.GetResponse(id);
+    }
+}
