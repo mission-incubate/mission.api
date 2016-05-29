@@ -45,15 +45,15 @@ export class UserRequest<Tk extends ISearchEnums, Tv> extends BaseRequest {
     public PageContext: PageContext;
     public Params: Param<Tk, Tv>[];
 
-    public Add(param: Param<Tk, Tv>): void;
-    public Add(tk: string, tv: string): void;
-    public Add(arg1: any, arg2?: string): void {
-        if (typeof arg1 === 'Param<Tk, Tv>') {
-            this.Params.push(arg1);
-        } else if (typeof arg1 === 'string' && typeof arg2 === 'string') {
-            this.Params.push(new Param<Tk, Tv>(arg1, arg2));
-        }
-    }
+    // public Add(param: Param<Tk, Tv>): void;
+    // public Add(tk: string, tv: string): void;
+    // public Add(arg1: any, arg2?: string): void {
+    //     if (typeof arg1 === 'Param<Tk, Tv>') {
+    //         this.Params.push(arg1);
+    //     } else if (typeof arg1 === 'string' && typeof arg2 === 'string') {
+    //         this.Params.push(new Param<Tk, Tv>(arg1, arg2));
+    //     }
+    // }
 }
 
 export class Request implements IRequest {

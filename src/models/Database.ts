@@ -4,10 +4,10 @@ import * as SequelizeStatic  from 'sequelize';
 import {Sequelize}  from 'sequelize';
 import {DbConfig} from '../config';
 
-import {UserInstance, UserAttributes} from './interfaces';
+import * as i from './interfaces';
 
 export interface Models {
-    User: SequelizeStatic.Model<UserInstance, UserAttributes>;
+    User: SequelizeStatic.Model<i.UserInstance, i.UserAttributes>;
 }
 
 class Database {

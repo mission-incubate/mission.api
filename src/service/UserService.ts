@@ -7,9 +7,9 @@ import { UserInstance} from '../models/interfaces';
 export class UserService extends BaseService {
     private userBo: UserBo;
     private cache: CacheManager;
-    constructor() {
-        super();
-        this.userBo = BoFactory.GetBo(UserBo);
+    constructor(req?: UserRequest<number, string>) {
+        super(req);
+        this.userBo = BoFactory.GetBo(UserBo, this.Request);
         this.cache = new CacheManager(new RedisCacheProvider());
     }
 

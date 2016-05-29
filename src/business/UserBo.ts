@@ -1,6 +1,6 @@
 import * as SStatic  from 'sequelize';
 import {BaseBo} from './BaseBo';
-import {PageContext, BaseRequest, UserRequest, ISearchEnums} from '../common';
+import {Paginator, BaseRequest, UserRequest, ISearchEnums} from '../common';
 import { UserInstance, UserAttributes} from '../models/interfaces';
 
 export class UserBo extends BaseBo {
@@ -10,8 +10,8 @@ export class UserBo extends BaseBo {
     }
 
     public async GetAllUsers(req: UserRequest<ISearchEnums, string>): Promise<Array<UserInstance>> {
-        let pg: PageContext = req.PageContext;
-        let users = await this.GetModel().findAll({ limit: pg.PageSize, offset: (pg.PageNumber - 1) * pg.PageSize });
+        let pg: Paginator = new Paginator(req.PageContext);
+        let users = await this.GetModel().findAll({ limit: pg.Limit, offset: pg.Offset });
         return users;
     }
 
