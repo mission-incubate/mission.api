@@ -2,7 +2,7 @@ import {Instance} from 'sequelize';
 
 export interface {{data.Name}}Attributes {
 {{#each data.Details}}
-    {{ColumnName}}
+    {{ColumnName}}: {{TypescriptType}};
 {{/each}}
 }
 

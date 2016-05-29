@@ -7,12 +7,58 @@ import {MODULE_TEMPLATE_BASEPATH, GEN_CODE_MODULE_DIR} from '../../config';
 import {TableBO, Context, Module, Table, Column} from '../../utils/project/TableBo';
 import {BoFactory} from '../../../src/Server/Modules/Base';
 import {UserRequest} from '../../../src/Server/Common';
-import {Observable} from 'rxjs';
+
+const SqlToTypescriptMapper: { [key: string]: string } = {
+    bigint: 'number',
+    int: 'number',
+    double: 'number',
+    varchar: 'string',
+    datetime: 'Date',
+    bit: 'boolean'
+};
+const SqlToSequelizeMapper: { [key: string]: string } = {
+    bigint: 'DataTypes.BIGINT',
+    //test: 'DataTypes.ABSTRACT';
+    varchar: 'DataTypes.STRING',
+    varbinary: 'Sequelize.STRING.BINARY',
+    char: 'DataTypes.CHAR',
+    text: 'DataTypes.TEXT',
+    //test: 'DataTypes.NUMBER';
+    int: 'DataTypes.INTEGER',
+    float: 'DataTypes.FLOAT',
+    time: 'DataTypes.TIME',
+    datetime: 'DataTypes.DATE',
+    //test: 'DataTypes.DATEONLY';
+    bit: 'DataTypes.BOOLEAN',
+    //test: 'DataTypes.NOW';
+    blob: 'DataTypes.BLOB',
+    decimal: 'DataTypes.DECIMAL',
+    // test: 'DataTypes.NUMERIC';
+    //test: 'DataTypes.UUID';
+    //test: 'DataTypes.UUIDV1';
+    //test: 'DataTypes.UUIDV4';
+    //test: 'DataTypes.HSTORE';
+    //test: 'DataTypes.JSON';
+    //test: 'DataTypes.JSONB';
+    //test: 'DataTypes.VIRTUAL';
+    //test: 'DataTypes.ARRAY';
+    //test: 'DataTypes.NONE';
+    enum: 'DataTypes.ENUM',
+    //test: 'DataTypes.RANGE';
+    //test: 'DataTypes.REAL';
+    double: 'DataTypes.DOUBLE'
+};
 
 class ModuleGenerator {
     modules: Array<Module>;
+    Sql2SeqMapper: { [key: string]: string };
+    Sql2TypeScriptMapper: { [key: string]: string };
+    public constructor() {
+        this.Sql2SeqMapper = SqlToSequelizeMapper;
+        this.Sql2TypeScriptMapper = SqlToTypescriptMapper;
+    }
     public async Init(): Promise<void> {
-        let context = require('../../../src/Server/Modules/Modules.json');
+        let context: Context = require('../../../src/Server/Modules/Modules.json');
         let modules = await this.GetAllModuleDetails(context.Modules)
             .catch(this.log);
         this.modules = modules;
@@ -78,6 +124,10 @@ class ModuleGenerator {
         let req: UserRequest<number, string> = { PageContext: null, Params: null, Id: null, UserContext: null, Data: null };
         let bo: TableBO = BoFactory.GetBo(TableBO, req);
         let columns = await bo.GetColumnDetails(tableName);
+        for (let column of columns) {
+            column.SequelizeType = (<any>this.Sql2SeqMapper)[column.Type];
+            column.TypescriptType = (<any>this.Sql2TypeScriptMapper)[column.Type];
+        }
         return columns;
     }
 
@@ -155,18 +205,30 @@ class ModuleGenerator {
     };
 
     private log(message: string) {
-        // if (!isMsg && argv.log) {
-        util.log(message);
-        // }
+        if (argv.log) {
+            util.log(message);
+        }
     };
 }
 
 export = () => {
+    if (!argv.module && !argv.all && !argv.list) {
+        DisplayHelp();
+        return;
+    }
     let gen = new ModuleGenerator();
     gen.Init()
         .then(() => {
-            gen.GenerateAllModule();
-        })
+            if (argv.all) {
+                gen.GenerateAllModule();
+            } else if (argv.module) {
+                gen.GenerateByName(argv.module);
+            } else if (argv.list) {
+                gen.ListModule();
+            } else {
+                DisplayHelp();
+            }
+        });
 };
 
 // export = async (): Promise<void> => {

@@ -14,7 +14,10 @@ export class TableBO extends BaseBo {
     public async GetColumnDetails(tableName: string): Promise<Array<Column>> {
         let qryRepo = new QueryRepo();
         let qry = qryRepo.ColumnDetailsQuery[DbConfig.Options.dialect];
-        let data = await this.Dal.query(qry, { replacements: { TableName: tableName }, type: QueryTypes.SELECT });
+        let replacements = DbConfig.Options.dialect === 'mssql'
+            ? { TableName: tableName }
+            : { DbName: DbConfig.Database, TableName: tableName };
+        let data = await this.Dal.query(qry, { replacements: replacements, type: QueryTypes.SELECT });
         return data;
     }
 
@@ -57,6 +60,8 @@ export class Column {
     public IsNullable: boolean;
     public IsIdentity: boolean;
     public Type: string;
+    public TypescriptType: string;
+    public SequelizeType: string;
 }
 
 export interface Table {
@@ -116,6 +121,7 @@ class QueryRepo {
                             inner join information_schema.columns c on t.table_name = c.table_name
                     where t.table_schema  = :DbName
                     and c.table_schema = :DbName
+                    and t.table_name = :TableName
                 `
         };
     }

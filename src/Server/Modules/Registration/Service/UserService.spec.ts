@@ -53,7 +53,7 @@ describe('User Service', () => {
         req.Id = response.Data;
         console.log(req.Id);
         let getRes = await userService.FindById(req);
-        expect(data.Rev.toString()).toEqual(getRes.Data.dataValues.Rev);
+        expect(data.Rev).toEqual(getRes.Data.dataValues.Rev);
         done();
     });
 });

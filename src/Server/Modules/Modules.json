@@ -1,39 +1,78 @@
 {
+    "Version": "1.0",
     "Modules": [
         {
-            "ModuleName": "Module1",
+            "ModuleName": "AppManager",
             "Tables": [
                 {
-                    "Name": "User",
+                    "Name": "Users",
+                    "Details": [],
+                    "Mappers": [
+                        {
+                            "Table": "UserRoles",
+                            "MapName": "UserRoleMap"
+                        },
+                        {
+                            "Table": "UserGroups",
+                            "MapName": "UserGroupMap"
+                        }
+                    ]
+                },
+                {
+                    "Name": "Groups",
                     "Details": []
                 },
                 {
-                    "Name": "Table1",
+                    "Name": "Roles",
                     "Details": []
                 },
                 {
-                    "Name": "Table4",
+                    "Name": "Organizations",
+                    "Details": []
+                },
+                {
+                    "Name": "Facilities",
+                    "Details": []
+                },
+                {
+                    "Name": "Departments",
+                    "Details": []
+                },
+                {
+                    "Name": "DepartmentLocations",
+                    "Details": []
+                },
+                {
+                    "Name": "Specialities",
+                    "Details": []
+                },
+                {
+                    "Name": "Referrals",
                     "Details": []
                 }
             ]
         },
         {
-            "ModuleName": "Module2",
+            "ModuleName": "AppBase",
             "Tables": [
                 {
-                    "Name": "Table2",
+                    "Name": "Modules",
                     "Details": []
                 },
                 {
-                    "Name": "Table3",
+                    "Name": "Screens",
                     "Details": []
                 },
                 {
-                    "Name": "Table5",
+                    "Name": "ReferenceValueGroups",
                     "Details": []
                 },
                 {
-                    "Name": "Table6",
+                    "Name": "ReferenceValues",
+                    "Details": []
+                },
+                {
+                    "Name": "UserDefinedFields",
                     "Details": []
                 }
             ]
