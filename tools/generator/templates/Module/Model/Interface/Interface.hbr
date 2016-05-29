@@ -1,7 +1,9 @@
 import {Instance} from 'sequelize';
 
 export interface {{data.Name}}Attributes {
-   //TODO: Need to implement.
+{{#each data.Details}}
+    {{ColumnName}}
+{{/each}}
 }
 
 export interface {{data.Name}}Instance extends Instance<{{data.Name}}Attributes> {

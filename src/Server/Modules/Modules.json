@@ -4,6 +4,10 @@
             "ModuleName": "Module1",
             "Tables": [
                 {
+                    "Name": "User",
+                    "Details": []
+                },
+                {
                     "Name": "Table1",
                     "Details": []
                 },
