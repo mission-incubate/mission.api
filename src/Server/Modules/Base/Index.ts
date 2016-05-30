@@ -1,2 +1,3 @@
-export *  from './Business';
-export *  from './Service';
+export * from './Business';
+export * from './Model';
+export * from './Service';

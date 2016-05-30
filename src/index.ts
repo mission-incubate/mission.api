@@ -1,3 +1,4 @@
-import bootstrap from './Bootstrap';
+import {Bootstrap} from './Bootstrap';
 debugger;
-bootstrap(); //App Entry point.
+let app = new Bootstrap();
+app.Init().Start();

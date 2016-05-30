@@ -2,10 +2,10 @@ import * as request from 'supertest';
 //import {WebServer } from '../../../Core'; //, Request, Response, NextFunction
 import {AppConfig} from '../../../../Config';
 //import route from './User';
-import bootstrap from '../../../../Bootstrap';
+import {Bootstrap} from '../../../../Bootstrap';
 
 const baseUrl = 'http://127.0.0.1:' + AppConfig.ApiPort;
-bootstrap();
+new Bootstrap().Init().Start();
 
 describe('/User', () => {
     it('POST /Add', (done) => {

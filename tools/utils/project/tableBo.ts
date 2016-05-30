@@ -1,9 +1,10 @@
 import {BaseBo} from '../../../src/Server/Modules/Base';
 import * as SequelizeStatic  from 'sequelize';
-import {Sequelize, QueryTypes}  from 'sequelize';
+import {Sequelize, QueryTypes, Instance}  from 'sequelize';
 import {DbConfig} from '../../../src/Config';
+import {IAttributes} from '../../../src/Server/Modules/Base';
 
-export class TableBO extends BaseBo {
+export class TableBO extends BaseBo<Instance<IAttributes>> {
     public AllColumns: Array<Column>;
     private Dal: Sequelize;
     public constructor() {
