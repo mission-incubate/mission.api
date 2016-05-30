@@ -1,6 +1,5 @@
 import * as SStatic  from 'sequelize';
-import {Instance} from 'sequelize';
-import {BaseBo} from '../../Base';
+import {BaseBo, Instance} from '../../Base';
 import {Paginator, BaseRequest, UserRequest, ISearchEnums} from '../../../common';
 import { UserInstance, UserAttributes} from '../Model/Interface';
 
