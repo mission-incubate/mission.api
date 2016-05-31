@@ -1,6 +1,6 @@
 import * as SequelizeStatic from 'sequelize';
 import * as i from './interface';
-import {DataTypes, Sequelize} from '../../Base';
+import {DataTypes, Sequelize} from '../../../Core';
 
 export default function (sequelize: Sequelize, DataTypes: DataTypes):
     SequelizeStatic.Model<i.UserInstance, i.UserAttributes> {

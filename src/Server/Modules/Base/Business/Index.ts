@@ -1,6 +1,5 @@
 import * as SStatic  from 'sequelize';
-import {Instance} from 'sequelize';
-import {models/*, sequelize*/} from '../../../Core';
+import {models, Instance, Dal} from '../../../Core';
 import {UserRequest} from '../../../Common';
 import {IAttributes} from'../Model';
 
@@ -23,6 +22,7 @@ export class BaseBo<T extends Instance<IAttributes>> implements IBaseBo {
         throw 'Not Implemented';
     }
     public ExecuteSQLQuery(queryText: string, param: any): void {
+        Dal.query('', null);
         throw 'Not Implemented';
     }
     public ExecuteStoredProcedure(porcName: string, param: any): void {

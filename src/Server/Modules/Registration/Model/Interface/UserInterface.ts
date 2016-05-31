@@ -1,5 +1,5 @@
-import {IAttributes, Instance} from '../../../Base';
-
+import {IAttributes} from '../../../Base';
+import {Instance} from '../../../../Core';
 export interface UserAttributes extends IAttributes {
     Id: number;
     Rev: number;
