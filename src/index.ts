@@ -1,4 +1,6 @@
 import {Bootstrap} from './Bootstrap';
-debugger;
+if (process.env.NODE_ENV !== 'production') {
+    debugger;
+}
 let app = new Bootstrap();
 app.Init().Start();

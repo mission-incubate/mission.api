@@ -26,4 +26,7 @@ export class Bootstrap {
     public Start(): void {
         this.Server.Start();
     }
+    public Stop(): void {
+        this.Server.Stop();
+    }
 };

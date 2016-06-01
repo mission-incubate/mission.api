@@ -14,6 +14,7 @@ export const GetRouter = express.Router;
 export class WebServer {
     public Config: IWebServerConfig;
     public App: Express;
+    public Server: Server;
     //private Port: number;
     constructor(webconfig: IWebServerConfig) {
         var self = this;
@@ -39,21 +40,27 @@ export class WebServer {
         self.App.use(route, router);
     }
 
-    public Start(): void {
+    public Start(): WebServer {
         let self = this;
         self.registerModules();
-        let Server: Server;
-        if (this.Config.IsHttpsEnabled) {
-            let privateKey = fs.readFileSync(this.Config.HttpsKeypath, 'utf8');
-            let certificate = fs.readFileSync(this.Config.HttpsCertificatepath, 'utf8');
+        if (self.Config.IsHttpsEnabled) {
+            let privateKey = fs.readFileSync(self.Config.HttpsKeypath, 'utf8');
+            let certificate = fs.readFileSync(self.Config.HttpsCertificatepath, 'utf8');
             let credentials = { key: privateKey, cert: certificate };
-            Server = https.createServer(credentials, self.App);
+            self.Server = https.createServer(credentials, self.App);
         } else {
-            Server = http.createServer(self.App);
+            self.Server = http.createServer(self.App);
         }
-        Server.listen(self.Config.ApiPort, null, (self.listenerCallback).bind(self));
+        self.Server.listen(self.Config.ApiPort, null, (self.listenerCallback).bind(self));
+        return self;
     }
 
+    public Stop(callback?: Function): WebServer {
+        let self = this;
+        this.Server.close(callback);
+         console.log('Express server stop');
+        return self;
+    }
     // private configure(): void {
     //     var self = this;
     //     self.App.configure('development', () => {

@@ -63,6 +63,11 @@ export class Column {
     public Type: string;
     public TypescriptType: string;
     public SequelizeType: string;
+    public IsPrimaryKey: number;
+    public IsUniqueKey: number;
+    public IsForeignKey: number;
+    public ForeignKeyTableName: string;
+    public ForeignKeyColumnName: string;
 }
 
 export interface Table {
@@ -116,10 +121,12 @@ class QueryRepo {
                         when 'auto_increment' then 1 
                                 else 0 
                     end 'IsIdentity',
-                    c.Data_Type 'Type'
+                    c.Data_Type 'Type',
+                    cu.COLUMN_NAME = c.column_name IsPrimaryKey
                     from 
                             information_schema.tables t 
                             inner join information_schema.columns c on t.table_name = c.table_name
+                            left join information_schema.key_column_usage cu on cu.Table_name = t.table_name
                     where t.table_schema  = :DbName
                     and c.table_schema = :DbName
                     and t.table_name = :TableName
