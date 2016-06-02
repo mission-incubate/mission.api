@@ -84,8 +84,6 @@ export interface Context {
     Modules: Array<Module>;
 }
 
-
-
 class QueryRepo {
     ColumnDetailsQuery: IQueryRepo;
     constructor() {
@@ -122,14 +120,22 @@ class QueryRepo {
                                 else 0 
                     end 'IsIdentity',
                     c.Data_Type 'Type',
-                    cu.COLUMN_NAME = c.column_name IsPrimaryKey
+                    c.COLUMN_KEY = 'PRI' IsPrimaryKey,
+                    c.COLUMN_KEY = 'UNI' IsUnique,
+                    c.Extra  = 'auto_increment' IsAutoIncrement,
+                    cu.REFERENCED_TABLE_NAME is not null IsForeignKey,
+                    cu.REFERENCED_TABLE_NAME ForeignKeyTableName,
+                    cu.REFERENCED_COLUMN_NAME ForeignKeyColumnName
                     from 
                             information_schema.tables t 
                             inner join information_schema.columns c on t.table_name = c.table_name
-                            left join information_schema.key_column_usage cu on cu.Table_name = t.table_name
+                            left join information_schema.key_column_usage cu on cu.Table_name = t.table_name 
+                                    and c.COLUMN_NAME = cu.COLUMN_NAME 
+                                    and cu.REFERENCED_TABLE_NAME is not null
                     where t.table_schema  = :DbName
                     and c.table_schema = :DbName
                     and t.table_name = :TableName
+                    Order by t.Table_name, c.ORDINAL_POSITION
                 `
         };
     }

@@ -4,7 +4,7 @@ import {Instance} from '../../../Core';
 import {Paginator, BaseRequest, UserRequest, ISearchEnums} from '../../../common';
 import { UserInstance, UserAttributes} from '../Model/Interface';
 
-export class UserBo extends BaseBo<Instance<UserInstance>> {
+export class UserBo extends BaseBo<SStatic.Model<UserInstance, UserAttributes>> {
     public async FindById(id: number): Promise<UserInstance> {
         let user = await this.GetModel().findOne({ where: { Id: id } });
         return user;

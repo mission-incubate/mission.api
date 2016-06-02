@@ -1,8 +1,9 @@
-import {Instance} from 'sequelize';
+import {IAttributes} from '../../../Base';
+import {Instance} from '../../../../Core';
 
-export interface {{data.Name}}Attributes {
+export interface {{data.Name}}Attributes extends IAttributes {
 {{#each data.Details}}
-    {{ColumnName}}: {{TypescriptType}};
+{{#unless IsPrimaryKey}}{{ColumnName}}: {{TypescriptType}};{{/unless}}
 {{/each}}
 }
 

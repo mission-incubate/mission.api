@@ -7,29 +7,30 @@ export interface IBaseBo { }
 
 type TObject = string; //TODO: Not required.
 
-export class BaseBo<T extends Instance<IAttributes>> implements IBaseBo {
+export class BaseBo<T> implements IBaseBo {
     protected Models: Models = models;
-    protected Items: SStatic.Model<Instance<IAttributes>, IAttributes>;
+    protected Items: T;
     public Request: UserRequest<number, string>;
     public constructor(req: UserRequest<number, string>) {
         this.Request = req;
         this.Items = this.GetModel();
     }
-    public GetModel(): SStatic.Model<Instance<IAttributes>, IAttributes> {
+    public GetModel(): T {
         return null;
     }
-    public Delete(entity: TObject): void {
+    public DeleteById(entity: TObject): void {
+        //this.Items.destroy({where: });
         throw 'Not Implemented';
     }
     public ExecuteSQLQuery(queryText: string, param: any): void {
-        Dal.query('', null);
+        Dal.query(queryText, null);
         throw 'Not Implemented';
     }
     public ExecuteStoredProcedure(porcName: string, param: any): void {
         throw 'Not Implemented';
     }
-    public GetById(id: number): void {
-        throw 'Not Implemented';
+    public async GetById(id: number): Promise<T> {
+         throw 'Not Implemented';
     }
     public GetIDbTransaction(transaction: any): void {
         throw 'Not Implemented';
