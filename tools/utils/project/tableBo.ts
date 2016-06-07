@@ -1,14 +1,12 @@
 import {BaseBo} from '../../../src/Server/Modules/Base';
-import * as SequelizeStatic  from 'sequelize';
-import {Sequelize, QueryTypes}  from 'sequelize';
+import {QueryTypes, Instance}  from 'sequelize';
 import {DbConfig} from '../../../src/Config';
+import {IAttributes} from '../../../src/Server/Modules/Base';
 
-export class TableBO extends BaseBo {
+export class TableBO extends BaseBo<Instance<IAttributes>, IAttributes> {
     public AllColumns: Array<Column>;
-    private Dal: Sequelize;
     public constructor() {
         super(null);
-        this.Dal = new SequelizeStatic(DbConfig.Database, DbConfig.UserName, DbConfig.Password, DbConfig.Options);
     }
 
     public async GetColumnDetails(tableName: string): Promise<Array<Column>> {
@@ -20,7 +18,9 @@ export class TableBO extends BaseBo {
         let data = await this.Dal.query(qry, { replacements: replacements, type: QueryTypes.SELECT });
         return data;
     }
-
+    public GetModel(): any {
+        return null;
+    }
     // public async GetTableDetails(tableName: string): Promise<Array<Column>> {
 
     //     await this.GetAllColumnDetails();
@@ -62,6 +62,11 @@ export class Column {
     public Type: string;
     public TypescriptType: string;
     public SequelizeType: string;
+    public IsPrimaryKey: number;
+    public IsUniqueKey: number;
+    public IsForeignKey: number;
+    public ForeignKeyTableName: string;
+    public ForeignKeyColumnName: string;
 }
 
 export interface Table {
@@ -77,8 +82,6 @@ export interface Module {
 export interface Context {
     Modules: Array<Module>;
 }
-
-
 
 class QueryRepo {
     ColumnDetailsQuery: IQueryRepo;
@@ -115,13 +118,23 @@ class QueryRepo {
                         when 'auto_increment' then 1 
                                 else 0 
                     end 'IsIdentity',
-                    c.Data_Type 'Type'
+                    c.Data_Type 'Type',
+                    c.COLUMN_KEY = 'PRI' IsPrimaryKey,
+                    c.COLUMN_KEY = 'UNI' IsUnique,
+                    c.Extra  = 'auto_increment' IsAutoIncrement,
+                    cu.REFERENCED_TABLE_NAME is not null IsForeignKey,
+                    cu.REFERENCED_TABLE_NAME ForeignKeyTableName,
+                    cu.REFERENCED_COLUMN_NAME ForeignKeyColumnName
                     from 
                             information_schema.tables t 
                             inner join information_schema.columns c on t.table_name = c.table_name
+                            left join information_schema.key_column_usage cu on cu.Table_name = t.table_name 
+                                    and c.COLUMN_NAME = cu.COLUMN_NAME 
+                                    and cu.REFERENCED_TABLE_NAME is not null
                     where t.table_schema  = :DbName
                     and c.table_schema = :DbName
                     and t.table_name = :TableName
+                    Order by t.Table_name, c.ORDINAL_POSITION
                 `
         };
     }

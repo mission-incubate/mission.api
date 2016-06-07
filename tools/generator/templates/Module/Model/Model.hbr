@@ -6,22 +6,16 @@ export default function (sequelize: Sequelize, DataTypes: DataTypes):
     SequelizeStatic.Model<i.{{data.Name}}Instance, i.{{data.Name}}Attributes> {
     let {{data.Name}} = sequelize.define<i.{{data.Name}}Instance, i.{{data.Name}}Attributes>('{{data.Name}}', {
     {{#each data.Details}}
-        {{ColumnName}}: { type :{{SequelizeType}}, field: '{{ColumnName}}' },
+       {{#if IsPrimaryKey}}Id{{else}}{{ColumnName}}{{/if}}: { type :{{SequelizeType}}, field: '{{ColumnName}}'{{#if IsPrimaryKey}}, primaryKey: true{{/if}}{{#if IsIdentity}}, autoIncrement: true {{/if}} },
     {{/each}}
-       // Id: {
-       //     type: DataTypes.BIGINT,
-       //     field: 'Id',
-       //     primaryKey: true,
-       //     autoIncrement: true
-       // }
     },
         {
             indexes: [],
             classMethods: {},
             timestamps: true,
             tableName: '{{data.Name}}',
-            createdAt: 'CreatedAt',
-            updatedAt: 'UpdatedAt',
+            createdAt: 'CreatedDate',
+            updatedAt: 'UpdatedDate',
             freezeTableName: true
         });
 
