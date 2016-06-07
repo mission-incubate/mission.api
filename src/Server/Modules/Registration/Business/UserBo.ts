@@ -1,24 +1,23 @@
 import * as SStatic  from 'sequelize';
 import {BaseBo} from '../../Base';
-import {Instance} from '../../../Core';
 import {Paginator, BaseRequest, UserRequest, ISearchEnums} from '../../../common';
 import { UserInstance, UserAttributes} from '../Model/Interface';
 
-export class UserBo extends BaseBo<SStatic.Model<UserInstance, UserAttributes>> {
+export class UserBo extends BaseBo<UserInstance, UserAttributes> {
     public async FindById(id: number): Promise<UserInstance> {
-        let user = await this.GetModel().findOne({ where: { Id: id } });
+        let user = await this.Items.findOne({ where: { Id: id } });
         return user;
     }
 
     public async GetAllUsers(req: UserRequest<ISearchEnums, string>): Promise<Array<UserInstance>> {
         let pg: Paginator = new Paginator(req.PageContext);
-        let users = await this.GetModel().findAll({ limit: pg.Limit, offset: pg.Offset });
+        let users = await this.Items.findAll({ limit: pg.Limit, offset: pg.Offset });
         return users;
     }
 
     public async AddUser(req: BaseRequest): Promise<number> {
         let userAttribute: UserAttributes = req.Data;
-        let user: UserInstance = await this.GetModel().create(userAttribute, { isNewRecord: true });
+        let user: UserInstance = await this.Items.create(userAttribute, { isNewRecord: true });
         return user.dataValues.Id;
     }
 

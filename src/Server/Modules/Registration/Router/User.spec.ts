@@ -7,10 +7,10 @@ import {Bootstrap} from '../../../../Bootstrap';
 const baseUrl = 'http://127.0.0.1:' + AppConfig.ApiPort;
 new Bootstrap().Init().Start();
 
-describe('/User', () => {
+describe('/registration/User', () => {
     it('POST /Add', (done) => {
         request(baseUrl)
-            .post('/user/AddUser')
+            .post('/registration/user/AddUser')
             .send({
                 'Rev': 1,
                 'Title': 'Title',
@@ -47,9 +47,9 @@ describe('/User', () => {
             });
     });
 
-    it('POST /FindById', (done) => {
+    it('POST /registration/FindById', (done) => {
         request(baseUrl)
-            .post('/user/FindById')
+            .post('/registration/user/FindById')
             .send({
                 'Id': 1
             })
@@ -62,9 +62,9 @@ describe('/User', () => {
                 done();
             });
     });
-    it('POST /GetAllUsers', (done) => {
+    it('POST /registration/GetAllUsers', (done) => {
         request(baseUrl)
-            .post('/user/GetAllUsers')
+            .post('/registration/user/GetAllUsers')
             .send({
                 'PageContext': {
                     'PageSize': 100,

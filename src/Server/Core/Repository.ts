@@ -18,9 +18,12 @@ class Database {
         //(SequelizeStatic as any).cls = cls.createNamespace("sequelize-transaction");
         this._sequelize = new SequelizeStatic(db.Database, db.UserName, db.Password, db.Options);
         this._models = ({} as any);
-        let modelBasePath = join(__dirname, '../Modules', '/**/*.Model.js');
-        console.log(modelBasePath);
-        glob(modelBasePath, (err: Error, files: string[]): void => {
+        let modelPattern = join(__dirname, '../Modules', '/**/*.Model.js');
+        console.log(modelPattern);
+        glob(modelPattern, (err: Error, files: string[]): void => {
+            if (err) {
+                console.error(err);
+            }
             console.log(files);
             files.forEach((file: string) => {
                 let model = this._sequelize.import(file);

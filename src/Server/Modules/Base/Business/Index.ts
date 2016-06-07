@@ -1,59 +1,58 @@
 import * as SStatic  from 'sequelize';
-import {models, Instance, Dal} from '../../../Core';
+import {models, Instance, Dal, QueryOptions, Sequelize} from '../../../Core';
 import {UserRequest} from '../../../Common';
 import {IAttributes} from'../Model';
 
 export interface IBaseBo { }
 
-type TObject = string; //TODO: Not required.
-
-export class BaseBo<T> implements IBaseBo {
+export abstract class BaseBo<TModel extends Instance<any>, TAttributes extends IAttributes> implements IBaseBo {
     protected Models: Models = models;
-    protected Items: T;
+    protected Dal: Sequelize = Dal;
+    public get Items(): SStatic.Model<TModel, any> {
+        return this.GetModel();
+    }
     public Request: UserRequest<number, string>;
-    public constructor(req: UserRequest<number, string>) {
+    public constructor(req?: UserRequest<number, string>) {
         this.Request = req;
-        this.Items = this.GetModel();
     }
-    public GetModel(): T {
-        return null;
+    public abstract GetModel(): SStatic.Model<TModel, TAttributes>;
+    public async DeleteById(entity: IAttributes): Promise<number> {
+        if (!entity || entity.Id <= 0) {
+            throw 'Invalid Id. Can not Delete.';
+        }
+        return await this.Items.destroy({ where: { Id: entity.Id }, limit: 1 });
     }
-    public DeleteById(entity: TObject): void {
-        //this.Items.destroy({where: });
-        throw 'Not Implemented';
-    }
-    public ExecuteSQLQuery(queryText: string, param: any): void {
-        Dal.query(queryText, null);
-        throw 'Not Implemented';
+    public async ExecuteSQLQuery(queryText: string | { query: string, values: any[] }, param?: QueryOptions): Promise<any> {
+        return await Dal.query(queryText, param);
     }
     public ExecuteStoredProcedure(porcName: string, param: any): void {
         throw 'Not Implemented';
     }
-    public async GetById(id: number): Promise<T> {
-         throw 'Not Implemented';
+    public async GetById(id: number): Promise<TModel> {
+        return await this.Items.findOne({ where: { Id: id } });
     }
     public GetIDbTransaction(transaction: any): void {
         throw 'Not Implemented';
     }
-    public GetObjectForUpdate(id: number, rev: number): void {
-        throw 'Not Implemented';
+    public async GetObjectForUpdate(id: number, rev: number): Promise<TModel> {
+        return await this.Items.findOne({ where: { Id: id, Rev: rev } });
     }
     public GetUserId(): number {
         throw 'Not Implemented';
     }
-    public MarkAsDelete(entity: TObject): void {
+    public MarkAsDelete(entity: IAttributes): void {
         throw 'Not Implemented';
     }
-    public Refresh(entity: TObject): void {
+    public Refresh(entity: IAttributes): void {
         throw 'Not Implemented';
     }
-    public Save(entity: TObject): void {
+    public async Save(entity: IAttributes): Promise<TModel> {
+        return await this.Items.create(entity, { isNewRecord: true });
+    }
+    public SaveOrUpdate(entity: IAttributes): void {
         throw 'Not Implemented';
     }
-    public SaveOrUpdate(entity: TObject): void {
-        throw 'Not Implemented';
-    }
-    public Update(entity: TObject): void {
+    public Update(entity: IAttributes): void {
         throw 'Not Implemented';
     }
 
@@ -79,7 +78,7 @@ export class BaseBo<T> implements IBaseBo {
 }
 
 export class BoFactory {
-    public static GetBo<T extends IBaseBo>(type: { new (req: UserRequest<number, string>): T }, req: UserRequest<number, string>): T {
+    public static GetBo<T extends IBaseBo>(type: { new (req: UserRequest<number, string>): T }, req?: UserRequest<number, string>): T {
         return new type(req);
     }
 }

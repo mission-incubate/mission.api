@@ -1,15 +1,12 @@
 import {BaseBo} from '../../../src/Server/Modules/Base';
-import * as SequelizeStatic  from 'sequelize';
-import {Sequelize, QueryTypes, Instance}  from 'sequelize';
+import {QueryTypes, Instance}  from 'sequelize';
 import {DbConfig} from '../../../src/Config';
 import {IAttributes} from '../../../src/Server/Modules/Base';
 
-export class TableBO extends BaseBo<Instance<IAttributes>> {
+export class TableBO extends BaseBo<Instance<IAttributes>, IAttributes> {
     public AllColumns: Array<Column>;
-    private Dal: Sequelize;
     public constructor() {
         super(null);
-        this.Dal = new SequelizeStatic(DbConfig.Database, DbConfig.UserName, DbConfig.Password, DbConfig.Options);
     }
 
     public async GetColumnDetails(tableName: string): Promise<Array<Column>> {
@@ -21,7 +18,9 @@ export class TableBO extends BaseBo<Instance<IAttributes>> {
         let data = await this.Dal.query(qry, { replacements: replacements, type: QueryTypes.SELECT });
         return data;
     }
-
+    public GetModel(): any {
+        return null;
+    }
     // public async GetTableDetails(tableName: string): Promise<Array<Column>> {
 
     //     await this.GetAllColumnDetails();

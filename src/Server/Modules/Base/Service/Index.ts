@@ -18,7 +18,7 @@ export class BaseService implements IBaseService {
 
 export class ServiceFactory {
     public static CreateService<T extends IBaseService>(type: { new (req: UserRequest<number, string>): T },
-        req: UserRequest<number, string>): T {
+        req?: UserRequest<number, string>): T {
         return new type(req);
     }
 }
