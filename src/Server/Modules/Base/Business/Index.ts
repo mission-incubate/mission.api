@@ -5,10 +5,10 @@ import {IAttributes} from'../Model';
 
 export interface IBaseBo { }
 
-export abstract class BaseBo<TModel extends Instance<any>, TAttributes extends IAttributes> implements IBaseBo {
+export abstract class BaseBo<TModel extends Instance<IAttributes>, TAttributes extends IAttributes> implements IBaseBo {
     protected Models: Models = models;
     protected Dal: Sequelize = Dal;
-    public get Items(): SStatic.Model<TModel, any> {
+    public get Items(): SStatic.Model<TModel, TAttributes> {
         return this.GetModel();
     }
     public Request: UserRequest<number, string>;
@@ -16,17 +16,19 @@ export abstract class BaseBo<TModel extends Instance<any>, TAttributes extends I
         this.Request = req;
     }
     public abstract GetModel(): SStatic.Model<TModel, TAttributes>;
-    public async DeleteById(entity: IAttributes): Promise<number> {
-        if (!entity || entity.Id <= 0) {
-            throw 'Invalid Id. Can not Delete.';
-        }
+    public async DeleteById(entity: TAttributes): Promise<number> {
+        this.CheckId(entity);
         return await this.Items.destroy({ where: { Id: entity.Id }, limit: 1 });
     }
     public async ExecuteSQLQuery(queryText: string | { query: string, values: any[] }, param?: QueryOptions): Promise<any> {
         return await Dal.query(queryText, param);
     }
-    public ExecuteStoredProcedure(porcName: string, param: any): void {
-        throw 'Not Implemented';
+    public async ExecuteStoredProcedure(procName: string, param?: QueryOptions): Promise<ProcResult> {
+        return new Promise<ProcResult>((resolver, reject) => {
+            Dal.query(procName, param).spread((results: any, metadata: any) => {
+                resolver({ Results: results, MetaData: metadata });
+            }).catch(reject);
+        });
     }
     public async GetById(id: number): Promise<TModel> {
         return await this.Items.findOne({ where: { Id: id } });
@@ -40,22 +42,34 @@ export abstract class BaseBo<TModel extends Instance<any>, TAttributes extends I
     public GetUserId(): number {
         throw 'Not Implemented';
     }
-    public MarkAsDelete(entity: IAttributes): void {
+    public MarkAsDelete(entity: TAttributes): void {
         throw 'Not Implemented';
     }
-    public Refresh(entity: IAttributes): void {
+    public Refresh(entity: TAttributes): void {
         throw 'Not Implemented';
     }
-    public async Save(entity: IAttributes): Promise<TModel> {
+    public async Save(entity: TAttributes): Promise<TModel> {
+        this.CheckId(entity);
         return await this.Items.create(entity, { isNewRecord: true });
     }
-    public SaveOrUpdate(entity: IAttributes): void {
-        throw 'Not Implemented';
+    public async SaveOrUpdate(entity: TAttributes): Promise<TModel> {
+        let res: TModel;
+        if (entity && entity.Id > 0) {
+            res = await this.Save(entity);
+        } else {
+            res = await this.Update(entity);
+        }
+        return res;
     }
-    public Update(entity: IAttributes): void {
-        throw 'Not Implemented';
+    public async Update(entity: TAttributes): Promise<TModel> {
+        let res = await this.Items.update(entity, { where: { Id: entity.Id }, limit: 1 });
+        return res[1][0];
     }
-
+    private CheckId(entity: TAttributes): void {
+        if (!entity || entity.Id <= 0) {
+            throw 'Invalid Id. Operation Faild.';
+        }
+    }
     // public IQueryable<TObject> Items { get; }
     // public ISession Session { get; protected set; }
     // public System.Type Type { get; }
@@ -75,6 +89,11 @@ export abstract class BaseBo<TModel extends Instance<any>, TAttributes extends I
     // public virtual TObject Save(TObject entity);
     // public virtual void SaveOrUpdate(TObject entity);
     // public virtual void Update(TObject entity);
+}
+
+export class ProcResult {
+    Results: any;
+    MetaData: any;
 }
 
 export class BoFactory {
