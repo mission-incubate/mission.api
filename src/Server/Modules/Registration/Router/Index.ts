@@ -1,2 +1,6 @@
+import {GetRouter, Router } from '../../../Core';
 import User from './User';
-export const UserRoute = User;
+
+let router: Router = GetRouter();
+router.use('/user', User);
+export default router;

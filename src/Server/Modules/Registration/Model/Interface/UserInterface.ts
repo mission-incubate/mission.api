@@ -1,6 +1,6 @@
-import {Instance} from 'sequelize';
-
-export interface UserAttributes {
+import {IAttributes} from '../../../Base';
+import {Instance} from '../../../../Core';
+export interface UserAttributes extends IAttributes {
     Id: number;
     Rev: number;
     Title: string;

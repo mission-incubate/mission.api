@@ -1,14 +1,20 @@
 import {UserService} from './UserService';
 import {UserRequest, PageContext} from '../../../Common';
+import {ServiceFactory} from '../../Base/Service';
+
+var log = (err: Error) => {
+    console.error(err);
+};
 
 describe('User Service', () => {
-    let userService: UserService = new UserService();
+    //let userService: UserService = new UserService();
+    var userService: UserService = ServiceFactory.CreateService(UserService);
 
     // beforeEach(() => {  });
     it('FindById', async (done) => {
         let req = new UserRequest();
         req.Id = 1;
-        await userService.FindById(req);
+        await userService.FindById(req).catch(log);
         done();
     });
     it('GetAllUsers', async (done) => {
@@ -16,7 +22,7 @@ describe('User Service', () => {
         req.PageContext = new PageContext();
         req.PageContext.PageSize = 5;
         req.PageContext.PageNumber = 1;
-        await userService.GetAllUsers(req);
+        await userService.GetAllUsers(req).catch(log);
         done();
     });
     it('AddUser', async (done) => {
@@ -48,13 +54,12 @@ describe('User Service', () => {
         };
         let req = new UserRequest();
         req.Data = data;
-        let response = await userService.AddUser(req);
+        let response = await userService.AddUser(req).catch(log);
         req = new UserRequest();
         req.Id = response.Data;
         console.log(req.Id);
-        let getRes = await userService.FindById(req);
+        let getRes = await userService.FindById(req).catch(log);
         expect(data.Rev).toEqual(getRes.Data.dataValues.Rev);
         done();
     });
 });
-

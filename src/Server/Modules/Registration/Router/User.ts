@@ -1,9 +1,8 @@
-import * as express from 'express';
-import {ServiceFactory} from '../../Base';
-import {Router, Request, Response, NextFunction } from '../../../Core';
+import {ServiceFactory} from '../../Base/Service';
+import {Router, Request, Response, NextFunction, GetRouter } from '../../../Core';
 import {UserService} from '../Service';
 
-let router: Router = express.Router();
+let router: Router = GetRouter();
 
 router.post('/FindById', (req: Request, res: Response, next: NextFunction): any => {
     const service = ServiceFactory.CreateService(UserService, req.body);

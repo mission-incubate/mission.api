@@ -1,3 +1,6 @@
-import bootstrap from './Bootstrap';
-debugger;
-bootstrap(); //App Entry point.
+import {Bootstrap} from './Bootstrap';
+if (process.env.NODE_ENV !== 'production') {
+    debugger;
+}
+let app = new Bootstrap();
+app.Init().Start();
