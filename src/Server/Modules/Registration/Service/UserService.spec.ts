@@ -1,5 +1,5 @@
 import {UserService} from './UserService';
-import {UserRequest, PageContext} from '../../../Common';
+import {ApiRequest, PageContext} from '../../../Common';
 import {ServiceFactory} from '../../Base/Service';
 
 var log = (err: Error) => {
@@ -12,13 +12,13 @@ describe('User Service', () => {
 
     // beforeEach(() => {  });
     it('FindById', async (done) => {
-        let req = new UserRequest();
+        let req = new ApiRequest();
         req.Id = 1;
         await userService.FindById(req).catch(log);
         done();
     });
     it('GetAllUsers', async (done) => {
-        let req = new UserRequest();
+        let req = new ApiRequest();
         req.PageContext = new PageContext();
         req.PageContext.PageSize = 5;
         req.PageContext.PageNumber = 1;
@@ -52,10 +52,10 @@ describe('User Service', () => {
             'UserName': 'UserName',
             'Password': 'Password'
         };
-        let req = new UserRequest();
+        let req = new ApiRequest();
         req.Data = data;
         let response = await userService.AddUser(req).catch(log);
-        req = new UserRequest();
+        req = new ApiRequest();
         req.Id = response.Data;
         console.log(req.Id);
         let getRes = await userService.FindById(req).catch(log);

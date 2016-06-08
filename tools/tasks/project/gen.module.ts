@@ -6,7 +6,7 @@ import {Generator} from '../../utils/project/generator';
 import {MODULE_TEMPLATE_BASEPATH, GEN_CODE_MODULE_DIR} from '../../config';
 import {TableBO, Context, Module, Table, Column} from '../../utils/project/TableBo';
 import {BoFactory} from '../../../src/Server/Modules/Base';
-import {UserRequest} from '../../../src/Server/Common';
+import {ApiRequest} from '../../../src/Server/Common';
 
 const SqlToTypescriptMapper: { [key: string]: string } = {
     bigint: 'number',
@@ -121,7 +121,7 @@ class ModuleGenerator {
     }
 
     private async GetTableDetails(tableName: string): Promise<Array<Column>> {
-        let req: UserRequest<number, string> = { PageContext: null, Params: null, Id: null, UserContext: null, Data: null };
+        let req: ApiRequest<number, string> = { PageContext: null, Params: null, Id: null, UserContext: null, Data: null };
         let bo: TableBO = BoFactory.GetBo(TableBO, req);
         let columns = await bo.GetColumnDetails(tableName);
         for (let column of columns) {
@@ -269,7 +269,7 @@ gulp gen.module --help [--log]                  # to view help
 };
 
 // public async FillModuleDetails(moduleParam: Module): Promise<Module> {
-    //     let req: UserRequest<number, string> = { PageContext: null, Params: null, Id: null, UserContext: null, Data: null };
+    //     let req: ApiRequest<number, string> = { PageContext: null, Params: null, Id: null, UserContext: null, Data: null };
     //     let bo: TableBO = BoFactory.GetBo(TableBO, req);
     //     let tables = await Observable
     //         .from(moduleParam.Tables)

@@ -41,7 +41,7 @@ export class BaseRequest implements IRequest {
     public Data: any;
 }
 
-export class UserRequest<Tk extends ISearchEnums, Tv> extends BaseRequest {
+export class ApiRequest<Tk extends ISearchEnums, Tv> extends BaseRequest {
     public PageContext: PageContext;
     public Params: Param<Tk, Tv>[];
 
@@ -68,9 +68,9 @@ export class Request implements IRequest {
 
 export class Action {
     public Route: string;
-    public UserRequest: IRequest;
-    public constructor(route: string, userRequest: UserRequest<ISearchEnums, string>) {
+    public Request: IRequest;
+    public constructor(route: string, request: ApiRequest<ISearchEnums, string>) {
         this.Route = route;
-        this.UserRequest = userRequest;
+        this.Request = request;
     }
 }

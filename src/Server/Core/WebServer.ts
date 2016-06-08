@@ -3,6 +3,7 @@ import {Router, Express, Request, Response, NextFunction, ErrorRequestHandler, R
 import * as http from  'http';
 import * as https from 'https';
 import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
 import * as logger from  'morgan';
 import * as fs from 'fs';
 import {Server} from 'net';
@@ -26,6 +27,7 @@ export class WebServer {
         var self = this;
         self.App.set('port', self.Config.ApiPort);
         self.App.use(logger('dev'));
+        self.App.use(cookieParser());
         self.App.use(bodyParser.json());
         self.App.use(bodyParser.urlencoded({ extended: false }));
         return self;
