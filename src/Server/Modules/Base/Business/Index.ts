@@ -33,8 +33,8 @@ export abstract class BaseBo<TModel extends Instance<IAttributes>, TAttributes e
     public async GetById(id: number): Promise<TModel> {
         return await this.Items.findById(id); //findOne({ where: { Id: id } });
     }
-    public async Find(optins: FindOptions): Promise<TModel> {
-        return await this.Items.find(optins);
+    public async Find(options: FindOptions): Promise<TModel> {
+        return await this.Items.find(options);
     }
     public GetIDbTransaction(transaction: any): void {
         throw 'Not Implemented';
