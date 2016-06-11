@@ -3,7 +3,7 @@ import {AppConfig} from './AppConfig';
 
 export const SessionConfig: SessionOptions = {
     secret: 'SecretKey',
-    cookie: { secure: AppConfig.IsHttpsEnabled, maxAge: 600000 },
+    cookie: { secure: AppConfig.IsHttpsEnabled, maxAge: 1000 * 60 * 10, httpOnly: true },
     resave: false,
     saveUninitialized: true
 };
