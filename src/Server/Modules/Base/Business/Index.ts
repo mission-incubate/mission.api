@@ -100,3 +100,14 @@ export class BoFactory {
         return new type(req);
     }
 }
+
+export class BO<TModel extends Instance<IAttributes>, TAttributes extends IAttributes> extends BaseBo<TModel, TAttributes> {
+    private Model: SStatic.Model<TModel, TAttributes>;
+    constructor(model: SStatic.Model<TModel, TAttributes>) {
+        super();
+        this.Model = model;
+    }
+    public GetModel(): SStatic.Model<TModel, TAttributes> {
+        return this.Model;
+    }
+}
