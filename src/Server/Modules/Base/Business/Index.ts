@@ -1,6 +1,6 @@
 import * as SStatic  from 'sequelize';
-import {models, Instance, Dal, QueryOptions, Sequelize} from '../../../Core';
-import {UserRequest} from '../../../Common';
+import {models, Instance, Dal, QueryOptions, Sequelize, FindOptions, UpsertOptions, CreateOptions, UpdateOptions} from '../../../Core';
+import {ApiRequest} from '../../../Common';
 import {IAttributes} from'../Model';
 
 export interface IBaseBo { }
@@ -11,8 +11,8 @@ export abstract class BaseBo<TModel extends Instance<IAttributes>, TAttributes e
     public get Items(): SStatic.Model<TModel, TAttributes> {
         return this.GetModel();
     }
-    public Request: UserRequest<number, string>;
-    public constructor(req?: UserRequest<number, string>) {
+    public Request: ApiRequest<number, string>;
+    public constructor(req?: ApiRequest<number, string>) {
         this.Request = req;
     }
     public abstract GetModel(): SStatic.Model<TModel, TAttributes>;
@@ -31,7 +31,10 @@ export abstract class BaseBo<TModel extends Instance<IAttributes>, TAttributes e
         });
     }
     public async GetById(id: number): Promise<TModel> {
-        return await this.Items.findOne({ where: { Id: id } });
+        return await this.Items.findById(id); //findOne({ where: { Id: id } });
+    }
+    public async Find(options: FindOptions): Promise<TModel> {
+        return await this.Items.find(options);
     }
     public GetIDbTransaction(transaction: any): void {
         throw 'Not Implemented';
@@ -48,21 +51,17 @@ export abstract class BaseBo<TModel extends Instance<IAttributes>, TAttributes e
     public Refresh(entity: TAttributes): void {
         throw 'Not Implemented';
     }
-    public async Save(entity: TAttributes): Promise<TModel> {
-        this.CheckId(entity);
+    public async Save(entity: TAttributes, options?: CreateOptions): Promise<TModel> {
+        options = options || { isNewRecord: true };
         return await this.Items.create(entity, { isNewRecord: true });
     }
-    public async SaveOrUpdate(entity: TAttributes): Promise<TModel> {
-        let res: TModel;
-        if (entity && entity.Id > 0) {
-            res = await this.Save(entity);
-        } else {
-            res = await this.Update(entity);
-        }
-        return res;
+    public async SaveOrUpdate(entity: TAttributes, options?: UpsertOptions): Promise<boolean> {
+        return await this.Items.insertOrUpdate(entity, options);
     }
-    public async Update(entity: TAttributes): Promise<TModel> {
-        let res = await this.Items.update(entity, { where: { Id: entity.Id }, limit: 1 });
+    public async Update(entity: TAttributes, options?: UpdateOptions): Promise<TModel> {
+        this.CheckId(entity);
+        options = options || { where: { Id: entity.Id }, limit: 1 };
+        let res = await this.Items.update(entity, options);
         return res[1][0];
     }
     private CheckId(entity: TAttributes): void {
@@ -97,7 +96,7 @@ export class ProcResult {
 }
 
 export class BoFactory {
-    public static GetBo<T extends IBaseBo>(type: { new (req: UserRequest<number, string>): T }, req?: UserRequest<number, string>): T {
+    public static GetBo<T extends IBaseBo>(type: { new (req: ApiRequest<number, string>): T }, req?: ApiRequest<number, string>): T {
         return new type(req);
     }
 }

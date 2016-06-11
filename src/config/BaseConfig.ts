@@ -104,3 +104,21 @@ export interface ICachingPolicyDict {
     [key: string]: ICachingPolicy;
 }
 
+/****************************************************************************************
+************************************* Session Config ************************************
+****************************************************************************************/
+
+import {Request, CookieOptions } from 'express-serve-static-core';
+export interface SessionOptions {
+    secret: string;
+    name?: string;
+    store?: any; //Store | MemoryStore;
+    cookie?: CookieOptions;
+    genid?: (req: Request) => string;
+    rolling?: boolean;
+    resave?: boolean;
+    proxy?: boolean;
+    saveUninitialized?: boolean;
+    unset?: string;
+}
+
