@@ -8,7 +8,7 @@ export class Error {
     public Message: string;
 }
 
-export class UserResponse<T extends IBaseDto> implements IResponse {
+export class ApiResponse<T extends IBaseDto> implements IResponse {
     public PageContext: PageContext;
     public Error: Error;
     public Data: T;

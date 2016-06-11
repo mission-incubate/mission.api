@@ -1,19 +1,19 @@
 import {BaseService, BoFactory} from '../../Base';
 import { UserBo} from '../Business';
-import {UserRequest, UserResponse, BaseRequest, ISearchEnums} from '../../../Common';
+import {ApiRequest, ApiResponse, BaseRequest, ISearchEnums} from '../../../Common';
 import {CacheManager, RedisCacheProvider} from '../../../Core';
 import { UserInstance} from '../Model/Interface';
 
 export class UserService extends BaseService {
     private userBo: UserBo;
     private cache: CacheManager;
-    constructor(req?: UserRequest<number, string>) {
+    constructor(req?: ApiRequest<number, string>) {
         super(req);
         this.userBo = BoFactory.GetBo(UserBo, this.Request);
         this.cache = new CacheManager(new RedisCacheProvider());
     }
 
-    public async FindById(req: UserRequest<ISearchEnums, string>): Promise<UserResponse<UserInstance>> {
+    public async FindById(req: ApiRequest<ISearchEnums, string>): Promise<ApiResponse<UserInstance>> {
         if (req.Id < 0) {
             throw 'Invaid Id';
         }
@@ -29,12 +29,12 @@ export class UserService extends BaseService {
         return this.GetResponse(user);
     }
 
-    public async GetAllUsers(req: UserRequest<ISearchEnums, string>): Promise<UserResponse<Array<UserInstance>>> {
+    public async GetAllUsers(req: ApiRequest<ISearchEnums, string>): Promise<ApiResponse<Array<UserInstance>>> {
         let users = await this.userBo.GetAllUsers(req);
         return this.GetResponse(users, req.PageContext);
     }
 
-    public async AddUser(req: BaseRequest): Promise<UserResponse<number>> {
+    public async AddUser(req: BaseRequest): Promise<ApiResponse<number>> {
         let id: number = await this.userBo.AddUser(req);
         return this.GetResponse(id);
     }

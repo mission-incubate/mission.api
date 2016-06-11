@@ -1,6 +1,6 @@
 import * as SStatic  from 'sequelize';
 import {BaseBo} from '../../Base';
-import {Paginator, BaseRequest, UserRequest, ISearchEnums} from '../../../common';
+import {Paginator, BaseRequest, ApiRequest, ISearchEnums} from '../../../common';
 import { {{data.Name}}Instance, {{data.Name}}Attributes} from '../Model/Interface';
 
 export class {{data.Name}}Bo extends BaseBo {
@@ -9,7 +9,7 @@ export class {{data.Name}}Bo extends BaseBo {
         return res;
     }
 
-    public async GetAll{{data.Name}}(req: UserRequest<ISearchEnums, string>): Promise<Array<{{data.Name}}Instance>> {
+    public async GetAll{{data.Name}}(req: ApiRequest<ISearchEnums, string>): Promise<Array<{{data.Name}}Instance>> {
         let pg: Paginator = new Paginator(req.PageContext);
         let res = await this.GetModel().findAll({ limit: pg.Limit, offset: pg.Offset });
         return res;
