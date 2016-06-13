@@ -9,7 +9,7 @@ export class UserBo extends BaseBo<UserInstance, UserAttributes> {
         return user;
     }
 
-    public async GetAllUsers(req: ApiRequest<ISearchEnums, string>): Promise<Array<UserInstance>> {
+    public async GetAllUsers(req: ApiRequest<ISearchEnums>): Promise<Array<UserInstance>> {
         let pg: Paginator = new Paginator(req.PageContext);
         let users = await this.Items.findAll({ limit: pg.Limit, offset: pg.Offset });
         return users;

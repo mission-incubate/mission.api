@@ -10,7 +10,7 @@ export class GenConfig extends ProjectConfig {
     BO_TEMPLDATE_FILE = `${this.TEMPLATE_DIR}/bo.hbr`;
     SERVICE_TEMPLDATE_FILE = `${this.TEMPLATE_DIR}/service.hbr`;
 
-    GEN_CODE_MODULE_DIR = `${this.GEN_CODE_DIR}/Module`;
+    GEN_CODE_MODULE_DIR = `${this.GEN_CODE_DIR}/Modules`;
     GEN_CODE_MODEL_DIR = `${this.GEN_CODE_DIR}/model`;
     GEN_CODE_BO_DIR = `${this.GEN_CODE_DIR}/bo`;
     GEN_CODE_SERVICE_DIR = `${this.GEN_CODE_DIR}/service`;

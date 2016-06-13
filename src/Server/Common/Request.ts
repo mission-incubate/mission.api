@@ -11,26 +11,11 @@ export enum OrderBy {
     DESC = 2
 }
 
-export class Param<Tk, Tv>{
-    public Tk: string;
-    public Tv: string;
+export class Param<Tk> {
+    public Key: Tk;
+    public Value: any;
     public SearchType: SearchType;
     public OrderBy: OrderBy;
-    public constructor(param: Param<Tk, Tv>);
-    public constructor(tk: string, tv?: string, st?: SearchType, ob?: OrderBy);
-    public constructor(paramORtk: any, tv?: string, st?: SearchType, ob?: OrderBy) {
-        if (typeof paramORtk === 'Param<Tk, Tv>') {
-            this.Tk = paramORtk.Tk;
-            this.Tv = paramORtk.Tv;
-            this.SearchType = paramORtk.SearchType;
-            this.OrderBy = paramORtk.OrderBy;
-        } else {
-            this.Tk = paramORtk;
-            this.Tv = tv;
-            this.SearchType = st;
-            this.OrderBy = ob;
-        }
-    }
 }
 
 export interface IRequest { }
@@ -41,19 +26,9 @@ export class BaseRequest implements IRequest {
     public Data: any;
 }
 
-export class ApiRequest<Tk extends ISearchEnums, Tv> extends BaseRequest {
+export class ApiRequest<Tk extends ISearchEnums> extends BaseRequest {
     public PageContext: PageContext;
-    public Params: Param<Tk, Tv>[];
-
-    // public Add(param: Param<Tk, Tv>): void;
-    // public Add(tk: string, tv: string): void;
-    // public Add(arg1: any, arg2?: string): void {
-    //     if (typeof arg1 === 'Param<Tk, Tv>') {
-    //         this.Params.push(arg1);
-    //     } else if (typeof arg1 === 'string' && typeof arg2 === 'string') {
-    //         this.Params.push(new Param<Tk, Tv>(arg1, arg2));
-    //     }
-    // }
+    public Params: Param<Tk>[];
 }
 
 export class Request implements IRequest {
@@ -69,7 +44,7 @@ export class Request implements IRequest {
 export class Action {
     public Route: string;
     public Request: IRequest;
-    public constructor(route: string, request: ApiRequest<ISearchEnums, string>) {
+    public constructor(route: string, request: ApiRequest<ISearchEnums>) {
         this.Route = route;
         this.Request = request;
     }

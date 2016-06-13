@@ -1,10 +1,11 @@
-import { ApiRequest, ApiResponse, PageContext } from '../../../Common';
+import { ApiResponse, PageContext } from '../../../Common';
+import { Request } from '../../../Core';
 
 export interface IBaseService { }
 
 export class BaseService implements IBaseService {
-    public Request: ApiRequest<number, string>;
-    public constructor(req?: ApiRequest<number, string>) {
+    public Request: Request;
+    public constructor(req?: Request) {
         this.Request = req;
     }
     public GetResponse<T>(data: T, pageContext?: PageContext): ApiResponse<T> {
@@ -17,8 +18,7 @@ export class BaseService implements IBaseService {
 }
 
 export class ServiceFactory {
-    public static CreateService<T extends IBaseService>(type: { new (req: ApiRequest<number, string>): T },
-        req?: ApiRequest<number, string>): T {
+    public static CreateService<T extends IBaseService>(type: { new (req: Request): T }, req?: Request): T {
         return new type(req);
     }
 }

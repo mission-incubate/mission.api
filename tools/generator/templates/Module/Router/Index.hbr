@@ -1,4 +1,10 @@
+import {Router, GetRouter } from '../../../Core';
 {{#data}}
 import {{Name}} from './{{Name}}Route';
-export const {{Name}}Route = {{Name}};
 {{/data}}
+
+let router: Router = GetRouter();
+{{#data}}
+router.use('/{{Name}}', {{Name}});
+{{/data}}
+export default router;

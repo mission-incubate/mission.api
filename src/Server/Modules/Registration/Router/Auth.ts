@@ -50,7 +50,7 @@ passport.use(new local.Strategy({ usernameField: 'UserName', passwordField: 'Pas
                 return done(null, false);
             }
             return done(null, user.dataValues);
-        });
+        }).catch(console.error);
 }));
 
 export default router;

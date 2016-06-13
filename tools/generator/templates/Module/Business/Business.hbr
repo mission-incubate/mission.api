@@ -1,27 +1,44 @@
 import * as SStatic  from 'sequelize';
 import {BaseBo} from '../../Base';
+import {WhereOptions} from '../../../Core';
 import {Paginator, BaseRequest, ApiRequest, ISearchEnums} from '../../../common';
-import { {{data.Name}}Instance, {{data.Name}}Attributes} from '../Model/Interface';
+import { {{data.EntityName}}Instance, {{data.EntityName}}Attributes} from '../Model/Interface';
 
-export class {{data.Name}}Bo extends BaseBo {
-    public async FindById(id: number): Promise<{{data.Name}}Instance> {
-        let res = await this.GetModel().findOne({ where: { Id: id } });
-        return res;
-    }
-
-    public async GetAll{{data.Name}}(req: ApiRequest<ISearchEnums, string>): Promise<Array<{{data.Name}}Instance>> {
-        let pg: Paginator = new Paginator(req.PageContext);
-        let res = await this.GetModel().findAll({ limit: pg.Limit, offset: pg.Offset });
-        return res;
-    }
-
+export class {{data.Name}}Bo extends BaseBo<{{data.EntityName}}Instance, {{data.EntityName}}Attributes> {
     public async Add{{data.Name}}(req: BaseRequest): Promise<number> {
-        let {{data.Name}}Attribute: {{data.Name}}Attributes = req.Data;
-        let {{data.Name}}: {{data.Name}}Instance = await this.GetModel().create({{data.Name}}Attribute, { isNewRecord: true });
-        return {{data.Name}}.dataValues.Id;
+        let result = await this.Save(req.Data);
+        return result.dataValues.Id;
     }
 
-    private GetModel(): SStatic.Model<{{data.Name}}Instance, {{data.Name}}Attributes> {
-        return this.Model.{{data.Name}};
+    public async Update{{data.Name}}(req: BaseRequest): Promise<number> {
+        let result = await this.Update(req.Data);
+        return result.dataValues.Id;
+    }
+
+    public async Get{{data.Name}}s(apiReq?: ApiRequest<ISearchEnums>): Promise<Array<{{data.Name}}Attributes>> {
+        let where: WhereOptions = {};
+        apiReq.Params.forEach((param) => {
+            switch (param.Key) {
+                case ISearchEnums.Id:
+                    where['Id'] = param.Value;
+                    break;
+                case ISearchEnums.Name:
+                    where['Name'] = param.Value;
+                    break;
+                default:
+                    throw 'Not Implemented';
+            }
+        });
+        let pg: Paginator = new Paginator(apiReq.PageContext);
+        let result = await this.FindAll({ where: where, limit: pg.Limit, offset: pg.Offset });
+        return this.GetAttributes(result);
+    }
+
+    public async Delete{{data.Name}}(req: BaseRequest): Promise<Boolean> {
+        return await this.MarkAsDelete(req.Id);
+    }
+
+    public GetModel(): SStatic.Model<{{data.Name}}Instance, {{data.Name}}Attributes> {
+        return this.Models.{{data.Name}};
     }
 }

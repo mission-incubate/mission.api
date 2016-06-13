@@ -5,28 +5,29 @@ import { {{data.Name}}Service} from '../Service';
 
 let router: Router = express.Router();
 
-router.post('/FindById', (req: Request, res: Response, next: NextFunction): any => {
-    const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
-    service.FindById(req.body)
-        .then((response) => {
-            res.send(response);
-        }).catch(next);
-});
-
-router.post('/GetAll{{data.Name}}', (req: Request, res: Response, next: NextFunction): any => {
-    const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
-    service.GetAll{{data.Name}}(req.body)
-        .then((response) => {
-            res.send(response);
-        }).catch(next);
-});
-
 router.post('/Add{{data.Name}}', (req: Request, res: Response, next: NextFunction): any => {
     const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
     service.Add{{data.Name}}(req.body)
-        .then((response) => {
-            res.send(response);
-        }).catch(next);
+        .then((response) => { res.send(response); })
+        .catch(next);
+});
+router.post('/Update{{data.Name}}', (req: Request, res: Response, next: NextFunction): any => {
+    const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
+    service.Update{{data.Name}}(req.body)
+        .then((response) => { res.send(response); })
+        .catch(next);
+});
+router.post('/Get{{data.Name}}s', (req: Request, res: Response, next: NextFunction): any => {
+    const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
+    service.Get{{data.Name}}s(req.body)
+        .then((response) => { res.send(response); })
+        .catch(next);
+});
+router.post('/Delete{{data.Name}}', (req: Request, res: Response, next: NextFunction): any => {
+    const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
+    service.Delete{{data.Name}}(req.body)
+        .then((response) => { res.send(response); })
+        .catch(next);
 });
 
 export default router;
