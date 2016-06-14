@@ -9,6 +9,9 @@ export class PageContext {
             this.PageSize = context.PageSize;
             this.PageNumber = context.PageNumber;
             this.TotalRecords = context.TotalRecords;
+        } else {
+            this.PageSize = AppConfig.DefaultPageSize;
+            this.PageNumber = 1;
         }
     }
 }
@@ -16,7 +19,7 @@ export class PageContext {
 export class Paginator {
     private pc: PageContext;
     constructor(pc: PageContext) {
-        this.pc = pc;
+        this.pc = pc ? pc : new PageContext();
     }
     public get Limit(): number {
         return this.pc.PageSize === 0 ? AppConfig.DefaultPageSize : this.pc.PageSize;

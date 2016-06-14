@@ -54,7 +54,8 @@ src
 Server side Reporting- PDF -  http://www.feedhenry.com/server-side-pdf-generation-node-js/
 ACL Development 
 EMail - 
-Excel Import and Export
+Excel Import and- https://www.npmjs.com/package/xlsx
 
 passport-local-example - https://github.com/DevMountain/passport-local-example/blob/master/app.js
 ExpressJS and PassportJS Sessions Deep Dive - https://www.airpair.com/express/posts/expressjs-and-passportjs-sessions-deep-dive
+ 

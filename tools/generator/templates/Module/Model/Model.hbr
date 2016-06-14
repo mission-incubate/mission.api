@@ -14,8 +14,8 @@ export default function (sequelize: Sequelize, DataTypes: DataTypes):
             classMethods: {},
             timestamps: true,
             tableName: '{{data.Table}}',
-            createdAt: 'CreatedDate',
-            updatedAt: 'UpdatedDate',
+            createdAt: 'CreatedAt',
+            updatedAt: 'UpdatedAt',
             freezeTableName: true
         });
 
