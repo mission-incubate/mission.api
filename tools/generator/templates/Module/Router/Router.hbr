@@ -3,31 +3,32 @@ import {ServiceFactory} from '../../Base';
 import {Router, Request, Response, NextFunction } from '../../../Core';
 import { {{data.Name}}Service} from '../Service';
 
+class {{data.Name}}Route {
+    public static async Add{{data.Name}}(req: Request, res: Response, next: NextFunction): Promise<any> {
+        const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
+        let response = await service.Add{{data.Name}}(req.body);
+        return res.send(response);
+    }
+    public static async Update{{data.Name}}(req: Request, res: Response, next: NextFunction): Promise<any> {
+        const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
+        let response = await service.Update{{data.Name}}(req.body);
+        return res.send(response);
+    }
+    public static async Get{{data.Name}}s(req: Request, res: Response, next: NextFunction): Promise<any> {
+        const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
+        let response = await service.Get{{data.Name}}s(req.body);
+        return res.send(response);
+    }
+    public static async Delete{{data.Name}}(req: Request, res: Response, next: NextFunction): Promise<any> {
+        const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
+        let response = await service.Delete{{data.Name}}(req.body);
+        return res.send(response);
+    }
+}
+
 let router: Router = express.Router();
-
-router.post('/Add{{data.Name}}', (req: Request, res: Response, next: NextFunction): any => {
-    const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
-    service.Add{{data.Name}}(req.body)
-        .then((response) => { res.send(response); })
-        .catch(next);
-});
-router.post('/Update{{data.Name}}', (req: Request, res: Response, next: NextFunction): any => {
-    const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
-    service.Update{{data.Name}}(req.body)
-        .then((response) => { res.send(response); })
-        .catch(next);
-});
-router.post('/Get{{data.Name}}s', (req: Request, res: Response, next: NextFunction): any => {
-    const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
-    service.Get{{data.Name}}s(req.body)
-        .then((response) => { res.send(response); })
-        .catch(next);
-});
-router.post('/Delete{{data.Name}}', (req: Request, res: Response, next: NextFunction): any => {
-    const service = ServiceFactory.CreateService({{data.Name}}Service, req.body);
-    service.Delete{{data.Name}}(req.body)
-        .then((response) => { res.send(response); })
-        .catch(next);
-});
-
+router.post('/' + {{data.Name}}Route.Add{{data.Name}}.name, {{data.Name}}Route.Add{{data.Name}});
+router.post('/' + {{data.Name}}Route.Update{{data.Name}}.name, {{data.Name}}Route.Update{{data.Name}});
+router.post('/' + {{data.Name}}Route.Get{{data.Name}}s.name, {{data.Name}}Route.Get{{data.Name}}s);
+router.post('/' + {{data.Name}}Route.Delete{{data.Name}}.name, {{data.Name}}Route.Delete{{data.Name}});
 export default router;
