@@ -1,5 +1,6 @@
 {
-  "ambientDependencies": {
+  "globalDependencies": {
+    "bluebird": "registry:dt/bluebird#2.0.0+20160319051630",
     "body-parser": "registry:dt/body-parser#0.0.0+20160317120654",
     "browser-sync": "registry:dt/browser-sync#0.0.0+20160316155526",
     "chalk": "registry:dt/chalk#0.4.0+20160317120654",
@@ -17,6 +18,7 @@
     "lodash": "registry:dt/lodash#3.10.0+20160330154726",
     "micromatch": "registry:dt/micromatch#2.3.7+20160123140905",
     "mime": "registry:dt/mime#0.0.0+20160316155526",
+    "minimatch": "registry:dt/minimatch#2.0.8+20160317120654",
     "morgan": "registry:dt/morgan#1.2.2+20160317120654",
     "mssql": "registry:dt/mssql#3.1.0+20160412134559",
     "node": "registry:dt/node#4.0.0+20160501135006",
@@ -28,7 +30,7 @@
     "redis": "registry:dt/redis#0.12.1+20160316155526",
     "rimraf": "registry:dt/rimraf#0.0.0+20160317120654",
     "run-sequence": "registry:dt/run-sequence#0.0.0+20160316155526",
-    "sequelize": "registry:dt/sequelize#3.4.1+20160423143634",
+    "sequelize": "registry:dt/sequelize#3.4.1+20160606151038",
     "serve-static": "registry:dt/serve-static#0.0.0+20160317120654",
     "superagent": "registry:dt/superagent#1.4.0+20160317120654",
     "supertest": "registry:dt/supertest#1.1.0+20160317120654",
