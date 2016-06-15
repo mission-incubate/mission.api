@@ -1,5 +1,4 @@
 import {PageContext, UserContext} from './Contexts';
-import {ISearchEnums} from './Misc';
 
 export enum SearchType {
     Contains = 1,
@@ -11,41 +10,31 @@ export enum OrderBy {
     DESC = 2
 }
 
-export class Param<Tk> {
-    public Key: Tk;
-    public Value: any;
-    public SearchType: SearchType;
-    public OrderBy: OrderBy;
+export interface Param<Tk> {
+    Key: Tk;
+    Value: any;
+    SearchType?: SearchType;
+    OrderBy?: OrderBy;
 }
 
 export interface IRequest { }
 
-export class BaseRequest implements IRequest {
-    public Id: number;
-    public UserContext: UserContext;
-    public Data: any;
+export interface BaseRequest extends IRequest {
+    Id?: number;
+    UserContext?: UserContext;
+    Data?: any;
 }
 
-export class ApiRequest<Tk extends ISearchEnums> extends BaseRequest {
-    public PageContext: PageContext;
-    public Params: Param<Tk>[];
+export interface ApiRequest<Tk extends any> extends BaseRequest {
+    PageContext?: PageContext;
+    Params?: Param<Tk>[];
 }
 
-export class Request implements IRequest {
-    public Actions: Array<Action>;
-    public constructor() {
-        this.Actions = [];
-    }
-    public Add(action: Action): void {
-        this.Actions.push(action);
-    }
+export interface Request extends IRequest {
+    Actions: Array<Action>;
 }
 
-export class Action {
-    public Route: string;
-    public Request: IRequest;
-    public constructor(route: string, request: ApiRequest<ISearchEnums>) {
-        this.Route = route;
-        this.Request = request;
-    }
+export interface Action {
+    Route: string;
+    Request: IRequest;
 }

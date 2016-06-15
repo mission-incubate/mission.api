@@ -33,11 +33,12 @@ passport.use(new local.Strategy({ usernameField: 'UserName', passwordField: 'Pas
 }));
 
 class Auth {
-    public static async Login(req: Request, res: Response, next: NextFunction): Promise<any> {
-        return res.status(200).send({ result: 'success....' });
+    public static Login(req: Request, res: Response, next: NextFunction): void {
+        res.status(200).send({ result: 'success....' });
     }
-    public static async Logout(req: Request, res: Response, next: NextFunction): Promise<any> {
-        return req.logout();
+    public static Logout(req: Request, res: Response, next: NextFunction): void {
+        req.logout();
+        res.status(200).send({ result: 'success....' });
     }
 }
 

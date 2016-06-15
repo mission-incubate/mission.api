@@ -4,7 +4,7 @@ export const AppConfig: IApplicationConfig = {
     AppBase: '/',
     HttpsCertificatepath: '',
     HttpsKeypath: '',
-    IsHttpsEnabled: false,
+    // IsHttpsEnabled: false,
     DefaultPageSize: 50,
     ApiPort: this.IsHttpsEnabled ? 443 : 3000,
     WebBasePath: '/www',

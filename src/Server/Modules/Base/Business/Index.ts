@@ -70,7 +70,9 @@ export abstract class BaseBo<TModel extends Instance<IAttributes>, TAttributes e
         this.CheckId(entity);
         options = options || { where: { Id: entity.Id }, limit: 1 };
         let res = await this.Items.update(entity, options);
-        //TODO: throw if rec not found.
+        if (res[0] < 1) {
+            throw new Error('Record not found to update for Id' + entity.Id);
+        }
         return res[1][0];
     }
 
@@ -85,7 +87,7 @@ export abstract class BaseBo<TModel extends Instance<IAttributes>, TAttributes e
 
     private CheckId(entity: TAttributes): void {
         if (!entity || entity.Id <= 0) {
-            throw 'Invalid Id. Operation Faild.';
+            throw new Error('Invalid enityt or Id. Operation Faild.');
         }
     }
 }

@@ -58,4 +58,5 @@ Excel Import and- https://www.npmjs.com/package/xlsx
 
 passport-local-example - https://github.com/DevMountain/passport-local-example/blob/master/app.js
 ExpressJS and PassportJS Sessions Deep Dive - https://www.airpair.com/express/posts/expressjs-and-passportjs-sessions-deep-dive
- 
+CORS Enable.
+Response Compress - Enable.
