@@ -8,6 +8,7 @@ import * as logger from  'morgan';
 import * as fs from 'fs';
 import {Server} from 'net';
 import {IWebServerConfig, IStaticFileConfig} from '../../Config';
+import * as cors from 'cors';
 
 export {Router, Express, Request, Response, NextFunction, ErrorRequestHandler, RequestHandler} from 'express-serve-static-core';
 export const GetRouter = express.Router;
@@ -18,27 +19,31 @@ export class WebServer {
     public Server: Server;
     //private Port: number;
     constructor(webconfig: IWebServerConfig) {
-        var self = this;
+        let self = this;
         self.Config = webconfig;
         self.App = express();
     }
 
     public Init(): WebServer {
-        var self = this;
-        self.App.set('port', self.Config.ApiPort);
-        self.App.use(logger('dev'));
-        self.App.use(cookieParser());
-        self.App.use(bodyParser.json());
-        self.App.use(bodyParser.urlencoded({ extended: false }));
+        let self = this;
+        let app = self.App;
+        let c = self.Config;
+        app.set('port', c.ApiPort);
+        app.options('*', cors(c.CorsOptions));
+        app.use(cors(c.CorsOptions));
+        app.use(logger('dev'));
+        app.use(cookieParser());
+        app.use(bodyParser.json());
+        app.use(bodyParser.urlencoded({ extended: false }));
         return self;
     }
     public AddStaticFileRouting(route: string, path: string, config: IStaticFileConfig): void {
-        var self = this;
+        let self = this;
         self.App.use(route, express.static(path, config));
     }
 
     public AddApiRouting(route: string, router: Router): void {
-        var self = this;
+        let self = this;
         self.App.use(route, router);
     }
 
@@ -60,11 +65,11 @@ export class WebServer {
     public Stop(callback?: Function): WebServer {
         let self = this;
         this.Server.close(callback);
-         console.log('Express server stop');
+        console.log('Express server stop');
         return self;
     }
     // private configure(): void {
-    //     var self = this;
+    //     let self = this;
     //     self.App.configure('development', () => {
     //         //TODO:
     //     });
@@ -84,12 +89,12 @@ export class WebServer {
         res.status(404).json(err);
     }
     private registerModules(): void {
-        var self = this;
+        let self = this;
         self.App.use(self.HandlerFor404);
         self.App.use((self.ErrorHandler).bind(self));
     }
     private listenerCallback(): void {
-        var self = this;
+        let self = this;
         let port = self.App.get('port');
         console.log('Express server listening on port :' + port);
         console.log('Application Path :' + __dirname);

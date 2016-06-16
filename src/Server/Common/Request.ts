@@ -1,5 +1,4 @@
 import {PageContext, UserContext} from './Contexts';
-import {ISearchEnums} from './Misc';
 
 export enum SearchType {
     Contains = 1,
@@ -11,66 +10,31 @@ export enum OrderBy {
     DESC = 2
 }
 
-export class Param<Tk, Tv>{
-    public Tk: string;
-    public Tv: string;
-    public SearchType: SearchType;
-    public OrderBy: OrderBy;
-    public constructor(param: Param<Tk, Tv>);
-    public constructor(tk: string, tv?: string, st?: SearchType, ob?: OrderBy);
-    public constructor(paramORtk: any, tv?: string, st?: SearchType, ob?: OrderBy) {
-        if (typeof paramORtk === 'Param<Tk, Tv>') {
-            this.Tk = paramORtk.Tk;
-            this.Tv = paramORtk.Tv;
-            this.SearchType = paramORtk.SearchType;
-            this.OrderBy = paramORtk.OrderBy;
-        } else {
-            this.Tk = paramORtk;
-            this.Tv = tv;
-            this.SearchType = st;
-            this.OrderBy = ob;
-        }
-    }
+export interface Param<Tk> {
+    Key: Tk;
+    Value: any;
+    SearchType?: SearchType;
+    OrderBy?: OrderBy;
 }
 
 export interface IRequest { }
 
-export class BaseRequest implements IRequest {
-    public Id: number;
-    public UserContext: UserContext;
-    public Data: any;
+export interface BaseRequest extends IRequest {
+    Id?: number;
+    UserContext?: UserContext;
+    Data?: any;
 }
 
-export class ApiRequest<Tk extends ISearchEnums, Tv> extends BaseRequest {
-    public PageContext: PageContext;
-    public Params: Param<Tk, Tv>[];
-
-    // public Add(param: Param<Tk, Tv>): void;
-    // public Add(tk: string, tv: string): void;
-    // public Add(arg1: any, arg2?: string): void {
-    //     if (typeof arg1 === 'Param<Tk, Tv>') {
-    //         this.Params.push(arg1);
-    //     } else if (typeof arg1 === 'string' && typeof arg2 === 'string') {
-    //         this.Params.push(new Param<Tk, Tv>(arg1, arg2));
-    //     }
-    // }
+export interface ApiRequest<Tk extends any> extends BaseRequest {
+    PageContext?: PageContext;
+    Params?: Param<Tk>[];
 }
 
-export class Request implements IRequest {
-    public Actions: Array<Action>;
-    public constructor() {
-        this.Actions = [];
-    }
-    public Add(action: Action): void {
-        this.Actions.push(action);
-    }
+export interface Request extends IRequest {
+    Actions: Array<Action>;
 }
 
-export class Action {
-    public Route: string;
-    public Request: IRequest;
-    public constructor(route: string, request: ApiRequest<ISearchEnums, string>) {
-        this.Route = route;
-        this.Request = request;
-    }
+export interface Action {
+    Route: string;
+    Request: IRequest;
 }

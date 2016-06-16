@@ -6,7 +6,7 @@ import {IAttributes} from '../../../src/Server/Modules/Base';
 export class TableBO extends BaseBo<Instance<IAttributes>, IAttributes> {
     public AllColumns: Array<Column>;
     public constructor() {
-        super(null);
+        super();
     }
 
     public async GetColumnDetails(tableName: string): Promise<Array<Column>> {
@@ -69,19 +69,45 @@ export class Column {
     public ForeignKeyColumnName: string;
 }
 
-export interface Table {
+// export interface Table {
+//     Name: string;
+//     Details: Array<Column>;
+// }
+
+// export interface Module {
+//     ModuleName: string;
+//     Tables: Array<Table>;
+// }
+
+// export interface Context {
+//     Modules: Array<Module>;
+// }
+
+export interface Entity {
     Name: string;
+    Table: string;
     Details: Array<Column>;
 }
-
+export interface Business {
+    Name: string;
+    EntityName: string;
+    SubEntities: Array<string>;
+}
+export interface Service {
+    Name: string;
+    Bo: string;
+    DependsBO: Array<string>;
+}
 export interface Module {
     ModuleName: string;
-    Tables: Array<Table>;
+    Entities: Array<Entity>;
+    Business: Array<Business>;
+    Service: Array<Service>;
 }
-
 export interface Context {
     Modules: Array<Module>;
 }
+
 
 class QueryRepo {
     ColumnDetailsQuery: IQueryRepo;

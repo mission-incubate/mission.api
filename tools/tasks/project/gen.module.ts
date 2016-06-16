@@ -4,9 +4,9 @@ import {join} from 'path';
 import {existsSync, mkdirSync} from 'fs';
 import {Generator} from '../../utils/project/generator';
 import {MODULE_TEMPLATE_BASEPATH, GEN_CODE_MODULE_DIR} from '../../config';
-import {TableBO, Context, Module, Table, Column} from '../../utils/project/TableBo';
+import {TableBO, Context, Module, Entity, Column} from '../../utils/project/TableBo';
 import {BoFactory} from '../../../src/Server/Modules/Base';
-import {ApiRequest} from '../../../src/Server/Common';
+//import {ApiRequest} from '../../../src/Server/Common';
 
 const SqlToTypescriptMapper: { [key: string]: string } = {
     bigint: 'number',
@@ -14,13 +14,15 @@ const SqlToTypescriptMapper: { [key: string]: string } = {
     double: 'number',
     varchar: 'string',
     datetime: 'Date',
-    bit: 'boolean'
+    bit: 'boolean',
+    time: 'string',
+    varbinary: 'string'
 };
 const SqlToSequelizeMapper: { [key: string]: string } = {
     bigint: 'DataTypes.BIGINT',
     //test: 'DataTypes.ABSTRACT';
     varchar: 'DataTypes.STRING',
-    varbinary: 'Sequelize.STRING.BINARY',
+    varbinary: 'DataTypes.STRING.BINARY',
     char: 'DataTypes.CHAR',
     text: 'DataTypes.TEXT',
     //test: 'DataTypes.NUMBER';
@@ -97,9 +99,9 @@ class ModuleGenerator {
     private async GetAllModuleDetails(modules: Array<Module>): Promise<Array<Module>> {
         let promises: Array<Promise<void>> = [];
         modules.forEach(x => {
-            let promise = this.GetAllTableDetailsForModule(x.Tables)
-                .then(tables => {
-                    x.Tables = tables;
+            let promise = this.GetAllTableDetailsForModule(x.Entities)
+                .then(entities => {
+                    x.Entities = entities;
                 });
             promises.push(promise);
         });
@@ -107,10 +109,10 @@ class ModuleGenerator {
         return modules;
     }
 
-    private async GetAllTableDetailsForModule(tables: Array<Table>): Promise<Array<Table>> {
+    private async GetAllTableDetailsForModule(tables: Array<Entity>): Promise<Array<Entity>> {
         let promises: Array<Promise<void>> = [];
         tables.forEach(x => {
-            let promise = this.GetTableDetails(x.Name)
+            let promise = this.GetTableDetails(x.Table)
                 .then(columns => {
                     x.Details = columns;
                 });
@@ -121,8 +123,7 @@ class ModuleGenerator {
     }
 
     private async GetTableDetails(tableName: string): Promise<Array<Column>> {
-        let req: ApiRequest<number, string> = { PageContext: null, Params: null, Id: null, UserContext: null, Data: null };
-        let bo: TableBO = BoFactory.GetBo(TableBO, req);
+        let bo: TableBO = BoFactory.GetBo(TableBO);
         let columns = await bo.GetColumnDetails(tableName);
         for (let column of columns) {
             column.SequelizeType = (<any>this.Sql2SeqMapper)[column.Type];
@@ -142,11 +143,11 @@ class ModuleGenerator {
         let codePath = join(GEN_CODE_MODULE_DIR, moduleParam.ModuleName, 'Business');
         this.CreateDir(codePath);
         let boTemplatePath = join(MODULE_TEMPLATE_BASEPATH, 'Business', 'Business.hbr');
-        moduleParam.Tables.forEach(x => {
+        moduleParam.Business.forEach(x => {
             Generator.Generate(boTemplatePath, codePath, x, x.Name, 'Bo.ts');
         });
         let indexTemplatePath = join(MODULE_TEMPLATE_BASEPATH, 'Business', 'Index.hbr');
-        Generator.Generate(indexTemplatePath, codePath, moduleParam.Tables, 'Index', '.ts');
+        Generator.Generate(indexTemplatePath, codePath, moduleParam.Business, 'Index', '.ts');
     };
 
     private GenerateModel(moduleParam: Module): void {
@@ -154,48 +155,48 @@ class ModuleGenerator {
         this.CreateDir(modelPath);
         this.GenerateModelInterface(moduleParam);
         let modelTemplatePath = join(MODULE_TEMPLATE_BASEPATH, 'Model', 'Model.hbr');
-        moduleParam.Tables.forEach(x => {
+        moduleParam.Entities.forEach(x => {
             Generator.Generate(modelTemplatePath, modelPath, x, x.Name, '.Model.ts');
         });
         let modelsTemplatePath = join(MODULE_TEMPLATE_BASEPATH, 'Model', 'Models.hbr');
-        Generator.Generate(modelsTemplatePath, modelPath, moduleParam.Tables, 'Models', '.ts');
+        Generator.Generate(modelsTemplatePath, modelPath, moduleParam.Entities, 'Models', '.ts');
     };
 
     private GenerateModelInterface(moduleParam: Module): void {
         let modelInterfacePath = join(GEN_CODE_MODULE_DIR, moduleParam.ModuleName, 'Model', 'Interface');
         this.CreateDir(modelInterfacePath);
         let ifTemplatePath = join(MODULE_TEMPLATE_BASEPATH, 'Model', 'Interface', 'Interface.hbr');
-        moduleParam.Tables.forEach(x => {
+        moduleParam.Entities.forEach(x => {
             Generator.Generate(ifTemplatePath, modelInterfacePath, x, x.Name, 'Interface.ts');
         });
         let indexTemplatePath = join(MODULE_TEMPLATE_BASEPATH, 'Model', 'Interface', 'Index.hbr');
-        Generator.Generate(indexTemplatePath, modelInterfacePath, moduleParam.Tables, 'Index', '.ts');
+        Generator.Generate(indexTemplatePath, modelInterfacePath, moduleParam.Entities, 'Index', '.ts');
     };
 
     private GenerateRouter(moduleParam: Module): void {
         let routerPath = join(GEN_CODE_MODULE_DIR, moduleParam.ModuleName, 'Router');
         this.CreateDir(routerPath);
         let routeTemplatePath = join(MODULE_TEMPLATE_BASEPATH, 'Router', 'Router.hbr');
-        moduleParam.Tables.forEach(x => {
+        moduleParam.Service.forEach(x => {
             Generator.Generate(routeTemplatePath, routerPath, x, x.Name, 'Route.ts');
         });
         let routeSpecTemplatePath = join(MODULE_TEMPLATE_BASEPATH, 'Router', 'Router.spec.hbr');
-        moduleParam.Tables.forEach(x => {
+        moduleParam.Service.forEach(x => {
             Generator.Generate(routeSpecTemplatePath, routerPath, x, x.Name, 'Route.spec.ts');
         });
         let routerIndexTemplate = join(MODULE_TEMPLATE_BASEPATH, 'Router', 'Index.hbr');
-        Generator.Generate(routerIndexTemplate, routerPath, moduleParam.Tables, 'Index', '.ts');
+        Generator.Generate(routerIndexTemplate, routerPath, moduleParam.Service, 'Index', '.ts');
     };
 
     private GenerateService(moduleParam: Module): void {
         let servicePath = join(GEN_CODE_MODULE_DIR, moduleParam.ModuleName, 'Service');
         this.CreateDir(servicePath);
         let serviceTemplatePath = join(MODULE_TEMPLATE_BASEPATH, 'Service', 'Service.hbr');
-        moduleParam.Tables.forEach(x => {
+        moduleParam.Service.forEach(x => {
             Generator.Generate(serviceTemplatePath, servicePath, x, x.Name, 'Service.ts');
         });
         let serviceIndexTemplate = join(MODULE_TEMPLATE_BASEPATH, 'Service', 'Index.hbr');
-        Generator.Generate(serviceIndexTemplate, servicePath, moduleParam.Tables, 'Index', '.ts');
+        Generator.Generate(serviceIndexTemplate, servicePath, moduleParam.Service, 'Index', '.ts');
     };
 
     private CreateDir(path: string): void {

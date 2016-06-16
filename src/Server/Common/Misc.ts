@@ -1,2 +1,5 @@
 export interface IBaseDto { }
-export enum ISearchEnums { }
+export enum ISearchEnums {
+    Id,
+    Name
+}

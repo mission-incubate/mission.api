@@ -54,8 +54,19 @@ export interface IWebServerConfig {
     IsHttpsEnabled?: boolean;
     HttpsCertificatepath?: string;
     HttpsKeypath?: string;
+    CorsOptions?: ICorsOptions;
+    StaticFileConfig?: IStaticFileConfig;
 }
 
+//Ref: https://www.npmjs.com/package/cors#demo
+export interface ICorsOptions {
+    origin?: boolean | string | Function | Array<string | RegExp> | RegExp;
+    methods?: string | Array<string>;
+    allowedHeaders?: string | Array<string>;
+    exposedHeaders?: string | Array<string>;
+    credentials?: boolean;
+    maxAge?: number;
+}
 
 /****************************************************************************************
 ************************ Entier Application Config **************************************
@@ -63,7 +74,7 @@ export interface IWebServerConfig {
 export interface IApplicationConfig {
     AppBase: string;
     ApiPort: number;
-    IsHttpsEnabled: boolean;
+    //IsHttpsEnabled: boolean;
     HttpsCertificatepath: string;
     HttpsKeypath: string;
     DefaultPageSize: number;

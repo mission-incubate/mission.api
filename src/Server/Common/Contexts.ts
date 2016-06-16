@@ -1,29 +1,22 @@
 import { AppConfig } from '../../Config';
 
-export class PageContext {
-    public PageSize: number;
-    public PageNumber: number;
-    public TotalRecords: number;
-    constructor(context?: PageContext) {
-        if (context) {
-            this.PageSize = context.PageSize;
-            this.PageNumber = context.PageNumber;
-            this.TotalRecords = context.TotalRecords;
-        }
-    }
+export interface PageContext {
+    PageSize?: number;
+    PageNumber?: number;
+    TotalRecords?: number;
 }
 
 export class Paginator {
     private pc: PageContext;
     constructor(pc: PageContext) {
-        this.pc = pc;
+        this.pc = pc ? pc : { PageSize: AppConfig.DefaultPageSize, PageNumber: 1 };
     }
     public get Limit(): number {
-        return this.pc.PageSize === 0 ? AppConfig.DefaultPageSize : this.pc.PageSize;
+        return this.pc.PageSize > 0 ? this.pc.PageSize : AppConfig.DefaultPageSize;
     };
 
     public get Offset(): number {
-        return (this.pc.PageNumber - 1) * this.pc.PageSize;
+        return this.pc.PageNumber > 0 ? (this.pc.PageNumber - 1) * this.pc.PageSize : 0;
     };
     public NextPage(): void {
         this.pc.PageNumber += 1;

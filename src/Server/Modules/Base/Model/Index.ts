@@ -1,10 +1,12 @@
 export interface IAudit {
-    CreatedDate: Date;
-    ModifiedDate: Date;
-    CreatedBy: string;
-    ModifiedBy: string;
+    CreatedDate?: Date;
+    ModifiedDate?: Date;
+    CreatedBy?: number;
+    ModifiedBy?: number;
 }
 
 export interface IAttributes extends IAudit {
-    Id: number;
+    Id?: number;
+    Rev?: number;
+    Status?: number;
 }

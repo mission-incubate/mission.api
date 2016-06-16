@@ -1,80 +1,41 @@
 {
-    "Version": "1.0",
+    "Version": "2.0",
     "Modules": [
         {
             "ModuleName": "AppManager",
-            "Tables": [
-                {
-                    "Name": "Users",
-                    "Details": [],
-                    "Mappers": [
-                        {
-                            "Table": "UserRoles",
-                            "MapName": "UserRoleMap"
-                        },
-                        {
-                            "Table": "UserGroups",
-                            "MapName": "UserGroupMap"
-                        }
-                    ]
-                },
-                {
-                    "Name": "Groups",
-                    "Details": []
-                },
-                {
-                    "Name": "Roles",
-                    "Details": []
-                },
-                {
-                    "Name": "Organizations",
-                    "Details": []
-                },
-                {
-                    "Name": "Facilities",
-                    "Details": []
-                },
-                {
-                    "Name": "Departments",
-                    "Details": []
-                },
-                {
-                    "Name": "DepartmentLocations",
-                    "Details": []
-                },
-                {
-                    "Name": "Specialities",
-                    "Details": []
-                },
-                {
-                    "Name": "Referrals",
-                    "Details": []
-                }
-            ]
-        },
-        {
-            "ModuleName": "AppBase",
-            "Tables": [
-                {
-                    "Name": "Modules",
-                    "Details": []
-                },
-                {
-                    "Name": "Screens",
-                    "Details": []
-                },
-                {
-                    "Name": "ReferenceValueGroups",
-                    "Details": []
-                },
-                {
-                    "Name": "ReferenceValues",
-                    "Details": []
-                },
-                {
-                    "Name": "UserDefinedFields",
-                    "Details": []
-                }
+            "Entities": [
+                { "Name": "Organization", "Table": "Organizations" },
+                { "Name": "Facility", "Table": "Facilities" },
+                { "Name": "Department", "Table": "Departments" },
+                { "Name": "User", "Table": "Users" },
+                { "Name": "Speciality", "Table": "Specialities" }
+            ],
+            "Business": [
+                { "Name": "User", "EntityName": "User" 
+                    ,"SubEntities":[
+                        "UserDepartment",
+                        "UserFacility", 
+                        "UserSpeciality", 
+                        "UserTeam",
+                        "UserWeeklyHolidays",
+                        "UserTaxDetails"
+                    ]},                
+                { "Name": "Organization", "EntityName": "Organization" },
+                { "Name": "Facility", "EntityName": "Facility" },
+                { "Name": "Department", "EntityName": "Department" },     
+                { "Name": "Speciality", "EntityName": "Speciality" }                           
+            ],
+            "Service":[
+                { "Name": "User", "BO": "User", "DependsBO":[
+                    "Organization",
+                    "Facility",
+                    "Department",
+                    "Speciality"
+                ]},
+                { "Name": "Organization", "BO": "Organization", "DependsBO":[]},
+                { "Name": "Facility", "BO": "Facility", "DependsBO":[]},
+                { "Name": "Department", "BO": "Department", "DependsBO":[]},
+                { "Name": "Speciality", "BO": "Speciality", "DependsBO":[]}
             ]
         }
     ]

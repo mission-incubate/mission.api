@@ -1,41 +1,29 @@
 import {BaseService, BoFactory} from '../../Base';
 import { {{data.Name}}Bo} from '../Business';
-import {ApiRequest, ApiResponse, BaseRequest, ISearchEnums} from '../../../Common';
-import {CacheManager, RedisCacheProvider} from '../../../Core';
-import { {{data.Name}}Instance} from '../Model/Interface';
+import {ApiRequest, BaseRequest, ISearchEnums} from '../../../Common';
+import {Request} from '../../../Core';
+import { {{data.Name}}Attributes} from '../Model/Interface';
 
 export class {{data.Name}}Service extends BaseService {
-    private {{data.Name}}Bo: {{data.Name}}Bo;
-    private cache: CacheManager;
-    constructor(req?: ApiRequest<number, string>) {
+    private {{data.BO}}Bo: {{data.BO}}Bo;
+    constructor(req?: Request) {
         super(req);
-        this.{{data.Name}}Bo = BoFactory.GetBo({{data.Name}}Bo, this.Request);
-        this.cache = new CacheManager(new RedisCacheProvider());
+        this.{{data.BO}}Bo = BoFactory.GetBo({{data.BO}}Bo, this.Request);
     }
 
-    public async FindById(req: ApiRequest<ISearchEnums, string>): Promise<ApiResponse<{{data.Name}}Instance>> {
-        if (req.Id < 0) {
-            throw 'Invaid Id';
-        }
-        let val = await this.cache.GetItem(req.Id.toString(), '{{data.Name}}Service');
-        if (!val) {
-            console.log('Cache Not available for ' + req.Id);
-        }
-
-        let {{data.Name}} = await this.{{data.Name}}Bo.FindById(req.Id);
-        if (!val && {{data.Name}} && {{data.Name}}.dataValues) {
-            await this.cache.AddItem(req.Id.toString(), JSON.stringify({{data.Name}}.dataValues), '{{data.Name}}Service');
-        }
-        return this.GetResponse({{data.Name}});
+    public async Add{{data.BO}}(req: BaseRequest): Promise<number> {
+        return await this.{{data.BO}}Bo.Add{{data.BO}}(req.Data);
     }
 
-    public async GetAll{{data.Name}}(req: ApiRequest<ISearchEnums, string>): Promise<ApiResponse<Array<{{data.Name}}Instance>>> {
-        let {{data.Name}}s = await this.{{data.Name}}Bo.GetAll{{data.Name}}(req);
-        return this.GetResponse({{data.Name}}s, req.PageContext);
+    public async Update{{data.BO}}(req: BaseRequest): Promise<number> {
+        return await this.{{data.BO}}Bo.Update{{data.BO}}(req.Data);
     }
 
-    public async Add{{data.Name}}(req: BaseRequest): Promise<ApiResponse<number>> {
-        let id: number = await this.{{data.Name}}Bo.Add{{data.Name}}(req);
-        return this.GetResponse(id);
+    public async Get{{data.BO}}s(apiReq?: ApiRequest<ISearchEnums>): Promise<Array<{{data.Name}}Attributes>> {
+        return await this.{{data.BO}}Bo.Get{{data.BO}}s(apiReq);
+    }
+
+    public async Delete{{data.BO}}(req: BaseRequest): Promise<Boolean> {
+        return await this.{{data.BO}}Bo.Delete{{data.BO}}(req);
     }
 }

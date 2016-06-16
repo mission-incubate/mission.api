@@ -4,19 +4,6 @@ import {UserBo} from '../Business';
 import * as passport from 'passport';
 import * as local from 'passport-local';
 
-let router: Router = GetRouter();
-const userBo = BoFactory.GetBo(UserBo);
-
-//TYPE 1
-// router.post('/login', (req: Request, res: Response, next: NextFunction) => {
-//     let handler = passport.authenticate('local', (err: Error, user: any, info: any) => {
-//         let status = user ? 200 : 401;
-//         return res.status(status).send({ result: 'success....' });
-//     });
-//     handler(req, res, next);
-// });
-
-//TYPE 2
 // router.post('/login',
 //     passport.authenticate('local', { successRedirect: '/home', failureRedirect: '/login', failureFlash: true }),
 //     (req: Request, res: Response, next: NextFunction) => {
@@ -24,15 +11,7 @@ const userBo = BoFactory.GetBo(UserBo);
 //     }
 // );
 
-//TYPE 3
-
-router.post('/login',
-    passport.authenticate('local'),
-    (req: Request, res: Response, next: NextFunction) => {
-        return res.status(200).send({ result: 'success....' });
-    }
-);
-
+const userBo = BoFactory.GetBo(UserBo);
 passport.serializeUser((user, done) => {
     done(null, user.Id);
 });
@@ -50,7 +29,20 @@ passport.use(new local.Strategy({ usernameField: 'UserName', passwordField: 'Pas
                 return done(null, false);
             }
             return done(null, user.dataValues);
-        });
+        }).catch(console.error);
 }));
 
+class Auth {
+    public static Login(req: Request, res: Response, next: NextFunction): void {
+        res.status(200).send({ result: 'success....' });
+    }
+    public static Logout(req: Request, res: Response, next: NextFunction): void {
+        req.logout();
+        res.status(200).send({ result: 'success....' });
+    }
+}
+
+let router: Router = GetRouter();
+router.post('/' + Auth.Login.name, passport.authenticate('local'), Auth.Login);
+router.post('/' + Auth.Logout.name, Auth.Logout);
 export default router;
