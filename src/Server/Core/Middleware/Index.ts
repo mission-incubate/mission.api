@@ -9,4 +9,12 @@ router.use((req: Request, res: Response, next: NextFunction): any => {
         : next(new Error('Authentication failed.'));
 });
 
+// router.use((req: Request, res: Response, next: NextFunction): any => {
+//     let send = res.send;
+//     res.send = (response): void => {
+//         send({ Data: response });
+//     };
+//     next();
+// });
+
 export = router;
